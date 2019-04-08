@@ -1,0 +1,687 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D51ED938225B244F005DEECD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED937225B244F005DEECD /* AppDelegate.swift */; };
+		D51ED941225B2454005DEECD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D51ED940225B2454005DEECD /* Assets.xcassets */; };
+		D51ED944225B2454005DEECD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D51ED942225B2454005DEECD /* LaunchScreen.storyboard */; };
+		D51ED94F225B2454005DEECD /* KakeiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED94E225B2454005DEECD /* KakeiTests.swift */; };
+		D51ED95A225B2454005DEECD /* KakeiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED959225B2454005DEECD /* KakeiUITests.swift */; };
+		D51ED96B225B26E1005DEECD /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED96A225B26E1005DEECD /* libsqlite3.tbd */; };
+		D51ED989225B2CB9005DEECD /* SizUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED981225B2933005DEECD /* SizUtil.framework */; };
+		D51ED98A225B2CB9005DEECD /* SizUtil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED981225B2933005DEECD /* SizUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D51ED98B225B2CB9005DEECD /* SQuery.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED982225B2933005DEECD /* SQuery.framework */; };
+		D51ED98C225B2CB9005DEECD /* SQuery.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED982225B2933005DEECD /* SQuery.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D51ED98F225B3411005DEECD /* KakeiLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED98E225B3411005DEECD /* KakeiLog.swift */; };
+		D51ED991225B3D95005DEECD /* Budget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED990225B3D95005DEECD /* Budget.swift */; };
+		D51ED993225B3DBF005DEECD /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED992225B3DBF005DEECD /* Common.swift */; };
+		D51ED995225B4FB2005DEECD /* KakeiDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED994225B4FB2005DEECD /* KakeiDataManager.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D51ED94B225B2454005DEECD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D51ED92C225B244F005DEECD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D51ED933225B244F005DEECD;
+			remoteInfo = Kakei;
+		};
+		D51ED956225B2454005DEECD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D51ED92C225B244F005DEECD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D51ED933225B244F005DEECD;
+			remoteInfo = Kakei;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D51ED98D225B2CBA005DEECD /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D51ED98A225B2CB9005DEECD /* SizUtil.framework in Embed Frameworks */,
+				D51ED98C225B2CB9005DEECD /* SQuery.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D51ED934225B244F005DEECD /* Kakei.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kakei.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D51ED937225B244F005DEECD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D51ED940225B2454005DEECD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D51ED943225B2454005DEECD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D51ED945225B2454005DEECD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D51ED94A225B2454005DEECD /* KakeiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KakeiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D51ED94E225B2454005DEECD /* KakeiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiTests.swift; sourceTree = "<group>"; };
+		D51ED950225B2454005DEECD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D51ED955225B2454005DEECD /* KakeiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KakeiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D51ED959225B2454005DEECD /* KakeiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiUITests.swift; sourceTree = "<group>"; };
+		D51ED95B225B2454005DEECD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D51ED96A225B26E1005DEECD /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		D51ED981225B2933005DEECD /* SizUtil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SizUtil.framework; sourceTree = "<group>"; };
+		D51ED982225B2933005DEECD /* SQuery.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SQuery.framework; sourceTree = "<group>"; };
+		D51ED98E225B3411005DEECD /* KakeiLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiLog.swift; sourceTree = "<group>"; };
+		D51ED990225B3D95005DEECD /* Budget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Budget.swift; sourceTree = "<group>"; };
+		D51ED992225B3DBF005DEECD /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		D51ED994225B4FB2005DEECD /* KakeiDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiDataManager.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D51ED931225B244F005DEECD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D51ED96B225B26E1005DEECD /* libsqlite3.tbd in Frameworks */,
+				D51ED98B225B2CB9005DEECD /* SQuery.framework in Frameworks */,
+				D51ED989225B2CB9005DEECD /* SizUtil.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D51ED947225B2454005DEECD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D51ED952225B2454005DEECD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D51ED92B225B244F005DEECD = {
+			isa = PBXGroup;
+			children = (
+				D51ED96C225B270F005DEECD /* Lib */,
+				D51ED936225B244F005DEECD /* Kakei */,
+				D51ED94D225B2454005DEECD /* KakeiTests */,
+				D51ED958225B2454005DEECD /* KakeiUITests */,
+				D51ED935225B244F005DEECD /* Products */,
+				D51ED967225B26D7005DEECD /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		D51ED935225B244F005DEECD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D51ED934225B244F005DEECD /* Kakei.app */,
+				D51ED94A225B2454005DEECD /* KakeiTests.xctest */,
+				D51ED955225B2454005DEECD /* KakeiUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D51ED936225B244F005DEECD /* Kakei */ = {
+			isa = PBXGroup;
+			children = (
+				D51ED96D225B271E005DEECD /* Resources */,
+				D51ED96E225B272F005DEECD /* Model */,
+				D51ED970225B274C005DEECD /* UI */,
+				D51ED937225B244F005DEECD /* AppDelegate.swift */,
+				D51ED942225B2454005DEECD /* LaunchScreen.storyboard */,
+				D51ED945225B2454005DEECD /* Info.plist */,
+			);
+			path = Kakei;
+			sourceTree = "<group>";
+		};
+		D51ED94D225B2454005DEECD /* KakeiTests */ = {
+			isa = PBXGroup;
+			children = (
+				D51ED94E225B2454005DEECD /* KakeiTests.swift */,
+				D51ED950225B2454005DEECD /* Info.plist */,
+			);
+			path = KakeiTests;
+			sourceTree = "<group>";
+		};
+		D51ED958225B2454005DEECD /* KakeiUITests */ = {
+			isa = PBXGroup;
+			children = (
+				D51ED959225B2454005DEECD /* KakeiUITests.swift */,
+				D51ED95B225B2454005DEECD /* Info.plist */,
+			);
+			path = KakeiUITests;
+			sourceTree = "<group>";
+		};
+		D51ED967225B26D7005DEECD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D51ED981225B2933005DEECD /* SizUtil.framework */,
+				D51ED982225B2933005DEECD /* SQuery.framework */,
+				D51ED96A225B26E1005DEECD /* libsqlite3.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D51ED96C225B270F005DEECD /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				D51ED992225B3DBF005DEECD /* Common.swift */,
+			);
+			path = Lib;
+			sourceTree = "<group>";
+		};
+		D51ED96D225B271E005DEECD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D51ED940225B2454005DEECD /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D51ED96E225B272F005DEECD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D51ED98E225B3411005DEECD /* KakeiLog.swift */,
+				D51ED994225B4FB2005DEECD /* KakeiDataManager.swift */,
+				D51ED990225B3D95005DEECD /* Budget.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D51ED970225B274C005DEECD /* UI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D51ED933225B244F005DEECD /* Kakei */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D51ED95E225B2454005DEECD /* Build configuration list for PBXNativeTarget "Kakei" */;
+			buildPhases = (
+				D51ED930225B244F005DEECD /* Sources */,
+				D51ED931225B244F005DEECD /* Frameworks */,
+				D51ED932225B244F005DEECD /* Resources */,
+				D51ED98D225B2CBA005DEECD /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Kakei;
+			productName = Kakei;
+			productReference = D51ED934225B244F005DEECD /* Kakei.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D51ED949225B2454005DEECD /* KakeiTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D51ED961225B2454005DEECD /* Build configuration list for PBXNativeTarget "KakeiTests" */;
+			buildPhases = (
+				D51ED946225B2454005DEECD /* Sources */,
+				D51ED947225B2454005DEECD /* Frameworks */,
+				D51ED948225B2454005DEECD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D51ED94C225B2454005DEECD /* PBXTargetDependency */,
+			);
+			name = KakeiTests;
+			productName = KakeiTests;
+			productReference = D51ED94A225B2454005DEECD /* KakeiTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D51ED954225B2454005DEECD /* KakeiUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D51ED964225B2454005DEECD /* Build configuration list for PBXNativeTarget "KakeiUITests" */;
+			buildPhases = (
+				D51ED951225B2454005DEECD /* Sources */,
+				D51ED952225B2454005DEECD /* Frameworks */,
+				D51ED953225B2454005DEECD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D51ED957225B2454005DEECD /* PBXTargetDependency */,
+			);
+			name = KakeiUITests;
+			productName = KakeiUITests;
+			productReference = D51ED955225B2454005DEECD /* KakeiUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D51ED92C225B244F005DEECD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1020;
+				LastUpgradeCheck = 1020;
+				ORGANIZATIONNAME = Sizuha;
+				TargetAttributes = {
+					D51ED933225B244F005DEECD = {
+						CreatedOnToolsVersion = 10.2;
+					};
+					D51ED949225B2454005DEECD = {
+						CreatedOnToolsVersion = 10.2;
+						TestTargetID = D51ED933225B244F005DEECD;
+					};
+					D51ED954225B2454005DEECD = {
+						CreatedOnToolsVersion = 10.2;
+						TestTargetID = D51ED933225B244F005DEECD;
+					};
+				};
+			};
+			buildConfigurationList = D51ED92F225B244F005DEECD /* Build configuration list for PBXProject "Kakei" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D51ED92B225B244F005DEECD;
+			productRefGroup = D51ED935225B244F005DEECD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D51ED933225B244F005DEECD /* Kakei */,
+				D51ED949225B2454005DEECD /* KakeiTests */,
+				D51ED954225B2454005DEECD /* KakeiUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D51ED932225B244F005DEECD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D51ED944225B2454005DEECD /* LaunchScreen.storyboard in Resources */,
+				D51ED941225B2454005DEECD /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D51ED948225B2454005DEECD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D51ED953225B2454005DEECD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D51ED930225B244F005DEECD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D51ED993225B3DBF005DEECD /* Common.swift in Sources */,
+				D51ED995225B4FB2005DEECD /* KakeiDataManager.swift in Sources */,
+				D51ED98F225B3411005DEECD /* KakeiLog.swift in Sources */,
+				D51ED938225B244F005DEECD /* AppDelegate.swift in Sources */,
+				D51ED991225B3D95005DEECD /* Budget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D51ED946225B2454005DEECD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D51ED94F225B2454005DEECD /* KakeiTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D51ED951225B2454005DEECD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D51ED95A225B2454005DEECD /* KakeiUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D51ED94C225B2454005DEECD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D51ED933225B244F005DEECD /* Kakei */;
+			targetProxy = D51ED94B225B2454005DEECD /* PBXContainerItemProxy */;
+		};
+		D51ED957225B2454005DEECD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D51ED933225B244F005DEECD /* Kakei */;
+			targetProxy = D51ED956225B2454005DEECD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D51ED942225B2454005DEECD /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D51ED943225B2454005DEECD /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D51ED95C225B2454005DEECD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D51ED95D225B2454005DEECD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D51ED95F225B2454005DEECD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R8QQLU625A;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Lib",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = Kakei/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.kishe.sizuha.Kakei;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		D51ED960225B2454005DEECD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R8QQLU625A;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Lib",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = Kakei/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.kishe.sizuha.Kakei;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		D51ED962225B2454005DEECD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R8QQLU625A;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Lib",
+				);
+				INFOPLIST_FILE = KakeiTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.kishe.sizuha.KakeiTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Kakei.app/Kakei";
+			};
+			name = Debug;
+		};
+		D51ED963225B2454005DEECD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R8QQLU625A;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Lib",
+				);
+				INFOPLIST_FILE = KakeiTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.kishe.sizuha.KakeiTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Kakei.app/Kakei";
+			};
+			name = Release;
+		};
+		D51ED965225B2454005DEECD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R8QQLU625A;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Lib",
+				);
+				INFOPLIST_FILE = KakeiUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.kishe.sizuha.KakeiUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Kakei;
+			};
+			name = Debug;
+		};
+		D51ED966225B2454005DEECD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R8QQLU625A;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Lib",
+				);
+				INFOPLIST_FILE = KakeiUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.kishe.sizuha.KakeiUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Kakei;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D51ED92F225B244F005DEECD /* Build configuration list for PBXProject "Kakei" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D51ED95C225B2454005DEECD /* Debug */,
+				D51ED95D225B2454005DEECD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D51ED95E225B2454005DEECD /* Build configuration list for PBXNativeTarget "Kakei" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D51ED95F225B2454005DEECD /* Debug */,
+				D51ED960225B2454005DEECD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D51ED961225B2454005DEECD /* Build configuration list for PBXNativeTarget "KakeiTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D51ED962225B2454005DEECD /* Debug */,
+				D51ED963225B2454005DEECD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D51ED964225B2454005DEECD /* Build configuration list for PBXNativeTarget "KakeiUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D51ED965225B2454005DEECD /* Debug */,
+				D51ED966225B2454005DEECD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D51ED92C225B244F005DEECD /* Project object */;
+}
