@@ -28,10 +28,10 @@ class Budget: SQueryRow, CsvExportable {
 	var price: Int = 0
 	
 	
-	func loadFrom(cursor: SQLiteCursor) {
+	func load(from cursor: SQLiteCursor) {
 		
 	}
-	
+
 	func toValues() -> [String:Any?] {
 		//var result = [String:Any?]()
 		
@@ -42,8 +42,9 @@ class Budget: SQueryRow, CsvExportable {
 		return []
 	}
 	
-	func loadFrom(csvColumn: SizCsvParser.ColumnData) {
+	func load(from csvColumn: SizCsvParser.ColumnData) {
 		
 	}
+
 
 }

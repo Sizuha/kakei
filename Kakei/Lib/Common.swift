@@ -11,5 +11,5 @@ import SizUtil
 
 protocol CsvExportable {
 	func toCsv() -> [String]
-	func loadFrom(csvColumn: SizCsvParser.ColumnData)
+	func load(from csvColumn: SizCsvParser.ColumnData)
 }

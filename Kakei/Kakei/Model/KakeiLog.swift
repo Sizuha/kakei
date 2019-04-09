@@ -61,7 +61,7 @@ class KakeiLog: SQueryRow, CsvExportable {
 		self.dateTimeFormat.timeZone = TimeZone.current
 	}
 	
-	func loadFrom(cursor: SQLiteCursor) {
+	func load(from cursor: SQLiteCursor) {
 		
 	}
 	
@@ -75,7 +75,7 @@ class KakeiLog: SQueryRow, CsvExportable {
 		return []
 	}
 	
-	func loadFrom(csvColumn: SizCsvParser.ColumnData) {
+	func load(from csvColumn: SizCsvParser.ColumnData) {
 		
 	}
 

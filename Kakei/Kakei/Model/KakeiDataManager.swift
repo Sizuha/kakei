@@ -30,7 +30,7 @@ class KakeiDataManager {
 	func createTables() {
 		if let tbl = db.tableCreator(name: KakeiLog.tableName) {
 			defer { tbl.close() }
-			try! tbl
+			let _ = tbl
 				.addPrimaryKey(KakeiLog.F_DATE, type: .integer)
 				.addPrimaryKey(KakeiLog.F_TIME, type: .integer)
 				.addPrimaryKey(KakeiLog.F_IDX, type: .integer)
@@ -42,7 +42,7 @@ class KakeiDataManager {
 		
 		if let tbl = db.tableCreator(name: Budget.tableName) {
 			defer { tbl.close() }
-			try! tbl
+			let _ = tbl
 				.addPrimaryKey(Budget.F_YEAR_MONTH, type: .integer)
 				.addPrimaryKey(Budget.F_IDX, type: .integer)
 				.addColumn(Budget.F_ORDER, type: .integer)

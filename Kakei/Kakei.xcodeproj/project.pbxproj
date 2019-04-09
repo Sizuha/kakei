@@ -13,14 +13,14 @@
 		D51ED94F225B2454005DEECD /* KakeiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED94E225B2454005DEECD /* KakeiTests.swift */; };
 		D51ED95A225B2454005DEECD /* KakeiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED959225B2454005DEECD /* KakeiUITests.swift */; };
 		D51ED96B225B26E1005DEECD /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED96A225B26E1005DEECD /* libsqlite3.tbd */; };
-		D51ED989225B2CB9005DEECD /* SizUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED981225B2933005DEECD /* SizUtil.framework */; };
-		D51ED98A225B2CB9005DEECD /* SizUtil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED981225B2933005DEECD /* SizUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D51ED98B225B2CB9005DEECD /* SQuery.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED982225B2933005DEECD /* SQuery.framework */; };
-		D51ED98C225B2CB9005DEECD /* SQuery.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED982225B2933005DEECD /* SQuery.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D51ED98F225B3411005DEECD /* KakeiLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED98E225B3411005DEECD /* KakeiLog.swift */; };
 		D51ED991225B3D95005DEECD /* Budget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED990225B3D95005DEECD /* Budget.swift */; };
 		D51ED993225B3DBF005DEECD /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED992225B3DBF005DEECD /* Common.swift */; };
 		D51ED995225B4FB2005DEECD /* KakeiDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED994225B4FB2005DEECD /* KakeiDataManager.swift */; };
+		D51ED99E225CAC76005DEECD /* SizUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED996225CAC5C005DEECD /* SizUtil.framework */; };
+		D51ED99F225CAC76005DEECD /* SizUtil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED996225CAC5C005DEECD /* SizUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D51ED9A0225CAC76005DEECD /* SQuery.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED997225CAC5C005DEECD /* SQuery.framework */; };
+		D51ED9A1225CAC76005DEECD /* SQuery.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED997225CAC5C005DEECD /* SQuery.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,14 +41,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D51ED98D225B2CBA005DEECD /* Embed Frameworks */ = {
+		D51ED9A2225CAC77005DEECD /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D51ED98A225B2CB9005DEECD /* SizUtil.framework in Embed Frameworks */,
-				D51ED98C225B2CB9005DEECD /* SQuery.framework in Embed Frameworks */,
+				D51ED99F225CAC76005DEECD /* SizUtil.framework in Embed Frameworks */,
+				D51ED9A1225CAC76005DEECD /* SQuery.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -68,12 +68,12 @@
 		D51ED959225B2454005DEECD /* KakeiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiUITests.swift; sourceTree = "<group>"; };
 		D51ED95B225B2454005DEECD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D51ED96A225B26E1005DEECD /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		D51ED981225B2933005DEECD /* SizUtil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SizUtil.framework; sourceTree = "<group>"; };
-		D51ED982225B2933005DEECD /* SQuery.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SQuery.framework; sourceTree = "<group>"; };
 		D51ED98E225B3411005DEECD /* KakeiLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiLog.swift; sourceTree = "<group>"; };
 		D51ED990225B3D95005DEECD /* Budget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Budget.swift; sourceTree = "<group>"; };
 		D51ED992225B3DBF005DEECD /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		D51ED994225B4FB2005DEECD /* KakeiDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiDataManager.swift; sourceTree = "<group>"; };
+		D51ED996225CAC5C005DEECD /* SizUtil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SizUtil.framework; path = Lib/SizUtil.framework; sourceTree = "<group>"; };
+		D51ED997225CAC5C005DEECD /* SQuery.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQuery.framework; path = Lib/SQuery.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,8 +82,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D51ED96B225B26E1005DEECD /* libsqlite3.tbd in Frameworks */,
-				D51ED98B225B2CB9005DEECD /* SQuery.framework in Frameworks */,
-				D51ED989225B2CB9005DEECD /* SizUtil.framework in Frameworks */,
+				D51ED9A0225CAC76005DEECD /* SQuery.framework in Frameworks */,
+				D51ED99E225CAC76005DEECD /* SizUtil.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,9 +160,9 @@
 		D51ED967225B26D7005DEECD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D51ED981225B2933005DEECD /* SizUtil.framework */,
-				D51ED982225B2933005DEECD /* SQuery.framework */,
 				D51ED96A225B26E1005DEECD /* libsqlite3.tbd */,
+				D51ED996225CAC5C005DEECD /* SizUtil.framework */,
+				D51ED997225CAC5C005DEECD /* SQuery.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -210,7 +210,7 @@
 				D51ED930225B244F005DEECD /* Sources */,
 				D51ED931225B244F005DEECD /* Frameworks */,
 				D51ED932225B244F005DEECD /* Resources */,
-				D51ED98D225B2CBA005DEECD /* Embed Frameworks */,
+				D51ED9A2225CAC77005DEECD /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
