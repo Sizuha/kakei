@@ -9,7 +9,3 @@
 import Foundation
 import SizUtil
 
-protocol CsvExportable {
-	func toCsv() -> [String]
-	func load(from csvColumn: SizCsvParser.ColumnData)
-}

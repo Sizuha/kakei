@@ -10,7 +10,10 @@ import Foundation
 import SQuery
 import SizUtil
 
-class Budget: SQueryRow, CsvExportable {
+/**
+ 予算Table
+ */
+class Budget: SQueryRow, CsvSerializable {
 	
 	static let tableName = "budget"
 	
@@ -19,6 +22,8 @@ class Budget: SQueryRow, CsvExportable {
 	static let F_ORDER = "order" // order in year_month
 	static let F_TITLE = "title"
 	static let F_PRICE = "price"
+	
+	static let keyFields = [F_YEAR_MONTH, F_IDX]
 	
 	private var yearMonth: Int =  0
 	private var idx: Int = 0

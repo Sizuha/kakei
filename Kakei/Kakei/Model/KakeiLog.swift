@@ -10,7 +10,10 @@ import Foundation
 import SQuery
 import SizUtil
 
-class KakeiLog: SQueryRow, CsvExportable {
+/**
+ 家計Table
+ */
+class KakeiLog: SQueryRow, CsvSerializable {
 	
 	static let tableName = "kakei"
 	
@@ -21,6 +24,8 @@ class KakeiLog: SQueryRow, CsvExportable {
 	static let F_TITLE = "title"
 	static let F_BUDGET_IDX = "bugdget_idx" // 予算IDX
 	static let F_PRICE = "price"
+	
+	static let keyFields = [F_DATE, F_TIME, F_IDX]
 
 	private var date: Int = 0
 	private var time: Int = 0
@@ -62,21 +67,45 @@ class KakeiLog: SQueryRow, CsvExportable {
 	}
 	
 	func load(from cursor: SQLiteCursor) {
-		
+		cursor.forEachColumn { cur, i in
+			let colName = cur.getColumnName(i)
+			switch colName {
+			case KakeiLog.F_DATE: date = cur.getInt(i) ?? 0
+			case KakeiLog.F_TIME: time = cur.getInt(i) ?? 0
+			case KakeiLog.F_IDX: idx = cur.getInt(i) ?? 0
+			case KakeiLog.F_TITLE: title = cur.getString(i) ?? ""
+			case KakeiLog.F_BUDGET_IDX: budgetIdx = cur.getInt(i) ?? 0
+			case KakeiLog.F_PRICE: price = cur.getInt(i) ?? 0
+			default: break
+			}
+		}
 	}
 	
 	func toValues() -> [String:Any?] {
-		//var result = [String:Any?]()
-		
-		return [:]
+		return [
+			KakeiLog.F_DATE: date,
+			KakeiLog.F_TIME: time,
+			KakeiLog.F_IDX: idx,
+			KakeiLog.F_TITLE: title,
+			KakeiLog.F_BUDGET_IDX: budgetIdx,
+			KakeiLog.F_PRICE: price
+		]
 	}
 	
 	func toCsv() -> [String] {
-		return []
+		return ["\(date)", "\(time)", "\(idx)", title, "\(budgetIdx)", "\(price)"]
 	}
 	
 	func load(from csvColumn: SizCsvParser.ColumnData) {
-		
+		switch csvColumn.colIdx {
+		case 0: date = csvColumn.asInt ?? 0
+		case 1: time = csvColumn.asInt ?? 0
+		case 2: idx = csvColumn.asInt ?? 0
+		case 3: title = csvColumn.data
+		case 4: budgetIdx = csvColumn.asInt ?? 0
+		case 5: price = csvColumn.asInt ?? 0
+		default: break
+		}
 	}
 
 }

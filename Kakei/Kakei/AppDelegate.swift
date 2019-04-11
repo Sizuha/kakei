@@ -33,10 +33,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		initDB()
 		
 		var viewControllers: [UIViewController] = []
-		let vc = UIViewController()
-		//vc.tabBarItem = UITabBarItem(title: <#T##String?#>, image: <#T##UIImage?#>, tag: <#T##Int#>)
+
+		// Tab: 出費（支出）
+		var vc = UIViewController()
+		vc.tabBarItem = UITabBarItem(title: Strings.default.expenditure, image: Icons.default.expenditure, tag: 1)
 		viewControllers.append(vc)
 		
+		// Tab: 予算
+		vc = UIViewController()
+		vc.tabBarItem = UITabBarItem(title: Strings.default.budget, image: Icons.default.budget, tag: 2)
+		viewControllers.append(vc)
+
+		// Tab: 予算
+		vc = UIViewController()
+		vc.tabBarItem = UITabBarItem(title: Strings.default.setting, image: Icons.default.settings, tag: 3)
+		viewControllers.append(vc)
+
 		let mainController = UITabBarController()
 		mainController.setViewControllers(viewControllers, animated: false)
 		

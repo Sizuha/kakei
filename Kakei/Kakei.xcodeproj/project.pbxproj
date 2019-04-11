@@ -15,12 +15,15 @@
 		D51ED96B225B26E1005DEECD /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED96A225B26E1005DEECD /* libsqlite3.tbd */; };
 		D51ED98F225B3411005DEECD /* KakeiLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED98E225B3411005DEECD /* KakeiLog.swift */; };
 		D51ED991225B3D95005DEECD /* Budget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED990225B3D95005DEECD /* Budget.swift */; };
-		D51ED993225B3DBF005DEECD /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED992225B3DBF005DEECD /* Common.swift */; };
+		D51ED993225B3DBF005DEECD /* common.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED992225B3DBF005DEECD /* common.swift */; };
 		D51ED995225B4FB2005DEECD /* KakeiDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED994225B4FB2005DEECD /* KakeiDataManager.swift */; };
 		D51ED99E225CAC76005DEECD /* SizUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED996225CAC5C005DEECD /* SizUtil.framework */; };
 		D51ED99F225CAC76005DEECD /* SizUtil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED996225CAC5C005DEECD /* SizUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D51ED9A0225CAC76005DEECD /* SQuery.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED997225CAC5C005DEECD /* SQuery.framework */; };
 		D51ED9A1225CAC76005DEECD /* SQuery.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED997225CAC5C005DEECD /* SQuery.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D51ED9A6225DB671005DEECD /* KakeiConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED9A5225DB671005DEECD /* KakeiConfig.swift */; };
+		D5DDAE55225F26D200242502 /* resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DDAE54225F26D200242502 /* resources.swift */; };
+		D5DDAE58225F276400242502 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D5DDAE5A225F276400242502 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,10 +73,15 @@
 		D51ED96A225B26E1005DEECD /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		D51ED98E225B3411005DEECD /* KakeiLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiLog.swift; sourceTree = "<group>"; };
 		D51ED990225B3D95005DEECD /* Budget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Budget.swift; sourceTree = "<group>"; };
-		D51ED992225B3DBF005DEECD /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		D51ED992225B3DBF005DEECD /* common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = common.swift; sourceTree = "<group>"; };
 		D51ED994225B4FB2005DEECD /* KakeiDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiDataManager.swift; sourceTree = "<group>"; };
 		D51ED996225CAC5C005DEECD /* SizUtil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SizUtil.framework; path = Lib/SizUtil.framework; sourceTree = "<group>"; };
 		D51ED997225CAC5C005DEECD /* SQuery.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQuery.framework; path = Lib/SQuery.framework; sourceTree = "<group>"; };
+		D51ED9A5225DB671005DEECD /* KakeiConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiConfig.swift; sourceTree = "<group>"; };
+		D5DDAE54225F26D200242502 /* resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = resources.swift; sourceTree = "<group>"; };
+		D5DDAE59225F276400242502 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D5DDAE5E225F286C00242502 /* ko-KR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ko-KR"; path = "ko-KR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		D5DDAE5F225F293900242502 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,7 +178,7 @@
 		D51ED96C225B270F005DEECD /* Lib */ = {
 			isa = PBXGroup;
 			children = (
-				D51ED992225B3DBF005DEECD /* Common.swift */,
+				D51ED992225B3DBF005DEECD /* common.swift */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -179,6 +187,8 @@
 			isa = PBXGroup;
 			children = (
 				D51ED940225B2454005DEECD /* Assets.xcassets */,
+				D5DDAE54225F26D200242502 /* resources.swift */,
+				D5DDAE5A225F276400242502 /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -186,6 +196,7 @@
 		D51ED96E225B272F005DEECD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D51ED9A5225DB671005DEECD /* KakeiConfig.swift */,
 				D51ED98E225B3411005DEECD /* KakeiLog.swift */,
 				D51ED994225B4FB2005DEECD /* KakeiDataManager.swift */,
 				D51ED990225B3D95005DEECD /* Budget.swift */,
@@ -287,6 +298,8 @@
 			knownRegions = (
 				en,
 				Base,
+				"ko-KR",
+				ja,
 			);
 			mainGroup = D51ED92B225B244F005DEECD;
 			productRefGroup = D51ED935225B244F005DEECD /* Products */;
@@ -306,6 +319,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D51ED944225B2454005DEECD /* LaunchScreen.storyboard in Resources */,
+				D5DDAE58225F276400242502 /* Localizable.strings in Resources */,
 				D51ED941225B2454005DEECD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -331,11 +345,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D51ED993225B3DBF005DEECD /* Common.swift in Sources */,
+				D51ED993225B3DBF005DEECD /* common.swift in Sources */,
 				D51ED995225B4FB2005DEECD /* KakeiDataManager.swift in Sources */,
+				D5DDAE55225F26D200242502 /* resources.swift in Sources */,
 				D51ED98F225B3411005DEECD /* KakeiLog.swift in Sources */,
 				D51ED938225B244F005DEECD /* AppDelegate.swift in Sources */,
 				D51ED991225B3D95005DEECD /* Budget.swift in Sources */,
+				D51ED9A6225DB671005DEECD /* KakeiConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,6 +395,16 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		D5DDAE5A225F276400242502 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D5DDAE59225F276400242502 /* en */,
+				D5DDAE5E225F286C00242502 /* ko-KR */,
+				D5DDAE5F225F293900242502 /* ja */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -386,6 +412,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -447,6 +474,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
