@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			try FileManager.default.createDirectory(at: path, withIntermediateDirectories: true)
 		} catch  {}
 		
-		let _ = KakeiDataManager.shared.createTables()
+		let _ = DataManager.shared.createTables()
 	}
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -33,19 +33,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		initDB()
 		
 		var viewControllers: [UIViewController] = []
+		
+		var vc: UIViewController!
 
 		// Tab: 出費（支出）
-		var vc = UIViewController()
+		let navi = UINavigationController()
+		navi.pushViewController(ExpenditureViewController(), animated: false)
+		
+		vc = navi
 		vc.tabBarItem = UITabBarItem(title: Strings.default.expenditure, image: Icons.default.expenditure, tag: 1)
 		viewControllers.append(vc)
 		
 		// Tab: 予算
-		vc = UIViewController()
+		vc = BudgetViewController()
 		vc.tabBarItem = UITabBarItem(title: Strings.default.budget, image: Icons.default.budget, tag: 2)
 		viewControllers.append(vc)
 
-		// Tab: 予算
-		vc = UIViewController()
+		// Tab: Setting
+		vc = SettingViewController()
 		vc.tabBarItem = UITabBarItem(title: Strings.default.setting, image: Icons.default.settings, tag: 3)
 		viewControllers.append(vc)
 

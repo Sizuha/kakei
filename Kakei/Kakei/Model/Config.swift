@@ -8,9 +8,9 @@
 
 import Foundation
 
-class KakeiConfig {
+class Config {
 	
-	static let shared = KakeiConfig()
+	static let shared = Config()
 	
 	var beginDayOfMonth: Int {
 		get {

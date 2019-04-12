@@ -13,7 +13,7 @@ import SizUtil
 /**
  家計Table
  */
-class KakeiLog: SQueryRow, CsvSerializable {
+class ExpLog: SQueryRow, CsvSerializable {
 	
 	static let tableName = "kakei"
 	
@@ -70,12 +70,12 @@ class KakeiLog: SQueryRow, CsvSerializable {
 		cursor.forEachColumn { cur, i in
 			let colName = cur.getColumnName(i)
 			switch colName {
-			case KakeiLog.F_DATE: date = cur.getInt(i) ?? 0
-			case KakeiLog.F_TIME: time = cur.getInt(i) ?? 0
-			case KakeiLog.F_IDX: idx = cur.getInt(i) ?? 0
-			case KakeiLog.F_TITLE: title = cur.getString(i) ?? ""
-			case KakeiLog.F_BUDGET_IDX: budgetIdx = cur.getInt(i) ?? 0
-			case KakeiLog.F_PRICE: price = cur.getInt(i) ?? 0
+			case ExpLog.F_DATE: date = cur.getInt(i) ?? 0
+			case ExpLog.F_TIME: time = cur.getInt(i) ?? 0
+			case ExpLog.F_IDX: idx = cur.getInt(i) ?? 0
+			case ExpLog.F_TITLE: title = cur.getString(i) ?? ""
+			case ExpLog.F_BUDGET_IDX: budgetIdx = cur.getInt(i) ?? 0
+			case ExpLog.F_PRICE: price = cur.getInt(i) ?? 0
 			default: break
 			}
 		}
@@ -83,12 +83,12 @@ class KakeiLog: SQueryRow, CsvSerializable {
 	
 	func toValues() -> [String:Any?] {
 		return [
-			KakeiLog.F_DATE: date,
-			KakeiLog.F_TIME: time,
-			KakeiLog.F_IDX: idx,
-			KakeiLog.F_TITLE: title,
-			KakeiLog.F_BUDGET_IDX: budgetIdx,
-			KakeiLog.F_PRICE: price
+			ExpLog.F_DATE: date,
+			ExpLog.F_TIME: time,
+			ExpLog.F_IDX: idx,
+			ExpLog.F_TITLE: title,
+			ExpLog.F_BUDGET_IDX: budgetIdx,
+			ExpLog.F_PRICE: price
 		]
 	}
 	

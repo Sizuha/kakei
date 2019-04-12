@@ -10,7 +10,7 @@ import Foundation
 import SQuery
 import SizUtil
 
-class KakeiDataManager {
+class DataManager {
 	
 	private let db: SQuery
 	
@@ -18,25 +18,25 @@ class KakeiDataManager {
 		db = SQuery(at: source)
 	}
 	
-	private static var sharedInstance: KakeiDataManager? = nil
-	static var shared: KakeiDataManager {
+	private static var sharedInstance: DataManager? = nil
+	static var shared: DataManager {
 		if sharedInstance == nil {
 			let path = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
-			sharedInstance = KakeiDataManager(source: "\(path)/user.db")
+			sharedInstance = DataManager(source: "\(path)/user.db")
 		}
 		return sharedInstance!
 	}
 	
 	func createTables() {
-		if let tbl = db.tableCreator(name: KakeiLog.tableName) {
+		if let tbl = db.tableCreator(name: ExpLog.tableName) {
 			defer { tbl.close() }
 			let _ = tbl
-				.addPrimaryKey(KakeiLog.F_DATE, type: .integer)
-				.addPrimaryKey(KakeiLog.F_TIME, type: .integer)
-				.addPrimaryKey(KakeiLog.F_IDX, type: .integer, notNull: true, unique: true)
-				.addColumn(KakeiLog.F_TITLE, type: .text)
-				.addColumn(KakeiLog.F_BUDGET_IDX, type: .integer, notNull: true)
-				.addColumn(KakeiLog.F_PRICE, type: .integer, notNull: true)
+				.addPrimaryKey(ExpLog.F_DATE, type: .integer)
+				.addPrimaryKey(ExpLog.F_TIME, type: .integer)
+				.addPrimaryKey(ExpLog.F_IDX, type: .integer, notNull: true, unique: true)
+				.addColumn(ExpLog.F_TITLE, type: .text)
+				.addColumn(ExpLog.F_BUDGET_IDX, type: .integer, notNull: true)
+				.addColumn(ExpLog.F_PRICE, type: .integer, notNull: true)
 				.create(ifNotExists: true)
 		}
 		
@@ -53,31 +53,31 @@ class KakeiDataManager {
 	
 	//--- 家計 ---
 	
-	func loadKakeiItems(year: Int, month: Int) -> [KakeiLog] {
-		guard let tbl = db.from(KakeiLog.tableName) else { return [] }
+	func loadExpItems(year: Int, month: Int) -> [ExpLog] {
+		guard let tbl = db.from(ExpLog.tableName) else { return [] }
 		defer { tbl.close() }
 		
-		let beginDate = YearMonthDay(year, month, 1).toInt()
-		let endDate = YearMonthDay(year, month, 31).toInt()
+		let beginDate = SizYearMonthDay(year, month, 1).toInt()
+		let endDate = SizYearMonthDay(year, month, 31).toInt()
 		
 		let (items, _) = tbl
-			.whereAnd("\(KakeiLog.F_DATE) BETWEEN ? AND ?", beginDate, endDate)
-			.select { KakeiLog() }
+			.whereAnd("\(ExpLog.F_DATE) BETWEEN ? AND ?", beginDate, endDate)
+			.select { ExpLog() }
 		return items
 	}
 	
-	func write(_ kakei: KakeiLog) {
-		guard let tbl = db.from(KakeiLog.tableName) else { return }
+	func write(_ exp: ExpLog) {
+		guard let tbl = db.from(ExpLog.tableName) else { return }
 		defer { tbl.close() }
 
-		let _ = tbl.keys(columns: KakeiLog.keyFields).values(kakei).updateOrInsert()
+		let _ = tbl.keys(columns: ExpLog.keyFields).values(exp).updateOrInsert()
 	}
 	
-	func delete(kakeiId: Int) {
-		guard let tbl = db.from(KakeiLog.tableName) else { return }
+	func delete(expId: Int) {
+		guard let tbl = db.from(ExpLog.tableName) else { return }
 		defer { tbl.close() }
 
-		let _ = tbl.whereAnd("\(KakeiLog.F_IDX)=?", kakeiId).delete()
+		let _ = tbl.whereAnd("\(ExpLog.F_IDX)=?", expId).delete()
 	}
 	
 	//--- 予算 ---

@@ -8,18 +8,26 @@
 
 import UIKit
 
-class Strings {
+public class Colors {
+	static let `default` = Colors()
 	
+	let WIN_BG: UIColor = .white
+	let ACTION: UIColor = .red
+	let NAVI_ACTION: UIColor = .blue
+	let NAVI_BG: UIColor = .blue
+}
+
+class Strings {
 	static let `default` = Strings()
 	
 	lazy var expenditure = "expenditure".localized()
 	lazy var budget = "budget".localized()
 	lazy var setting = "setting".localized()
-	
+
+	lazy var fmtYearMonth = "fmt_year_month".localized()
 }
 
 class Icons {
-	
 	static let `default` = Icons()
 	
 	lazy var settings = UIImage(named: "ic_setting")

@@ -19,7 +19,7 @@ class Budget: SQueryRow, CsvSerializable {
 	
 	static let F_YEAR_MONTH = "year_month" // yyyyMM (*PK)
 	static let F_IDX = "idx" // idx in year_month (*PK)
-	static let F_ORDER = "order" // order in year_month
+	static let F_ORDER = "ord" // order in year_month
 	static let F_TITLE = "title"
 	static let F_PRICE = "price"
 	
