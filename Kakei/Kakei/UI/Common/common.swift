@@ -24,22 +24,10 @@ func createEmptyView(text: String) -> UILabel {
 
 extension UIViewController {
 	
-	func initStatusBar() {
-		//UIApplication.shared.statusBarView?.backgroundColor = Colors.default.NAVI_BG
+	var navigationBar: UINavigationBar! {
+		return navigationController?.navigationBar
 	}
-	
-//	func createNavigationBar() -> UINavigationBar {
-//		let naviBar = UINavigationBar(frame: CGRect.init(
-//			x: 0,
-//			y: UIApplication.shared.statusBarFrame.size.height,
-//			width: view.frame.size.width,
-//			height: 45
-//		))
-//
-//		initNavigationBarStyle(naviBar)
-//		return naviBar
-//	}
-	
+		
 	func initNavigationBarStyle(_ naviBar: UINavigationBar) {
 		naviBar.barStyle = .default
 		naviBar.isTranslucent = true

@@ -22,6 +22,8 @@
 		D51ED9A0225CAC76005DEECD /* SQuery.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED997225CAC5C005DEECD /* SQuery.framework */; };
 		D51ED9A1225CAC76005DEECD /* SQuery.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED997225CAC5C005DEECD /* SQuery.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D51ED9A6225DB671005DEECD /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED9A5225DB671005DEECD /* Config.swift */; };
+		D51F64E922698814006CA639 /* ExpCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D51F64E822698814006CA639 /* ExpCell.xib */; };
+		D51F64EB226993FF006CA639 /* EditExpItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51F64EA226993FF006CA639 /* EditExpItemViewController.swift */; };
 		D5DDAE55225F26D200242502 /* resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DDAE54225F26D200242502 /* resources.swift */; };
 		D5DDAE58225F276400242502 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D5DDAE5A225F276400242502 /* Localizable.strings */; };
 		D5DDAE61225F3CDB00242502 /* ExpenditureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DDAE60225F3CDB00242502 /* ExpenditureViewController.swift */; };
@@ -83,6 +85,8 @@
 		D51ED996225CAC5C005DEECD /* SizUtil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SizUtil.framework; path = Lib/SizUtil.framework; sourceTree = "<group>"; };
 		D51ED997225CAC5C005DEECD /* SQuery.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQuery.framework; path = Lib/SQuery.framework; sourceTree = "<group>"; };
 		D51ED9A5225DB671005DEECD /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		D51F64E822698814006CA639 /* ExpCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpCell.xib; sourceTree = "<group>"; };
+		D51F64EA226993FF006CA639 /* EditExpItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditExpItemViewController.swift; sourceTree = "<group>"; };
 		D5DDAE54225F26D200242502 /* resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = resources.swift; sourceTree = "<group>"; };
 		D5DDAE59225F276400242502 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D5DDAE5E225F286C00242502 /* ko-KR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ko-KR"; path = "ko-KR.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -237,7 +241,9 @@
 			children = (
 				D5DDAE60225F3CDB00242502 /* ExpenditureViewController.swift */,
 				D5DDAE6A226024A800242502 /* ExpTableView.swift */,
+				D51F64EA226993FF006CA639 /* EditExpItemViewController.swift */,
 				D5DDAE73226071C100242502 /* ExpCell.swift */,
+				D51F64E822698814006CA639 /* ExpCell.xib */,
 			);
 			path = Expenditure;
 			sourceTree = "<group>";
@@ -366,6 +372,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D51ED944225B2454005DEECD /* LaunchScreen.storyboard in Resources */,
+				D51F64E922698814006CA639 /* ExpCell.xib in Resources */,
 				D5DDAE58225F276400242502 /* Localizable.strings in Resources */,
 				D51ED941225B2454005DEECD /* Assets.xcassets in Resources */,
 			);
@@ -404,6 +411,7 @@
 				D5DDAE74226071C100242502 /* ExpCell.swift in Sources */,
 				D51ED991225B3D95005DEECD /* Budget.swift in Sources */,
 				D51ED9A6225DB671005DEECD /* Config.swift in Sources */,
+				D51F64EB226993FF006CA639 /* EditExpItemViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

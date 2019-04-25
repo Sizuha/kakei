@@ -23,6 +23,8 @@ class Strings {
 	lazy var expenditure = "expenditure".localized()
 	lazy var budget = "budget".localized()
 	lazy var setting = "setting".localized()
+	lazy var add = "add".localized()
+	lazy var edit = "edit".localized()
 
 	lazy var fmtYearMonth = "fmt_year_month".localized()
 }
