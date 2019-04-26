@@ -38,11 +38,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		// Tab: 出費（支出）
 		let navi = UINavigationController()
-		navi.pushViewController(ExpenditureViewController(), animated: false)
-		
-		vc = navi
-		vc.tabBarItem = UITabBarItem(title: Strings.default.expenditure, image: Icons.default.expenditure, tag: 1)
-		viewControllers.append(vc)
+		navi.pushViewController(ExpenditureViewController(), animated: false)		
+		navi.tabBarItem = UITabBarItem(title: Strings.default.expenditure, image: Icons.default.expenditure, tag: 1)
+		viewControllers.append(navi)
 		
 		// Tab: 予算
 		vc = BudgetViewController()

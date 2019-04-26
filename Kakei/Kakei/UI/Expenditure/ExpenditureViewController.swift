@@ -38,10 +38,7 @@ class ExpenditureViewController: UIViewController {
 	}
 	
 	private func initNavigationBar() {
-		guard let _ = navigationBar else { return }
-		
-		//self.navigationController?.delegate = self
-		initNavigationBarStyle(navigationBar)
+		//navigationController?.delegate = self
 		
 		let btnPrev = UIBarButtonItem(title: "先月", style: .plain, target: self, action: #selector(moveToPrevMonth))
 		let btnNext = UIBarButtonItem(title: "次月", style: .plain, target: self, action: #selector(moveToNextMonth))
@@ -50,8 +47,8 @@ class ExpenditureViewController: UIViewController {
 		
 		let naviItem = navigationItem
 		naviItem.leftItemsSupplementBackButton = false
-		naviItem.leftBarButtonItems = [btnPrev, btnToday]
-		naviItem.rightBarButtonItems = [btnNext, btnAdd]
+		naviItem.leftBarButtonItems = [btnToday, btnPrev]
+		naviItem.rightBarButtonItems = [btnAdd, btnNext]
 	}
 	
 	private func initTableView() {
