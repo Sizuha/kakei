@@ -20,6 +20,7 @@ class ExpenditureViewController: UIViewController {
 	private var currentDate: SizYearMonthDay!
 	
 	override func viewDidLoad() {
+		super.viewDidLoad()
 		view.backgroundColor = Colors.default.WIN_BG
 		
 		initNavigationBar()
@@ -31,10 +32,10 @@ class ExpenditureViewController: UIViewController {
 	override func viewWillLayoutSubviews() {
 		super.viewWillLayoutSubviews()
 		
-		setMatchToParent(parent: view, child: expTableView)
+		self.expTableView.setMatchTo(parent: self.view)
 		
-		emptyView.centerXAnchor.constraint(equalTo: expTableView.centerXAnchor).isActive = true
-		emptyView.centerYAnchor.constraint(equalTo: expTableView.centerYAnchor).isActive = true
+		self.emptyView.centerXAnchor.constraint(equalTo: self.expTableView.centerXAnchor).isActive = true
+		self.emptyView.centerYAnchor.constraint(equalTo: self.expTableView.centerYAnchor).isActive = true
 	}
 	
 	private func initNavigationBar() {
@@ -52,21 +53,21 @@ class ExpenditureViewController: UIViewController {
 	}
 	
 	private func initTableView() {
-		expTableView = ExpTableView(frame: CGRect(), style: .plain, owner: self)
-		expTableView.tableFooterView = UIView()
-		expTableView.translatesAutoresizingMaskIntoConstraints = false
-		expTableView.allowsMultipleSelection = false
-		view.addSubview(expTableView)
+		self.expTableView = ExpTableView(frame: CGRect(), style: .plain, owner: self)
+		self.expTableView.tableFooterView = UIView()
+		self.expTableView.translatesAutoresizingMaskIntoConstraints = false
+		self.expTableView.allowsMultipleSelection = false
+		view.addSubview(self.expTableView)
 		
-		emptyView = createEmptyView(text: "Empty")
-		emptyView.center = expTableView.center
-		view.addSubview(emptyView)
+		self.emptyView = createEmptyView(text: "Empty")
+		self.emptyView.center = self.expTableView.center
+		view.addSubview(self.emptyView)
 		
-		expTableView.emptyView = emptyView
+		self.expTableView.emptyView = self.emptyView
 	}
 	
 	func refreshCurrent() {
-		guard let date = currentDate.toDate() else {
+		guard let date = self.currentDate.toDate() else {
 			return
 		}
 		
@@ -79,21 +80,21 @@ class ExpenditureViewController: UIViewController {
 	}
 	
 	func moveTo(_ yearMonth: SizYearMonthDay) {
-		currentDate = yearMonth
+		self.currentDate = yearMonth
 		refreshCurrent()
 	}
 	
 	@objc func moveToPrevMonth() {
-		currentDate = currentDate.add(month: -1)
+		self.currentDate = currentDate.add(month: -1)
 		refreshCurrent()
 	}
 	@objc func moveToNextMonth() {
-		currentDate = currentDate.add(month: 1)
+		self.currentDate = currentDate.add(month: 1)
 		refreshCurrent()
 	}
 	
 	@objc func addNewItem() {
-		
+		EditExpItemViewController.show(item: nil, from: self)
 	}
 
 }

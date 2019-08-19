@@ -13,7 +13,7 @@ class ExpCell: UITableViewCell, SizViewUpdater {
 	
 	
 	
-	func update(item: ExpLog) {
+	func update(item: ExpenseRecord) {
 		
 	}
 	

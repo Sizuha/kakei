@@ -9,7 +9,7 @@
 import UIKit
 import SizUtil
 
-class ExpTableView: SizSectionTableView<ExpLog> {
+class ExpTableView: SizSectionTableView<ExpenseRecord> {
 
 
 	override init(frame: CGRect, style: UITableView.Style, owner: UIViewController) {
@@ -37,6 +37,11 @@ class ExpTableView: SizSectionTableView<ExpLog> {
 	
 	override func willDisplay(cell: UITableViewCell, rowAt: IndexPath) {
 		(cell as? ExpCell)?.refreshViews()
+	}
+	
+	override func didSelect(rowAt: IndexPath) {
+		let item = getItem(rowAt)
+		EditExpItemViewController.show(item: item, from: self.parentViewController)
 	}
 	
 }

@@ -37,7 +37,7 @@ extension UIViewController {
 
 func toYearMonthText(date: Date) -> String {
 	let fmt = DateFormatter()
-	fmt.calendar = stdCalendar
+	fmt.calendar = Calendar.standard
 	fmt.dateFormat = Strings.default.fmtYearMonth
 	return fmt.string(from: date)
 }

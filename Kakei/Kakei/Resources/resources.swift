@@ -25,6 +25,9 @@ class Strings {
 	lazy var setting = "setting".localized()
 	lazy var add = "add".localized()
 	lazy var edit = "edit".localized()
+	lazy var date = "date".localized()
+	lazy var time = "time".localized()
+	lazy var cost = "cost".localized()
 
 	lazy var fmtYearMonth = "fmt_year_month".localized()
 }

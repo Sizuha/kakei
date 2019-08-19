@@ -13,17 +13,15 @@
 		D51ED94F225B2454005DEECD /* KakeiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED94E225B2454005DEECD /* KakeiTests.swift */; };
 		D51ED95A225B2454005DEECD /* KakeiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED959225B2454005DEECD /* KakeiUITests.swift */; };
 		D51ED96B225B26E1005DEECD /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED96A225B26E1005DEECD /* libsqlite3.tbd */; };
-		D51ED98F225B3411005DEECD /* ExpLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED98E225B3411005DEECD /* ExpLog.swift */; };
+		D51ED98F225B3411005DEECD /* ExpenseRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED98E225B3411005DEECD /* ExpenseRecord.swift */; };
 		D51ED991225B3D95005DEECD /* Budget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED990225B3D95005DEECD /* Budget.swift */; };
 		D51ED993225B3DBF005DEECD /* common.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED992225B3DBF005DEECD /* common.swift */; };
 		D51ED995225B4FB2005DEECD /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED994225B4FB2005DEECD /* DataManager.swift */; };
-		D51ED99E225CAC76005DEECD /* SizUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED996225CAC5C005DEECD /* SizUtil.framework */; };
-		D51ED99F225CAC76005DEECD /* SizUtil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED996225CAC5C005DEECD /* SizUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D51ED9A0225CAC76005DEECD /* SQuery.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED997225CAC5C005DEECD /* SQuery.framework */; };
-		D51ED9A1225CAC76005DEECD /* SQuery.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D51ED997225CAC5C005DEECD /* SQuery.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D51ED9A6225DB671005DEECD /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ED9A5225DB671005DEECD /* Config.swift */; };
 		D51F64E922698814006CA639 /* ExpCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D51F64E822698814006CA639 /* ExpCell.xib */; };
 		D51F64EB226993FF006CA639 /* EditExpItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51F64EA226993FF006CA639 /* EditExpItemViewController.swift */; };
+		D5ACFB7722BC8C6700E5C48C /* SQuery.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5ACFB7522BC8C6600E5C48C /* SQuery.framework */; };
+		D5ACFB7822BC8C6700E5C48C /* SizUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5ACFB7622BC8C6700E5C48C /* SizUtil.framework */; };
 		D5DDAE55225F26D200242502 /* resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DDAE54225F26D200242502 /* resources.swift */; };
 		D5DDAE58225F276400242502 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D5DDAE5A225F276400242502 /* Localizable.strings */; };
 		D5DDAE61225F3CDB00242502 /* ExpenditureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DDAE60225F3CDB00242502 /* ExpenditureViewController.swift */; };
@@ -57,8 +55,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D51ED99F225CAC76005DEECD /* SizUtil.framework in Embed Frameworks */,
-				D51ED9A1225CAC76005DEECD /* SQuery.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -78,15 +74,15 @@
 		D51ED959225B2454005DEECD /* KakeiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiUITests.swift; sourceTree = "<group>"; };
 		D51ED95B225B2454005DEECD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D51ED96A225B26E1005DEECD /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		D51ED98E225B3411005DEECD /* ExpLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpLog.swift; sourceTree = "<group>"; };
+		D51ED98E225B3411005DEECD /* ExpenseRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRecord.swift; sourceTree = "<group>"; };
 		D51ED990225B3D95005DEECD /* Budget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Budget.swift; sourceTree = "<group>"; };
 		D51ED992225B3DBF005DEECD /* common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = common.swift; sourceTree = "<group>"; };
 		D51ED994225B4FB2005DEECD /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		D51ED996225CAC5C005DEECD /* SizUtil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SizUtil.framework; path = Lib/SizUtil.framework; sourceTree = "<group>"; };
-		D51ED997225CAC5C005DEECD /* SQuery.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQuery.framework; path = Lib/SQuery.framework; sourceTree = "<group>"; };
 		D51ED9A5225DB671005DEECD /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		D51F64E822698814006CA639 /* ExpCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpCell.xib; sourceTree = "<group>"; };
 		D51F64EA226993FF006CA639 /* EditExpItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditExpItemViewController.swift; sourceTree = "<group>"; };
+		D5ACFB7522BC8C6600E5C48C /* SQuery.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQuery.framework; path = Carthage/Build/iOS/SQuery.framework; sourceTree = "<group>"; };
+		D5ACFB7622BC8C6700E5C48C /* SizUtil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SizUtil.framework; path = Carthage/Build/iOS/SizUtil.framework; sourceTree = "<group>"; };
 		D5DDAE54225F26D200242502 /* resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = resources.swift; sourceTree = "<group>"; };
 		D5DDAE59225F276400242502 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D5DDAE5E225F286C00242502 /* ko-KR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ko-KR"; path = "ko-KR.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -103,9 +99,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5ACFB7722BC8C6700E5C48C /* SQuery.framework in Frameworks */,
+				D5ACFB7822BC8C6700E5C48C /* SizUtil.framework in Frameworks */,
 				D51ED96B225B26E1005DEECD /* libsqlite3.tbd in Frameworks */,
-				D51ED9A0225CAC76005DEECD /* SQuery.framework in Frameworks */,
-				D51ED99E225CAC76005DEECD /* SizUtil.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,7 +125,6 @@
 		D51ED92B225B244F005DEECD = {
 			isa = PBXGroup;
 			children = (
-				D51ED96C225B270F005DEECD /* Lib */,
 				D51ED936225B244F005DEECD /* Kakei */,
 				D51ED94D225B2454005DEECD /* KakeiTests */,
 				D51ED958225B2454005DEECD /* KakeiUITests */,
@@ -156,6 +151,7 @@
 				D51ED970225B274C005DEECD /* UI */,
 				D51ED937225B244F005DEECD /* AppDelegate.swift */,
 				D51ED942225B2454005DEECD /* LaunchScreen.storyboard */,
+				D51ED9A5225DB671005DEECD /* Config.swift */,
 				D51ED945225B2454005DEECD /* Info.plist */,
 			);
 			path = Kakei;
@@ -182,24 +178,18 @@
 		D51ED967225B26D7005DEECD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D5ACFB7622BC8C6700E5C48C /* SizUtil.framework */,
+				D5ACFB7522BC8C6600E5C48C /* SQuery.framework */,
 				D51ED96A225B26E1005DEECD /* libsqlite3.tbd */,
-				D51ED996225CAC5C005DEECD /* SizUtil.framework */,
-				D51ED997225CAC5C005DEECD /* SQuery.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		D51ED96C225B270F005DEECD /* Lib */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Lib;
 			sourceTree = "<group>";
 		};
 		D51ED96D225B271E005DEECD /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				D51ED940225B2454005DEECD /* Assets.xcassets */,
+				D51F64E822698814006CA639 /* ExpCell.xib */,
 				D5DDAE54225F26D200242502 /* resources.swift */,
 				D5DDAE5A225F276400242502 /* Localizable.strings */,
 			);
@@ -209,8 +199,7 @@
 		D51ED96E225B272F005DEECD /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D51ED9A5225DB671005DEECD /* Config.swift */,
-				D51ED98E225B3411005DEECD /* ExpLog.swift */,
+				D51ED98E225B3411005DEECD /* ExpenseRecord.swift */,
 				D51ED994225B4FB2005DEECD /* DataManager.swift */,
 				D51ED990225B3D95005DEECD /* Budget.swift */,
 			);
@@ -222,10 +211,19 @@
 			children = (
 				D5DDAE66226023E800242502 /* Common */,
 				D5DDAE67226023F300242502 /* Expenditure */,
+				D59D39A22306863B00B584A0 /* ExpDetail */,
 				D5DDAE682260240200242502 /* Budget */,
 				D5DDAE692260240B00242502 /* Setting */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		D59D39A22306863B00B584A0 /* ExpDetail */ = {
+			isa = PBXGroup;
+			children = (
+				D51F64EA226993FF006CA639 /* EditExpItemViewController.swift */,
+			);
+			path = ExpDetail;
 			sourceTree = "<group>";
 		};
 		D5DDAE66226023E800242502 /* Common */ = {
@@ -241,9 +239,7 @@
 			children = (
 				D5DDAE60225F3CDB00242502 /* ExpenditureViewController.swift */,
 				D5DDAE6A226024A800242502 /* ExpTableView.swift */,
-				D51F64EA226993FF006CA639 /* EditExpItemViewController.swift */,
 				D5DDAE73226071C100242502 /* ExpCell.swift */,
-				D51F64E822698814006CA639 /* ExpCell.xib */,
 			);
 			path = Expenditure;
 			sourceTree = "<group>";
@@ -275,6 +271,7 @@
 				D51ED931225B244F005DEECD /* Frameworks */,
 				D51ED932225B244F005DEECD /* Resources */,
 				D51ED9A2225CAC77005DEECD /* Embed Frameworks */,
+				D5ACFB7922BC8C7500E5C48C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -394,6 +391,28 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		D5ACFB7922BC8C7500E5C48C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/SQuery.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SizUtil.framework",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D51ED930225B244F005DEECD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -406,7 +425,7 @@
 				D5DDAE63225F3D3700242502 /* BudgetViewController.swift in Sources */,
 				D5DDAE65225F3D5400242502 /* SettingViewController.swift in Sources */,
 				D5DDAE6B226024A800242502 /* ExpTableView.swift in Sources */,
-				D51ED98F225B3411005DEECD /* ExpLog.swift in Sources */,
+				D51ED98F225B3411005DEECD /* ExpenseRecord.swift in Sources */,
 				D51ED938225B244F005DEECD /* AppDelegate.swift in Sources */,
 				D5DDAE74226071C100242502 /* ExpCell.swift in Sources */,
 				D51ED991225B3D95005DEECD /* Budget.swift in Sources */,
@@ -594,8 +613,8 @@
 				DEVELOPMENT_TEAM = R8QQLU625A;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Lib",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Kakei/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
@@ -618,8 +637,8 @@
 				DEVELOPMENT_TEAM = R8QQLU625A;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Lib",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Kakei/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
