@@ -12,21 +12,18 @@ import SizUtil
 /**
  出費一覧の画面
  */
-class ExpenditureViewController: UIViewController {
+class ExpenditureViewController: DateBasedDataViewController {
 	
 	private var expTableView: ExpTableView!
 	private var emptyView: UIView!
 	
-	private var currentDate: SizYearMonthDay!
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		view.backgroundColor = Colors.default.WIN_BG
-		
-		initNavigationBar()
+	}
+	
+	override func onInit() {
+		super.onInit()
 		initTableView()
-
-		moveToToday()
 	}
 	
 	override func viewWillLayoutSubviews() {
@@ -38,20 +35,6 @@ class ExpenditureViewController: UIViewController {
 		self.emptyView.centerYAnchor.constraint(equalTo: self.expTableView.centerYAnchor).isActive = true
 	}
 	
-	private func initNavigationBar() {
-		//navigationController?.delegate = self
-		
-		let btnPrev = UIBarButtonItem(title: "先月", style: .plain, target: self, action: #selector(moveToPrevMonth))
-		let btnNext = UIBarButtonItem(title: "次月", style: .plain, target: self, action: #selector(moveToNextMonth))
-		let btnToday = UIBarButtonItem(title: "今月", style: .plain, target: self, action: #selector(moveToToday))
-		let btnAdd = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewItem))
-		
-		let naviItem = navigationItem
-		naviItem.leftItemsSupplementBackButton = false
-		naviItem.leftBarButtonItems = [btnToday, btnPrev]
-		naviItem.rightBarButtonItems = [btnAdd, btnNext]
-	}
-	
 	private func initTableView() {
 		self.expTableView = ExpTableView(frame: CGRect(), style: .plain, owner: self)
 		self.expTableView.tableFooterView = UIView()
@@ -59,41 +42,19 @@ class ExpenditureViewController: UIViewController {
 		self.expTableView.allowsMultipleSelection = false
 		view.addSubview(self.expTableView)
 		
-		self.emptyView = createEmptyView(text: "Empty")
+		self.emptyView = createEmptyView(text: Strings.default.emptyItems)
 		self.emptyView.center = self.expTableView.center
 		view.addSubview(self.emptyView)
 		
 		self.expTableView.emptyView = self.emptyView
 	}
 	
-	func refreshCurrent() {
-		guard let date = self.currentDate.toDate() else {
-			return
-		}
-		
-		navigationItem.title = toYearMonthText(date: date)
+	override func refreshCurrent() {
+		super.refreshCurrent()
+		// TODO
 	}
 	
-	@objc func moveToToday() {
-		let now = SizYearMonthDay.now
-		moveTo(now)
-	}
-	
-	func moveTo(_ yearMonth: SizYearMonthDay) {
-		self.currentDate = yearMonth
-		refreshCurrent()
-	}
-	
-	@objc func moveToPrevMonth() {
-		self.currentDate = currentDate.add(month: -1)
-		refreshCurrent()
-	}
-	@objc func moveToNextMonth() {
-		self.currentDate = currentDate.add(month: 1)
-		refreshCurrent()
-	}
-	
-	@objc func addNewItem() {
+	@objc override func addNewItem() {
 		EditExpItemViewController.show(item: nil, from: self)
 	}
 

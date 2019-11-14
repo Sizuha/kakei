@@ -15,3 +15,9 @@
 "date"="Date";
 "time"="Time";
 "cost"="Cost";
+"empty"="Empty";
+
+"today"="Today";
+"prevMonth"="Prev";
+"nextMonth"="Next";
+"currMonth"="Now";

@@ -21,6 +21,7 @@ class EditExpItemViewController: UIViewController {
 	}
 	
 	var item: ExpenseRecord? = nil
+	var budgetItems: [Budget] = []
 	private var sections = [SizPropertyTableSection]()
 	
 	private var tableView: SizPropertyTableView!
@@ -29,23 +30,56 @@ class EditExpItemViewController: UIViewController {
 		self.title = self.item == nil ? Strings.default.add : Strings.default.edit
 		
 		initNavigationBar()
+		initNavigationItems()
 		
+		let now = SizYearMonthDay.now
+		self.budgetItems = DataManager.shared.loadBudget(year: now.year, month: now.month)
+		
+		// 予算（カテゴリー）
 		let rowBudget = SizPropertyTableRow(type: .select, label: Strings.default.budget)
+			.selection(items: [])
+			.hint("未定")
 			.bindData {
 				return self.item?.budgetIdx
 			}
-			.onChanged{ value in
+			.onChanged { value in
 				if let v = value as? Int {
 					self.item?.budgetIdx = v
 				}
-		}
-		rowBudget.selection(items: [])
-		let rowCost = SizPropertyTableRow(type: .text, label: Strings.default.cost)
-		let rowDate = SizPropertyTableRow(type: .date, label: Strings.default.date)
-		let rowTime = SizPropertyTableRow(type: .time, label: Strings.default.time)
-		
+			}
+		// 費用
+		let rowCost = SizPropertyTableRow(type: .editText, label: Strings.default.cost)
+			.bindData {
+				guard let price = self.item?.price else { return "" }
+				guard price > 0 else { return "" }
+				return "\(price)"
+			}
+			.onCreate { cell, i in
+				guard let cell = cell as? SizCellForEditText else { return }
+				cell.textField.keyboardType = .numberPad
+				cell.textField.becomeFirstResponder()
+			}
+		// 日付
+		let rowDate = SizPropertyTableRow(type: .datetime, label: Strings.default.date)
+			.bindData {
+				return self.item?.date ?? Date()
+			}
+			.onCreate { cell, i in
+				guard let cell = cell as? SizCellForEditText else { return }
+				cell.valueViewWidth = cell.contentView.frame.width * 0.8
+				
+				guard let dateField = cell.textField as? SizDatePickerField else { return }
+				dateField.pickerView.backgroundColor = .white
+				dateField.pickerView.datePickerMode = .dateAndTime
+				dateField.changeLocale(Locale.current, todayText: Strings.default.today)
+			}
+
 		self.sections = [
-			SizPropertyTableSection(rows: [rowBudget,rowCost,rowDate,rowTime])
+			SizPropertyTableSection(rows: [
+				rowCost,
+				rowBudget,
+				rowDate,
+			])
 		]
 		
 		self.tableView = SizPropertyTableView(frame: .zero, style: .grouped)
@@ -60,19 +94,29 @@ class EditExpItemViewController: UIViewController {
 	}
 	
 	private func initNavigationBar() {
-		guard let _ = self.navigationBar else { return }
-		
-		initNavigationBarStyle(self.navigationBar)
-		
+		guard let naviBar = self.navigationController?.navigationBar else { return }
+		initNavigationBarStyle(naviBar)
+	}
+	
+	private func initNavigationItems() {
 		let btnSave = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(trySave))
 		
 		let naviItem = navigationItem
 		naviItem.leftItemsSupplementBackButton = true
 		naviItem.rightBarButtonItems = [btnSave]
+		
+		if self.navigationController?.viewControllers.first == self {
+			let backBtn = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(returnBack))
+			naviItem.leftBarButtonItems = [backBtn]
+		}
 	}
 	
 	@objc func trySave() {
-		
+		returnBack()
+	}
+	
+	@objc func returnBack() {
+		popSelf()
 	}
 	
 }

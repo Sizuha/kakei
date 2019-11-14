@@ -45,8 +45,15 @@ class DataManager {
 			_ = tbl
 				.addPrimaryKey(Budget.F_YEAR_MONTH, type: .integer)
 				.addPrimaryKey(Budget.F_IDX, type: .integer)
-				.addColumn(Budget.F_ORDER, type: .integer)
-				.addColumn(Budget.F_TITLE, type: .text, notNull: true)
+				.create(ifNotExists: true)
+		}
+		
+		if let tbl = self.db.tableCreator(name: BudgetCategory.tableName) {
+			defer { tbl.close() }
+			_ = tbl
+				.addAutoInc(BudgetCategory.F_IDX)
+				.addColumn(BudgetCategory.F_SIG, type: .text, notNull: true)
+				.addColumn(BudgetCategory.F_DESC, type: .text)
 				.create(ifNotExists: true)
 		}
 	}
@@ -100,13 +107,13 @@ class DataManager {
 		return items
 	}
 	
-	func delete(year: Int, month: Int, dudgeIdx: Int) {
+	func delete(year: Int, month: Int, budgetIdx: Int) {
 		guard let tbl = self.db.from(Budget.tableName) else { return }
 		defer { tbl.close() }
 		
 		_ = tbl
 			.whereAnd("\(Budget.F_YEAR_MONTH)=?", year*100 + month)
-			.whereAnd("\(Budget.F_IDX)=?", dudgeIdx)
+			.whereAnd("\(Budget.F_IDX)=?", budgetIdx)
 			.delete()
 	}
 	

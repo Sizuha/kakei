@@ -35,17 +35,15 @@ open class SizPropertyTableRow {
 	public enum CellType {
 		case
 		text,
-		//description,
 		editText,
 		onOff,
 		select,
 		rating,
 		multiLine,
-		date,
-		time,
 		button,
 		stepper,
-		custome
+		custome,
+		datetime
 	}
 	
 	let type: CellType
@@ -94,15 +92,15 @@ open class SizPropertyTableRow {
 		case .multiLine:
 			self.viewID = id ?? "siz_multiLine"
 			self.cellClass = SizCellForMultiLine.self
-		case .date, .time:
-			self.viewID = id ?? "siz_datetime"
-			self.cellClass = SizCellForDateTime.self
 		case .button:
 			self.viewID = id ?? "siz_button"
 			self.cellClass = SizCellForButton.self
 		case .select:
 			self.viewID = id ?? "siz_select"
 			self.cellClass = SizCellForSelect.self
+		case .datetime:
+			self.viewID = id ?? "siz_datetime"
+			self.cellClass = SizCellForDateTime.self
 
 		default:
 			guard id != nil else {
@@ -296,6 +294,26 @@ open class SizPropertyTableView: SizTableView, UITableViewDataSource
 				}
 			}
 			
+		case .datetime:
+			if let cell = cellView as? SizCellForDateTime {
+				guard let textfield = cell.textField as? SizDatePickerField else { break }
+				
+				cell.placeholder = cellItem.hint
+				
+				if !cellItem.label.isEmpty {
+					cell.textLabel?.text = cellItem.label
+					cell.textField.textAlignment = .right
+				}
+				
+				if let date = cellItem.bindData?() as? Date {
+					textfield.date = date
+					textfield.updateText()
+				}
+				else {
+					textfield.text = nil
+				}
+			}
+			
 		case .stepper:
 			if let cell = cellView as? SizCellForStepper {
 				cell.placeholder = cellItem.hint
@@ -318,17 +336,6 @@ open class SizPropertyTableView: SizTableView, UITableViewDataSource
 			if let cell = cellView as? SizCellForRating {
 				cell.textLabel?.text = cellItem.label
 				cell.ratingBar.rating = cellItem.bindData?() as? Double ?? 0.0
-			}
-			
-		case .date:
-			if let cell = cellView as? SizCellForDateTime {
-				cell.textLabel?.text = cellItem.label
-				cell.picker.datePickerMode = .date
-			}
-		case .time:
-			if let cell = cellView as? SizCellForDateTime {
-				cell.textLabel?.text = cellItem.label
-				cell.picker.datePickerMode = .time
 			}
 			
 		case .custome: break
@@ -424,10 +431,8 @@ open class SizCellForEditText: SizPropertyTableCell, UITextFieldDelegate {
 	public var delegate: UITextFieldDelegate? = nil
 	public var maxLength: Int = 0
 	
-	private var editText: UITextField!
-	public var textField: UITextField {
-		return editText
-	}
+	public var textField: UITextField!
+	public var valueViewWidth: CGFloat = HALF_WIDTH
 	
 	private var contentViewRect: CGRect {
 		return CGRect(
@@ -439,28 +444,28 @@ open class SizCellForEditText: SizPropertyTableCell, UITextFieldDelegate {
 	
 	open override func onInit() {
 		super.onInit()
-		editText = UITextField(frame: .zero)
-		editText.returnKeyType = .next
-		editText.textColor = .darkGray
-		editText.delegate = self
+		textField = UITextField(frame: .zero)
+		textField.returnKeyType = .next
+		textField.textColor = .darkGray
+		textField.delegate = self
 		
-		contentView.addSubview(editText)
+		contentView.addSubview(textField)
 	}
 	
 	public var textValue: String? {
-		get { return editText.text }
-		set(value) { editText.text = value }
+		get { return textField.text }
+		set(value) { textField.text = value }
 	}
 	
 	public var placeholder: String? {
-		get { return editText.placeholder }
-		set(value) { editText.placeholder = value }
+		get { return textField.placeholder }
+		set(value) { textField.placeholder = value }
 	}
 	
 	public override func refreshViews() {
 		let width: CGFloat
 		let x: CGFloat
-		let rightPadding = editText.clearButtonMode == .never
+		let rightPadding = textField.clearButtonMode == .never
 			? DefaultCellPadding.right
 			: DefaultCellPadding.right/2
 		
@@ -469,11 +474,16 @@ open class SizCellForEditText: SizPropertyTableCell, UITextFieldDelegate {
 			x = DefaultCellPadding.left
 		}
 		else {
-			width = contentView.frame.size.width/2 - rightPadding
-			x = contentView.frame.size.width/2
+			switch self.valueViewWidth {
+			case HALF_WIDTH:
+				width = contentView.frame.size.width/2 - rightPadding
+			default:
+				width = (self.valueViewWidth > 0 ? self.valueViewWidth : contentView.frame.size.width) - rightPadding
+			}
+			x = contentView.frame.size.width - width - rightPadding
 		}
 		
-		editText.frame = CGRect(
+		textField.frame = CGRect(
 			x: x,
 			y: 0,
 			width: width,
@@ -538,6 +548,24 @@ open class SizCellForEditText: SizPropertyTableCell, UITextFieldDelegate {
 	public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		return self.delegate?.textFieldShouldReturn?(textField) ?? true
 	}
+	
+//	open override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+//		return true
+//	}
+
+}
+
+//------ Cell: DateTime
+open class SizCellForDateTime: SizCellForEditText {
+	
+	open override func onInit() {
+		super.textField = SizDatePickerField(frame: .zero)
+		super.textField.returnKeyType = .next
+		super.textField.textColor = .darkGray
+		
+		contentView.addSubview(super.textField)
+	}
+	
 }
 
 //------ Cell: Stepper
@@ -860,19 +888,6 @@ open class SizCellForRating: SizPropertyTableCell, FloatRatingViewDelegate {
 	public func floatRatingView(_ ratingView: FloatRatingView, isUpdating rating: Double) {
 		self.delegate?.floatRatingView?(ratingView, isUpdating: rating)
 	}
-}
-
-//------ Cell: Date Time Picker
-open class SizCellForDateTime: SizPropertyTableCell {
-	private var dateTimePickerView: UIDatePicker!
-	public var picker: UIDatePicker { return dateTimePickerView }
-	
-	open override func onInit() {
-		super.onInit()
-		dateTimePickerView = UIDatePicker()
-	}
-	
-	public override func refreshViews() {}
 }
 
 //------ Cell: Button

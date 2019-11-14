@@ -19,19 +19,13 @@ class Budget: SQueryRow, CsvSerializable {
 	
 	static let F_YEAR_MONTH = "year_month" // yyyyMM (*PK)
 	static let F_IDX = "idx" // idx in year_month (*PK)
-	static let F_ORDER = "ord" // order in year_month
-	static let F_TITLE = "title"
 	static let F_PRICE = "price"
 	
 	static let keyFields = [F_YEAR_MONTH, F_IDX]
 	
 	private var yearMonth: Int =  0
 	private var idx: Int = 0
-	private var order: Int = 0
-	
-	var title: String = ""
 	var price: Int = 0
-	
 	
 	func load(from cursor: SQLiteCursor) {
 		

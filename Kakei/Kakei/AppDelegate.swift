@@ -34,23 +34,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		
 		var viewControllers: [UIViewController] = []
 		
-		var vc: UIViewController!
-
 		// Tab: 出費（支出）
-		let navi = UINavigationController()
-		navi.pushViewController(ExpenditureViewController(), animated: false)		
-		navi.tabBarItem = UITabBarItem(title: Strings.default.expenditure, image: Icons.default.expenditure, tag: 1)
-		viewControllers.append(navi)
+		let naviExp = UINavigationController()
+		naviExp.pushViewController(ExpenditureViewController(), animated: false)
+		naviExp.tabBarItem = UITabBarItem(title: Strings.default.expenditure, image: Icons.default.expenditure, tag: 1)
+		viewControllers.append(naviExp)
 		
 		// Tab: 予算
-		vc = BudgetViewController()
-		vc.tabBarItem = UITabBarItem(title: Strings.default.budget, image: Icons.default.budget, tag: 2)
-		viewControllers.append(vc)
+		let naviBudget = UINavigationController()
+		naviBudget.pushViewController(BudgetViewController(), animated: false)
+		naviBudget.tabBarItem = UITabBarItem(title: Strings.default.budget, image: Icons.default.budget, tag: 2)
+		viewControllers.append(naviBudget)
 
 		// Tab: Setting
-		vc = SettingViewController()
-		vc.tabBarItem = UITabBarItem(title: Strings.default.setting, image: Icons.default.settings, tag: 3)
-		viewControllers.append(vc)
+		let vcSetting = SettingViewController()
+		vcSetting.tabBarItem = UITabBarItem(title: Strings.default.setting, image: Icons.default.settings, tag: 3)
+		viewControllers.append(vcSetting)
 
 		let mainController = UITabBarController()
 		mainController.setViewControllers(viewControllers, animated: false)

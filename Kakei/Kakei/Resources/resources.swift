@@ -28,8 +28,14 @@ class Strings {
 	lazy var date = "date".localized()
 	lazy var time = "time".localized()
 	lazy var cost = "cost".localized()
+	lazy var emptyItems = "empty".localized()
 
 	lazy var fmtYearMonth = "fmt_year_month".localized()
+	
+	lazy var today = "today".localized()
+	lazy var nextMonth = "nextMonth".localized()
+	lazy var prevMonth = "prevMonth".localized()
+	lazy var currMonth = "currMonth".localized()
 }
 
 class Icons {

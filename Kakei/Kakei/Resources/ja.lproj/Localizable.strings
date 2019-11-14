@@ -15,3 +15,9 @@
 "date"="日付";
 "time"="時刻";
 "cost"="費用";
+"empty"="空";
+
+"today"="今日";
+"prevMonth"="先月";
+"nextMonth"="来月";
+"currMonth"="今月";
