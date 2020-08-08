@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "SizUI",
+        "repositoryURL": "https://github.com/Sizuha/SizUI-iOS",
+        "state": {
+          "branch": "master",
+          "revision": "293a4f6d09371c0ca554287511c4e16812921063",
+          "version": null
+        }
+      },
+      {
+        "package": "SizUtil",
+        "repositoryURL": "https://github.com/Sizuha/SizUtil-iOS",
+        "state": {
+          "branch": "master",
+          "revision": "757a96a412c93628917c5638901cc687611e38b0",
+          "version": null
+        }
+      },
+      {
+        "package": "SQuery",
+        "repositoryURL": "https://github.com/Sizuha/squery-swift",
+        "state": {
+          "branch": "master",
+          "revision": "76ab38165f5ef4d90c6687e93ffd1b0290b60d71",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
