@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D5D11E124DFBD2D0014ABB5 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5D11E024DFBD2D0014ABB5 /* SettingsViewController.swift */; };
 		0D62F45024DE6DAE00FA96F0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D62F44F24DE6DAE00FA96F0 /* AppDelegate.swift */; };
 		0D62F45224DE6DAE00FA96F0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D62F45124DE6DAE00FA96F0 /* SceneDelegate.swift */; };
 		0D62F45924DE6DAF00FA96F0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D62F45824DE6DAF00FA96F0 /* Assets.xcassets */; };
@@ -16,9 +17,26 @@
 		0DA52D7124DE71710002BB92 /* SQuery in Frameworks */ = {isa = PBXBuildFile; productRef = 0DA52D7024DE71710002BB92 /* SQuery */; };
 		0DA52D7424DE71830002BB92 /* SizUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0DA52D7324DE71830002BB92 /* SizUI */; };
 		0DA52D7724DE71950002BB92 /* SizUtil in Frameworks */ = {isa = PBXBuildFile; productRef = 0DA52D7624DE71950002BB92 /* SizUtil */; };
+		0DA52D7A24DE71EA0002BB92 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA52D7924DE71EA0002BB92 /* Strings.swift */; };
+		0DA52D7C24DE72670002BB92 /* Budget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA52D7B24DE72670002BB92 /* Budget.swift */; };
+		0DA52D7E24DE73EA0002BB92 /* YearMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA52D7D24DE73EA0002BB92 /* YearMonth.swift */; };
+		0DA52D8024DE746E0002BB92 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA52D7F24DE746E0002BB92 /* DataManager.swift */; };
+		0DA52D8224DE74F40002BB92 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA52D8124DE74F40002BB92 /* Config.swift */; };
+		0DA52D8424DE75B80002BB92 /* Household.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA52D8324DE75B80002BB92 /* Household.swift */; };
+		0DA52D8624DFB8540002BB92 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA52D8524DFB8540002BB92 /* Settings.swift */; };
+		0DA52D8824DFBA160002BB92 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA52D8724DFBA160002BB92 /* Images.swift */; };
+		0DBB9C1827724337002B8961 /* YearMonthPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBB9C1727724337002B8961 /* YearMonthPicker.swift */; };
+		0DBB9C1B27738A33002B8961 /* BudgetTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBB9C1A27738A33002B8961 /* BudgetTableView.swift */; };
+		0DBB9C1D2773C433002B8961 /* UIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBB9C1C2773C433002B8961 /* UIUtils.swift */; };
+		0DBB9C2127740E61002B8961 /* EditBudgetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBB9C1F27740E61002B8961 /* EditBudgetViewController.swift */; };
+		0DBB9C2227740E61002B8961 /* EditBudgetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DBB9C2027740E61002B8961 /* EditBudgetViewController.xib */; };
+		0DBB9C27277B8DF6002B8961 /* BudgetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBB9C25277B8DF6002B8961 /* BudgetTableViewCell.swift */; };
+		0DBB9C28277B8DF6002B8961 /* BudgetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DBB9C26277B8DF6002B8961 /* BudgetTableViewCell.xib */; };
+		0DBB9C2A277D481C002B8961 /* HouseholdTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBB9C29277D481C002B8961 /* HouseholdTable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D5D11E024DFBD2D0014ABB5 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		0D62F44C24DE6DAE00FA96F0 /* 楽家計.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "楽家計.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D62F44F24DE6DAE00FA96F0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0D62F45124DE6DAE00FA96F0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -27,6 +45,22 @@
 		0D62F45D24DE6DAF00FA96F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0DA52D6B24DE705E0002BB92 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0DA52D6C24DE705E0002BB92 /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		0DA52D7924DE71EA0002BB92 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		0DA52D7B24DE72670002BB92 /* Budget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Budget.swift; sourceTree = "<group>"; };
+		0DA52D7D24DE73EA0002BB92 /* YearMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearMonth.swift; sourceTree = "<group>"; };
+		0DA52D7F24DE746E0002BB92 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		0DA52D8124DE74F40002BB92 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		0DA52D8324DE75B80002BB92 /* Household.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Household.swift; sourceTree = "<group>"; };
+		0DA52D8524DFB8540002BB92 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		0DA52D8724DFBA160002BB92 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		0DBB9C1727724337002B8961 /* YearMonthPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearMonthPicker.swift; sourceTree = "<group>"; };
+		0DBB9C1A27738A33002B8961 /* BudgetTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetTableView.swift; sourceTree = "<group>"; };
+		0DBB9C1C2773C433002B8961 /* UIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIUtils.swift; sourceTree = "<group>"; };
+		0DBB9C1F27740E61002B8961 /* EditBudgetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBudgetViewController.swift; sourceTree = "<group>"; };
+		0DBB9C2027740E61002B8961 /* EditBudgetViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditBudgetViewController.xib; sourceTree = "<group>"; };
+		0DBB9C25277B8DF6002B8961 /* BudgetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetTableViewCell.swift; sourceTree = "<group>"; };
+		0DBB9C26277B8DF6002B8961 /* BudgetTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BudgetTableViewCell.xib; sourceTree = "<group>"; };
+		0DBB9C29277D481C002B8961 /* HouseholdTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseholdTable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +77,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D42EE3524DFDC4D00A5E631 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				0DBB9C1727724337002B8961 /* YearMonthPicker.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		0D5D11DF24DFBD110014ABB5 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				0D5D11E024DFBD2D0014ABB5 /* SettingsViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		0D62F44324DE6DAE00FA96F0 = {
 			isa = PBXGroup;
 			children = (
@@ -66,9 +116,7 @@
 				0DA52D6824DE6DF00002BB92 /* Model */,
 				0DA52D6924DE6DF50002BB92 /* Lib */,
 				0DA52D6724DE6DE70002BB92 /* UI */,
-				0D62F44F24DE6DAE00FA96F0 /* AppDelegate.swift */,
-				0D62F45124DE6DAE00FA96F0 /* SceneDelegate.swift */,
-				0D62F45A24DE6DAF00FA96F0 /* LaunchScreen.storyboard */,
+				0DA52D8124DE74F40002BB92 /* Config.swift */,
 				0D62F45D24DE6DAF00FA96F0 /* Info.plist */,
 			);
 			path = RakuKakei;
@@ -78,6 +126,8 @@
 			isa = PBXGroup;
 			children = (
 				0D62F45824DE6DAF00FA96F0 /* Assets.xcassets */,
+				0DA52D7924DE71EA0002BB92 /* Strings.swift */,
+				0DA52D8724DFBA160002BB92 /* Images.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -85,7 +135,11 @@
 		0DA52D6724DE6DE70002BB92 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				0DBB9C19277354A7002B8961 /* App */,
+				0D42EE3524DFDC4D00A5E631 /* Shared */,
 				0DA52D6A24DE6E010002BB92 /* Main */,
+				0DBB9C1E27740E44002B8961 /* EditBudget */,
+				0D5D11DF24DFBD110014ABB5 /* Settings */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -93,6 +147,10 @@
 		0DA52D6824DE6DF00002BB92 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0DA52D7B24DE72670002BB92 /* Budget.swift */,
+				0DA52D8324DE75B80002BB92 /* Household.swift */,
+				0DA52D7D24DE73EA0002BB92 /* YearMonth.swift */,
+				0DA52D8524DFB8540002BB92 /* Settings.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -100,6 +158,8 @@
 		0DA52D6924DE6DF50002BB92 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				0DA52D7F24DE746E0002BB92 /* DataManager.swift */,
+				0DBB9C1C2773C433002B8961 /* UIUtils.swift */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -107,10 +167,33 @@
 		0DA52D6A24DE6E010002BB92 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				0DBB9C1A27738A33002B8961 /* BudgetTableView.swift */,
+				0DBB9C25277B8DF6002B8961 /* BudgetTableViewCell.swift */,
+				0DBB9C26277B8DF6002B8961 /* BudgetTableViewCell.xib */,
+				0DBB9C29277D481C002B8961 /* HouseholdTable.swift */,
 				0DA52D6B24DE705E0002BB92 /* MainViewController.swift */,
 				0DA52D6C24DE705E0002BB92 /* MainViewController.xib */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		0DBB9C19277354A7002B8961 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				0D62F45A24DE6DAF00FA96F0 /* LaunchScreen.storyboard */,
+				0D62F44F24DE6DAE00FA96F0 /* AppDelegate.swift */,
+				0D62F45124DE6DAE00FA96F0 /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		0DBB9C1E27740E44002B8961 /* EditBudget */ = {
+			isa = PBXGroup;
+			children = (
+				0DBB9C1F27740E61002B8961 /* EditBudgetViewController.swift */,
+				0DBB9C2027740E61002B8961 /* EditBudgetViewController.xib */,
+			);
+			path = EditBudget;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,10 +238,11 @@
 			};
 			buildConfigurationList = 0D62F44724DE6DAE00FA96F0 /* Build configuration list for PBXProject "RakuKakei" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = en;
+			developmentRegion = jp;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				jp,
 				Base,
 			);
 			mainGroup = 0D62F44324DE6DAE00FA96F0;
@@ -182,6 +266,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D62F45C24DE6DAF00FA96F0 /* LaunchScreen.storyboard in Resources */,
+				0DBB9C28277B8DF6002B8961 /* BudgetTableViewCell.xib in Resources */,
+				0DBB9C2227740E61002B8961 /* EditBudgetViewController.xib in Resources */,
 				0DA52D6E24DE705E0002BB92 /* MainViewController.xib in Resources */,
 				0D62F45924DE6DAF00FA96F0 /* Assets.xcassets in Resources */,
 			);
@@ -194,9 +280,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0DBB9C1D2773C433002B8961 /* UIUtils.swift in Sources */,
 				0DA52D6D24DE705E0002BB92 /* MainViewController.swift in Sources */,
+				0DBB9C27277B8DF6002B8961 /* BudgetTableViewCell.swift in Sources */,
 				0D62F45024DE6DAE00FA96F0 /* AppDelegate.swift in Sources */,
+				0DBB9C1B27738A33002B8961 /* BudgetTableView.swift in Sources */,
+				0DA52D7C24DE72670002BB92 /* Budget.swift in Sources */,
+				0DA52D8424DE75B80002BB92 /* Household.swift in Sources */,
+				0DA52D8624DFB8540002BB92 /* Settings.swift in Sources */,
+				0DA52D8024DE746E0002BB92 /* DataManager.swift in Sources */,
+				0DA52D7E24DE73EA0002BB92 /* YearMonth.swift in Sources */,
+				0DBB9C2127740E61002B8961 /* EditBudgetViewController.swift in Sources */,
+				0DA52D8224DE74F40002BB92 /* Config.swift in Sources */,
+				0DA52D7A24DE71EA0002BB92 /* Strings.swift in Sources */,
+				0DA52D8824DFBA160002BB92 /* Images.swift in Sources */,
 				0D62F45224DE6DAE00FA96F0 /* SceneDelegate.swift in Sources */,
+				0DBB9C1827724337002B8961 /* YearMonthPicker.swift in Sources */,
+				0DBB9C2A277D481C002B8961 /* HouseholdTable.swift in Sources */,
+				0D5D11E124DFBD2D0014ABB5 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,7 +365,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -318,7 +419,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -335,7 +436,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R8QQLU625A;
 				INFOPLIST_FILE = RakuKakei/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -354,7 +455,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R8QQLU625A;
 				INFOPLIST_FILE = RakuKakei/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -402,7 +503,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Sizuha/SizUI-iOS";
 			requirement = {
-				branch = master;
+				branch = dev;
 				kind = branch;
 			};
 		};

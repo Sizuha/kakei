@@ -5,8 +5,8 @@
         "package": "SizUI",
         "repositoryURL": "https://github.com/Sizuha/SizUI-iOS",
         "state": {
-          "branch": "master",
-          "revision": "293a4f6d09371c0ca554287511c4e16812921063",
+          "branch": "dev",
+          "revision": "8c84bfac614e84529085d93aed8cff318c80e6da",
           "version": null
         }
       },
@@ -15,7 +15,7 @@
         "repositoryURL": "https://github.com/Sizuha/SizUtil-iOS",
         "state": {
           "branch": "master",
-          "revision": "757a96a412c93628917c5638901cc687611e38b0",
+          "revision": "313f59f2b2a50b1a3a6b591ae6d2f9d552de91c0",
           "version": null
         }
       },
@@ -24,7 +24,7 @@
         "repositoryURL": "https://github.com/Sizuha/squery-swift",
         "state": {
           "branch": "master",
-          "revision": "76ab38165f5ef4d90c6687e93ffd1b0290b60d71",
+          "revision": "5a0140dc2e3c45e4c91a26a6f1f3ae9a0c55fd67",
           "version": null
         }
       }
