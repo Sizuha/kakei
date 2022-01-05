@@ -14,7 +14,7 @@
             <connections>
                 <outlet property="borderTop" destination="VGd-we-jBm" id="iI7-2n-gkY"/>
                 <outlet property="btnAdd" destination="qjD-bx-XTu" id="HD3-Bc-wC1"/>
-                <outlet property="btnAddBudget" destination="bfq-t7-ewS" id="coE-jL-4Ud"/>
+                <outlet property="btnAddBudget" destination="p4f-QP-RrY" id="T3o-rd-h69"/>
                 <outlet property="btnBudget" destination="ILK-zV-dd5" id="ClA-6m-7oP"/>
                 <outlet property="btnEditBudget" destination="IXy-br-SyN" id="A03-ZM-tSd"/>
                 <outlet property="btnImportBudget" destination="eTK-QR-FWZ" id="T6C-AF-ciZ"/>
@@ -167,13 +167,18 @@
                                 <action selector="btnEditBudgetTap:" destination="-1" eventType="touchUpInside" id="eI9-tI-0jy"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="予算を追加してください" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fKD-xb-9mW" userLabel="lblEmptyMessage">
-                            <rect key="frame" x="61" y="261" width="266" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" systemColor="secondaryLabelColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p4f-QP-RrY" userLabel="btnAddNewBudget">
+                            <rect key="frame" x="8" y="442" width="374" height="40"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="filled" title="予算追加" imagePadding="10">
+                                <imageReference key="image" image="square.and.pencil" catalog="system" symbolScale="medium"/>
+                                <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="btnAddBudgetTap:" destination="-1" eventType="touchUpInside" id="OK4-nU-jii"/>
+                            </connections>
+                        </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eTK-QR-FWZ" userLabel="btnImportBudget">
                             <rect key="frame" x="8" y="490" width="374" height="40"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -186,18 +191,13 @@
                                 <action selector="btnImportBudgetTap:" destination="-1" eventType="touchUpInside" id="X7g-Gb-kKn"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bfq-t7-ewS" userLabel="btnAddBudget">
-                            <rect key="frame" x="8" y="442" width="374" height="40"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="filled" title="予算追加" imagePadding="10">
-                                <imageReference key="image" image="square.and.pencil" catalog="system" symbolScale="medium"/>
-                                <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
-                            </buttonConfiguration>
-                            <connections>
-                                <action selector="btnAddBudgetTap:" destination="-1" eventType="touchUpInside" id="lLT-Dz-udD"/>
-                            </connections>
-                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="予算を追加してください" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fKD-xb-9mW" userLabel="lblEmptyMessage">
+                            <rect key="frame" x="60" y="262" width="266" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" systemColor="secondaryLabelColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>

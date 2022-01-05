@@ -33,6 +33,10 @@
 		0DBB9C27277B8DF6002B8961 /* BudgetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBB9C25277B8DF6002B8961 /* BudgetTableViewCell.swift */; };
 		0DBB9C28277B8DF6002B8961 /* BudgetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DBB9C26277B8DF6002B8961 /* BudgetTableViewCell.xib */; };
 		0DBB9C2A277D481C002B8961 /* HouseholdTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBB9C29277D481C002B8961 /* HouseholdTable.swift */; };
+		0DBB9C2D277D77AC002B8961 /* HouseholdTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBB9C2B277D77AC002B8961 /* HouseholdTableCell.swift */; };
+		0DBB9C2E277D77AC002B8961 /* HouseholdTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DBB9C2C277D77AC002B8961 /* HouseholdTableCell.xib */; };
+		0DBB9C302785B3D7002B8961 /* BudgetGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBB9C2F2785B3D7002B8961 /* BudgetGroupView.swift */; };
+		0DBB9C322785B3FE002B8961 /* BudgetGroupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DBB9C312785B3FE002B8961 /* BudgetGroupView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +65,10 @@
 		0DBB9C25277B8DF6002B8961 /* BudgetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetTableViewCell.swift; sourceTree = "<group>"; };
 		0DBB9C26277B8DF6002B8961 /* BudgetTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BudgetTableViewCell.xib; sourceTree = "<group>"; };
 		0DBB9C29277D481C002B8961 /* HouseholdTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseholdTable.swift; sourceTree = "<group>"; };
+		0DBB9C2B277D77AC002B8961 /* HouseholdTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseholdTableCell.swift; sourceTree = "<group>"; };
+		0DBB9C2C277D77AC002B8961 /* HouseholdTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HouseholdTableCell.xib; sourceTree = "<group>"; };
+		0DBB9C2F2785B3D7002B8961 /* BudgetGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetGroupView.swift; sourceTree = "<group>"; };
+		0DBB9C312785B3FE002B8961 /* BudgetGroupView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BudgetGroupView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,8 +179,12 @@
 				0DBB9C25277B8DF6002B8961 /* BudgetTableViewCell.swift */,
 				0DBB9C26277B8DF6002B8961 /* BudgetTableViewCell.xib */,
 				0DBB9C29277D481C002B8961 /* HouseholdTable.swift */,
+				0DBB9C2B277D77AC002B8961 /* HouseholdTableCell.swift */,
+				0DBB9C2C277D77AC002B8961 /* HouseholdTableCell.xib */,
 				0DA52D6B24DE705E0002BB92 /* MainViewController.swift */,
 				0DA52D6C24DE705E0002BB92 /* MainViewController.xib */,
+				0DBB9C2F2785B3D7002B8961 /* BudgetGroupView.swift */,
+				0DBB9C312785B3FE002B8961 /* BudgetGroupView.xib */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -265,9 +277,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0DBB9C2E277D77AC002B8961 /* HouseholdTableCell.xib in Resources */,
 				0D62F45C24DE6DAF00FA96F0 /* LaunchScreen.storyboard in Resources */,
 				0DBB9C28277B8DF6002B8961 /* BudgetTableViewCell.xib in Resources */,
 				0DBB9C2227740E61002B8961 /* EditBudgetViewController.xib in Resources */,
+				0DBB9C322785B3FE002B8961 /* BudgetGroupView.xib in Resources */,
 				0DA52D6E24DE705E0002BB92 /* MainViewController.xib in Resources */,
 				0D62F45924DE6DAF00FA96F0 /* Assets.xcassets in Resources */,
 			);
@@ -291,11 +305,13 @@
 				0DA52D8024DE746E0002BB92 /* DataManager.swift in Sources */,
 				0DA52D7E24DE73EA0002BB92 /* YearMonth.swift in Sources */,
 				0DBB9C2127740E61002B8961 /* EditBudgetViewController.swift in Sources */,
+				0DBB9C302785B3D7002B8961 /* BudgetGroupView.swift in Sources */,
 				0DA52D8224DE74F40002BB92 /* Config.swift in Sources */,
 				0DA52D7A24DE71EA0002BB92 /* Strings.swift in Sources */,
 				0DA52D8824DFBA160002BB92 /* Images.swift in Sources */,
 				0D62F45224DE6DAE00FA96F0 /* SceneDelegate.swift in Sources */,
 				0DBB9C1827724337002B8961 /* YearMonthPicker.swift in Sources */,
+				0DBB9C2D277D77AC002B8961 /* HouseholdTableCell.swift in Sources */,
 				0DBB9C2A277D481C002B8961 /* HouseholdTable.swift in Sources */,
 				0D5D11E124DFBD2D0014ABB5 /* SettingsViewController.swift in Sources */,
 			);

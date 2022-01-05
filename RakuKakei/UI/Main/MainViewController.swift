@@ -75,6 +75,9 @@ class MainViewController: UIViewController {
         guard self.currentTab != .pay else { return }
         change(tab: .pay)
     }
+    
+    /// 支出一覧
+    var tblHoousehold: HouseholdTable!
         
     // MARK: 下部ツルバー
     /// 下部のツルバー
@@ -142,6 +145,8 @@ class MainViewController: UIViewController {
     
     var editMode = false
     
+    var budges: [Budget] = []
+    
     // MARK: - UI Events
     
     override func viewDidLoad() {
@@ -171,6 +176,7 @@ class MainViewController: UIViewController {
         }
         self.groupBudget.addSubview(self.tblBudgetList)
         
+        self.budges.reserveCapacity(MAX_BUDET_COUNT)        
         change(tab: .pay, animation: false)
         self.firstLoad = true
     }
@@ -184,6 +190,21 @@ class MainViewController: UIViewController {
         self.groupBudget.topAnchor.constraint(equalTo: self.borderTop.bottomAnchor, constant: 0).isActive = true
         self.groupBudget.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: 0).isActive = true
         
+        // IBで、自動レイアウトが設定されているが、
+        // iPhoneをバックグラウンドで横の状態 --> 縦にするとレイアウトが崩れる為
+        // ここで再び設定する
+        self.btnImportBudget.translatesAutoresizingMaskIntoConstraints = false
+        self.btnImportBudget.leftAnchor.constraint(equalTo: self.groupBottom.leftAnchor, constant: 8).isActive = true
+        self.btnImportBudget.rightAnchor.constraint(equalTo: self.groupBottom.rightAnchor, constant: -8).isActive = true
+        self.btnImportBudget.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: -8).isActive = true
+        self.btnImportBudget.heightAnchor.constraint(equalToConstant: self.btnImportBudget.frame.height) .isActive = true
+
+        self.btnAddBudget.translatesAutoresizingMaskIntoConstraints = false
+        self.btnAddBudget.leftAnchor.constraint(equalTo: self.groupBottom.leftAnchor, constant: 8).isActive = true
+        self.btnAddBudget.rightAnchor.constraint(equalTo: self.groupBottom.rightAnchor, constant: -8).isActive = true
+        self.btnAddBudget.bottomAnchor.constraint(equalTo: self.btnImportBudget.topAnchor, constant: -8).isActive = true
+        self.btnAddBudget.heightAnchor.constraint(equalToConstant: self.btnAddBudget.frame.height) .isActive = true
+
         self.tblBudgetList.translatesAutoresizingMaskIntoConstraints = false
         self.tblBudgetList.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.tblBudgetList.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
@@ -298,6 +319,7 @@ class MainViewController: UIViewController {
         self.lblYear.text = String(format: "%d年", self.currentDate.year)
         self.btnMonth.text = String(format: "%d月", self.currentDate.month)
         
+        loadBudgets()
         switch self.currentTab! {
         case .budget:
             refresh_budgetTab()
@@ -309,11 +331,11 @@ class MainViewController: UIViewController {
         self.firstLoad = false
     }
 
-    func refresh_budgetTab() {
+    private func refresh_budgetTab() {
         self.lblBudgetTitle.text = String(format:"%d年%d月の予算", self.currentDate.year, self.currentDate.month)
         
         self.tblBudgetList.items.removeAll()
-        self.tblBudgetList.items = DataManager.shared.loadBudgetList(date: self.currentDate)
+        self.tblBudgetList.items = self.budges
         
         self.tblBudgetList.isHidden = self.tblBudgetList.items.isEmpty
         self.btnEditBudget.isHidden = self.tblBudgetList.items.isEmpty
@@ -334,7 +356,7 @@ class MainViewController: UIViewController {
         self.btnImportBudget.isEnabled = prevMonthItems.isEmpty == false
     }
     
-    func refresh_payTab() {
+    private func refresh_payTab() {
         self.btnAdd.isEnabled = true
     }
     
@@ -356,6 +378,14 @@ class MainViewController: UIViewController {
             self.tblBudgetList.setEditing(false, animated: animated)
             btnEditBudget.setTitle("編集", for: .normal)
         }
+    }
+    
+    // MARK: - データ読み取り
+    
+    func loadBudgets(date: YearMonth? = nil) {
+        let items = DataManager.shared.loadBudgetList(date: date ?? self.currentDate)
+        self.budges.removeAll()
+        self.budges.append(contentsOf: items)
     }
     
 }

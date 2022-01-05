@@ -19,7 +19,7 @@ var MAX_YEAR: Int {
     YearMonth.now.year + 1
 }
 
-let MAX_BUDET_COUNT = 5
+let MAX_BUDET_COUNT = 6
 
 /// 単位：千円
 let AMOUNT_MULTIPLIER = 1000
