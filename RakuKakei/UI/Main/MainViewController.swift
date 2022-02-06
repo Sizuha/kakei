@@ -57,10 +57,29 @@ class MainViewController: UIViewController {
     @IBOutlet weak var btnImportBudget: UIButton!
     @IBAction func btnImportBudgetTap(_ sender: UIButton) {
         sender.isUserInteractionEnabled = false
-        SizUI.Alert(title: "警告", message: "現在編集中の内容は削除されます", buttons: [
+        Alert(title: "警告", message: "現在編集中の内容は削除されます", buttons: [
             .cancel("キャンセル"),
             .destrucive("OK") {
                 DataManager.shared.copyBudgets(from: self.currentDate.prevMonth(), to: self.currentDate)
+                self.loadBudgets(date: self.currentDate)
+                
+                self.setEditMode(budgetTable: false, animated: false)
+                self.refresh_budgetTab()
+            }
+        ]).show(from: self)
+        sender.isUserInteractionEnabled = true
+    }
+    
+    /// 「すべて削除」ボタン
+    @IBOutlet weak var btnClearBudgets: UIButton!
+    @IBAction func btnRemoveAllTap(_ sender: UIButton) {
+        sender.isUserInteractionEnabled = false
+        Alert(title: "警告", message: "\(self.currentDate.year)年\(self.currentDate.month)月の予算を\nすべて削除します", buttons: [
+            .cancel("キャンセル"),
+            .destrucive("OK") {
+                DataManager.shared.removeBudgets(yearMonth: self.currentDate)
+                self.budges.removeAll()
+                
                 self.setEditMode(budgetTable: false, animated: false)
                 self.refresh_budgetTab()
             }
@@ -75,6 +94,10 @@ class MainViewController: UIViewController {
         guard self.currentTab != .pay else { return }
         change(tab: .pay)
     }
+    /// 支出画面
+    @IBOutlet weak var groupPay: UIView!
+    
+    @IBOutlet weak var budgetList: UICollectionView!
     
     /// 支出一覧
     var tblHoousehold: HouseholdTable!
@@ -144,8 +167,10 @@ class MainViewController: UIViewController {
     var firstLoad = true
     
     var editMode = false
-    
     var budges: [Budget] = []
+    
+    private let IMG_EDIT_SEQ = UIImage(systemName: "arrow.up.arrow.down")
+    private let IMG_NULL = UIImage()
     
     // MARK: - UI Events
     
@@ -170,33 +195,58 @@ class MainViewController: UIViewController {
         self.tblBudgetList.tableFooterView = UIView(frame: .zero)
         self.tblBudgetList.ownerViewController = self
         self.tblBudgetList.onItemRemoved = {
+            self.budges = self.tblBudgetList.items
             if self.tblBudgetList.items.isEmpty {
                 self.refresh_budgetTab()
             }
         }
         self.groupBudget.addSubview(self.tblBudgetList)
         
-        self.budges.reserveCapacity(MAX_BUDET_COUNT)        
+        self.tblHoousehold = HouseholdTable(frame: .zero, style: .plain)
+        self.tblHoousehold.tableFooterView = UIView(frame: .zero)
+        self.tblHoousehold.ownerViewController = self
+        self.groupPay.addSubview(self.tblHoousehold)
+        
+        BudgetCell.register(to: self.budgetList)
+        self.budgetList.dataSource = self
+        self.budgetList.delegate = self
+        
+        self.budges.reserveCapacity(MAX_BUDGET_COUNT)
         change(tab: .pay, animation: false)
         self.firstLoad = true
     }
     
+    // MARK: Layout
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
     
         self.groupBudget.translatesAutoresizingMaskIntoConstraints = false
         self.groupBudget.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.groupBudget.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.groupBudget.topAnchor.constraint(equalTo: self.borderTop.bottomAnchor, constant: 0).isActive = true
+        self.groupBudget.topAnchor.constraint(equalTo: self.borderTop.bottomAnchor, constant: 20).isActive = true
         self.groupBudget.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: 0).isActive = true
+        
+        self.groupPay.translatesAutoresizingMaskIntoConstraints = false
+        self.groupPay.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.groupPay.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.groupPay.topAnchor.constraint(equalTo: self.borderTop.bottomAnchor, constant: 10).isActive = true
+        self.groupPay.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: 0).isActive = true
+
         
         // IBで、自動レイアウトが設定されているが、
         // iPhoneをバックグラウンドで横の状態 --> 縦にするとレイアウトが崩れる為
         // ここで再び設定する
+        
+        self.btnClearBudgets.translatesAutoresizingMaskIntoConstraints = false
+        self.btnClearBudgets.leftAnchor.constraint(equalTo: self.groupBottom.leftAnchor, constant: 8).isActive = true
+        self.btnClearBudgets.rightAnchor.constraint(equalTo: self.groupBottom.rightAnchor, constant: -8).isActive = true
+        self.btnClearBudgets.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: -12).isActive = true
+        self.btnClearBudgets.heightAnchor.constraint(equalToConstant: self.btnClearBudgets.frame.height) .isActive = true
+        
         self.btnImportBudget.translatesAutoresizingMaskIntoConstraints = false
         self.btnImportBudget.leftAnchor.constraint(equalTo: self.groupBottom.leftAnchor, constant: 8).isActive = true
         self.btnImportBudget.rightAnchor.constraint(equalTo: self.groupBottom.rightAnchor, constant: -8).isActive = true
-        self.btnImportBudget.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: -8).isActive = true
+        self.btnImportBudget.bottomAnchor.constraint(equalTo: self.btnClearBudgets.topAnchor, constant: -8*3).isActive = true
         self.btnImportBudget.heightAnchor.constraint(equalToConstant: self.btnImportBudget.frame.height) .isActive = true
 
         self.btnAddBudget.translatesAutoresizingMaskIntoConstraints = false
@@ -205,11 +255,18 @@ class MainViewController: UIViewController {
         self.btnAddBudget.bottomAnchor.constraint(equalTo: self.btnImportBudget.topAnchor, constant: -8).isActive = true
         self.btnAddBudget.heightAnchor.constraint(equalToConstant: self.btnAddBudget.frame.height) .isActive = true
 
+
         self.tblBudgetList.translatesAutoresizingMaskIntoConstraints = false
         self.tblBudgetList.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.tblBudgetList.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.tblBudgetList.topAnchor.constraint(equalTo: self.lblBudgetTitle.bottomAnchor, constant: 10).isActive = true
         self.tblBudgetList.bottomAnchor.constraint(equalTo: self.btnAddBudget.topAnchor, constant: -8).isActive = true
+        
+        self.tblHoousehold.translatesAutoresizingMaskIntoConstraints = false
+        self.tblHoousehold.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.tblHoousehold.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.tblHoousehold.topAnchor.constraint(equalTo: self.budgetList.bottomAnchor, constant: 10).isActive = true
+        self.tblHoousehold.bottomAnchor.constraint(equalTo: self.groupPay.bottomAnchor, constant: 0).isActive = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -231,17 +288,17 @@ class MainViewController: UIViewController {
     ///   - animation: アニメーション効果の有無
     func change(tab: Tab, animation: Bool = true) {
         self.currentTab = tab
+        self.groupBudget.isHidden = tab != .budget
+        self.groupPay.isHidden = tab != .pay
         
         let selBtn: UIButton
         switch tab {
         case .pay:
             selBtn = self.btnPay
             setEditMode(budgetTable: false, animated: false)
-            self.groupBudget.isHidden = true
             
         case .budget:
             selBtn = self.btnBudget
-            self.groupBudget.isHidden = false
         }
         
         let fromSelFrame = self.selectionBar.frame
@@ -319,7 +376,7 @@ class MainViewController: UIViewController {
         self.lblYear.text = String(format: "%d年", self.currentDate.year)
         self.btnMonth.text = String(format: "%d月", self.currentDate.month)
         
-        loadBudgets()
+        loadBudgets(date: self.currentDate)
         switch self.currentTab! {
         case .budget:
             refresh_budgetTab()
@@ -330,7 +387,8 @@ class MainViewController: UIViewController {
         
         self.firstLoad = false
     }
-
+    
+    /// 「予算」タブの更新
     private func refresh_budgetTab() {
         self.lblBudgetTitle.text = String(format:"%d年%d月の予算", self.currentDate.year, self.currentDate.month)
         
@@ -347,22 +405,36 @@ class MainViewController: UIViewController {
             self.tblBudgetList.reloadData()
         }
         
-        let enableAdd = self.tblBudgetList.items.count < MAX_BUDET_COUNT
+        let enableAdd = self.tblBudgetList.items.count < MAX_BUDGET_COUNT
         self.btnAdd.isEnabled = enableAdd
         self.btnAddBudget.isEnabled = enableAdd
         
+        self.btnClearBudgets.isEnabled = !self.tblBudgetList.items.isEmpty
+        
         let prevMonth = self.currentDate.prevMonth()
-        let prevMonthItems = DataManager.shared.loadBudgetList(date: prevMonth)
-        self.btnImportBudget.isEnabled = prevMonthItems.isEmpty == false
+        let prevMonthItems = DataManager.shared.loadBudgetList(yearMonth: prevMonth)
+        self.btnImportBudget.isEnabled = !prevMonthItems.isEmpty
     }
     
+    /// 「支出」タブの更新
     private func refresh_payTab() {
-        self.btnAdd.isEnabled = true
+        self.btnAdd.isEnabled = !self.budges.isEmpty
+        
+        let payItems = DataManager.shared.loadPayList(yearMonth: self.currentDate)
+        self.tblHoousehold.setDataSource(items: payItems)
+        self.tblHoousehold.reloadData()
+        self.tblHoousehold.isHidden = payItems.isEmpty
+        
+        for budget in self.budges {
+            budget.used = DataManager.shared.getTotalAmount(yearMonth: self.currentDate, budget: budget)
+        }
+        self.budgetList.reloadData()
     }
     
     func addNewBudget() {
         EditBudgetViewController.present(from: self, addNew: self.currentDate)
     }
+    
     func setEditMode(budgetTable flag: Bool, animated: Bool = true) {
         self.editMode = flag
         if flag {
@@ -373,19 +445,57 @@ class MainViewController: UIViewController {
             }
             self.tblBudgetList.setEditing(true, animated: animated)
             btnEditBudget.setTitle("完了", for: .normal)
+            btnEditBudget.setImage(IMG_NULL, for: .normal)
         }
         else {
             self.tblBudgetList.setEditing(false, animated: animated)
-            btnEditBudget.setTitle("編集", for: .normal)
+            btnEditBudget.setTitle("", for: .normal)
+            btnEditBudget.setImage(IMG_EDIT_SEQ, for: .normal)
         }
     }
     
     // MARK: - データ読み取り
     
-    func loadBudgets(date: YearMonth? = nil) {
-        let items = DataManager.shared.loadBudgetList(date: date ?? self.currentDate)
+    func loadBudgets(date: YearMonth) {
+        let items = DataManager.shared.loadBudgetList(yearMonth: date)
         self.budges.removeAll()
         self.budges.append(contentsOf: items)
+    }
+    
+}
+
+// MARK: - CollectionView関連
+
+extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        self.budges.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: BudgetCell.resId, for: indexPath)
+        cell.makeRoundCornor(13)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? BudgetCell else { return }
+        
+        //print("collectionView cell at \(indexPath)")
+        let budget = self.budges[indexPath.row]
+        cell.refresh(budget: budget)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        let cnt = collectionView.numberOfItems(inSection: 0)
+        return centerItemsInCollectionView(cellWidth: 50, numberOfItems: Double(cnt), spaceBetweenCell: 10, collectionView: collectionView)
+    }
+    
+    private func centerItemsInCollectionView(cellWidth: Double, numberOfItems: Double, spaceBetweenCell: Double, collectionView: UICollectionView) -> UIEdgeInsets {
+        let totalWidth = cellWidth * numberOfItems
+        let totalSpacingWidth = spaceBetweenCell * (numberOfItems - 1)
+        let leftInset = (collectionView.frame.width - CGFloat(totalWidth + totalSpacingWidth)) / 2
+        let rightInset = leftInset
+        return UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
     }
     
 }

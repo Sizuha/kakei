@@ -19,7 +19,7 @@ class Budget: SQueryRowEx {
         .def(F.SEQ, type: .integer, [.primaryKey()]),
         .def(F.DISP_SEQ, type: .integer, []),
         .def(F.AMOUNT, type: .integer, [.notNull]),
-        .def(F.KEYWORD, type: .text, [.notNull]),
+        .def(F.LABEL, type: .text, [.notNull]),
         .def(F.COLOR, type: .integer, []),
     ])
     
@@ -32,10 +32,8 @@ class Budget: SQueryRowEx {
         static let DISP_SEQ = "disp_seq"
         /// 予算
         static let AMOUNT = "amount"
-        /// キーワード（画面に表示）
-        static let KEYWORD = "keyword"
-        /// 説明
-        static let DESCRIPTION = "description"
+        /// ラベル
+        static let LABEL = "label"
         /// 色
         static let COLOR = "color"
     }
@@ -55,13 +53,25 @@ class Budget: SQueryRowEx {
         set { self.amount = newValue * AMOUNT_MULTIPLIER }
     }
     
-    /// キーワード（画面に表示）
-    var keyword = ""
+    /// ラベル
+    var label = ""
+    /// ラベル（画面に表示）
+    var shortLabel: String {
+        label.count >= 2 ? label.subStr(from: 0, length: 2) : label
+    }
     
     private static let DEFAULT_COLOR: UIColor = .label
     
     /// 色
     var color: UIColor = DEFAULT_COLOR
+    
+    /// 使用した金額（画面表示用）単位：円
+    var used = 0
+    
+    /// 予算の残り（画面表示用）単位：円
+    var remains: Int {
+        self.amount - self.used
+    }
     
     func load(from cursor: SQLiteCursor) {
         cursor.forEachColumn { c, i in
@@ -71,7 +81,7 @@ class Budget: SQueryRowEx {
             case F.SEQ: self.seq = c.getInt(i) ?? 0
             case F.DISP_SEQ: self.displaySeq = c.getInt(i) ?? 0
             case F.AMOUNT: self.amount = c.getInt(i) ?? 0
-            case F.KEYWORD: self.keyword = c.getString(i) ?? ""
+            case F.LABEL: self.label = c.getString(i) ?? ""
             case F.COLOR:
                 if let code = c.getInt(i) {
                     self.color = UIColor(argb: code)
@@ -87,7 +97,7 @@ class Budget: SQueryRowEx {
         assert( self.date != nil )
         assert( self.date.year >= 2000 )
         assert( (1...12).contains(self.date.month) )
-        assert( self.keyword.isEmpty == false )
+        assert( self.label.isEmpty == false )
     }
     
     func toValues() -> [String : Any?] {
@@ -96,7 +106,7 @@ class Budget: SQueryRowEx {
             F.SEQ: self.seq,
             F.DISP_SEQ: self.displaySeq,
             F.AMOUNT: self.amount,
-            F.KEYWORD: self.keyword,
+            F.LABEL: self.label,
             F.COLOR: self.color == Budget.DEFAULT_COLOR ? sqlNil : self.color.toInt()!
         ]
     }

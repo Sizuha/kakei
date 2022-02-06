@@ -9,6 +9,7 @@
 import Foundation
 
 let USER_DB_VER = 0
+let DB_FILE = "user.db"
 
 var AppDocUrl: URL {
     FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -19,7 +20,7 @@ var MAX_YEAR: Int {
     YearMonth.now.year + 1
 }
 
-let MAX_BUDET_COUNT = 6
+let MAX_BUDGET_COUNT = 6
 
 /// 単位：千円
 let AMOUNT_MULTIPLIER = 1000

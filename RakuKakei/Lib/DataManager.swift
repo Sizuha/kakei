@@ -14,28 +14,47 @@ class DataManager {
     
     static let shared = DataManager()
     
-    private var db: SQuery!
+    private var db_w: SQuery!
+    private var db_r: SQuery!
     
     private init() {}
     
     func open() {
         let docUrl = AppDocUrl
         try? FileManager.default.createDirectory(at: docUrl, withIntermediateDirectories: true)
+        let dbUrl = docUrl.appendingPathComponent(DB_FILE, isDirectory: false)
         
-        let dbUrl = docUrl.appendingPathComponent("user.db", isDirectory: false)
-        db = SQuery(url: dbUrl, mode: .readWriteCreate)
+        self.db_w = SQuery(url: dbUrl, mode: .readWriteCreate)
+        self.db_w.create(tables: [ Budget.self, Household.self ])
         
-        db.create(tables: [ Budget.self, Household.self ])
+        self.db_r = SQuery(url: dbUrl, mode: .readonly)
     }
     
     // MARK: - 予算
     
-    func loadBudgetList(date: YearMonth) -> [Budget] {
-        guard let tbl = db.from(Budget.self) else { assert(false); return [] }
+    func getBudget(by household: Household) -> Budget? {
+        guard household.budget_seq >= 0 else { return nil }
+        
+        guard let tbl = db_r.from(Budget.self) else { assert(false); return nil }
+        defer { tbl.close() }
+
+        let ym = YearMonth(year: household.date.year, month: household.date.month)
+        let (budget, error) = tbl.setWhere("\(Budget.F.YEAR_MONTH)=?", ym.toInt())
+            .andWhere("\(Budget.F.SEQ)=?", household.budget_seq)
+            .selectOne { Budget() }
+        
+        if let error = error {
+            print(error.localizedDescription)
+        }
+        return budget
+    }
+    
+    func loadBudgetList(yearMonth: YearMonth) -> [Budget] {
+        guard let tbl = db_r.from(Budget.self) else { assert(false); return [] }
         defer { tbl.close() }
         
         let (rows, error) = tbl
-            .setWhere("\(Budget.F.YEAR_MONTH)=?", date.toInt())
+            .setWhere("\(Budget.F.YEAR_MONTH)=?", yearMonth.toInt())
             .orderBy(Budget.F.DISP_SEQ, desc: false)
             .orderBy(Budget.F.SEQ, desc: false)
             .select { Budget() }
@@ -48,11 +67,11 @@ class DataManager {
         return rows
     }
     
-    func getLastBudgetSeq(date: YearMonth) -> Int {
-        guard let tbl = db.from(Budget.self) else { fatalError() }
+    func getLastBudgetSeq(yearMonth: YearMonth) -> Int {
+        guard let tbl = db_r.from(Budget.self) else { fatalError() }
         defer { tbl.close() }
 
-        let (row, error) = tbl.setWhere("\(Budget.F.YEAR_MONTH)=?", date.toInt())
+        let (row, error) = tbl.setWhere("\(Budget.F.YEAR_MONTH)=?", yearMonth.toInt())
             .orderBy(Budget.F.SEQ, desc: true)
             .selectOne { Budget() }
         
@@ -64,8 +83,24 @@ class DataManager {
         return row?.seq ?? 0
     }
     
+    func getLastBudgetDispSeq(yearMonth: YearMonth) -> Int {
+        guard let tbl = db_r.from(Budget.self) else { fatalError() }
+        defer { tbl.close() }
+
+        let (row, error) = tbl.setWhere("\(Budget.F.YEAR_MONTH)=?", yearMonth.toInt())
+            .orderBy(Budget.F.DISP_SEQ, desc: true)
+            .selectOne { Budget() }
+        
+        if let error = error {
+            print(error.localizedDescription)
+            assert(false)
+            return 0
+        }
+        return row?.displaySeq ?? 0
+    }
+    
     func writeBudget(_ budget: Budget) {
-        guard let tbl = db.from(Budget.self) else { assert(false); return }
+        guard let tbl = db_w.from(Budget.self) else { assert(false); return }
         defer { tbl.close() }
 
         let result = tbl
@@ -76,7 +111,7 @@ class DataManager {
     }
     
     func updateBudgetDisplaySeq(_ items: [Budget]) {
-        guard let tbl = db.from(Budget.self) else { assert(false); return }
+        guard let tbl = db_w.from(Budget.self) else { assert(false); return }
         defer { tbl.close() }
 
         for budget in items {
@@ -92,18 +127,45 @@ class DataManager {
     }
     
     func removeBudget(_ budget: Budget) -> Bool {
-        guard let tbl = db.from(Budget.self) else { assert(false); return false }
-        defer { tbl.close() }
+        guard let tblBudget = db_w.from(Budget.self) else { assert(false); return false }
+        defer { tblBudget.close() }
+        
+        guard let tblHousehold = db_w.from(Household.self) else { assert(false); return false }
+        defer { tblHousehold.close() }
+        
+        // 支出記録から、予算情報を消す
+        var r = tblHousehold.setWhere("\(Household.F.BUDGET)=?", budget.seq)
+            .values([Household.F.BUDGET : -1])
+            .update()
 
-        let r = tbl.setWhere("\(Budget.F.YEAR_MONTH)=?", budget.date.toInt())
+        r = tblBudget.setWhere("\(Budget.F.YEAR_MONTH)=?", budget.date.toInt())
             .andWhere("\(Budget.F.SEQ)=?", budget.seq)
             .delete()
         
         return r.isSuccess
     }
     
+    func removeBudgets(yearMonth: YearMonth) {
+        guard let tblBudget = db_w.from(Budget.self) else { assert(false); return }
+        defer { tblBudget.close() }
+        
+        guard let tblHousehold = db_w.from(Household.self) else { assert(false); return }
+        defer { tblHousehold.close() }
+        
+        // 支出記録から、予算情報を消す
+        let date_begin = yearMonth.toInt()*100
+        let date_end = date_begin + 99
+        _ = tblHousehold.setWhere("\(Household.F.DATE) BETWEEN ? AND ?", date_begin, date_end)
+            .values([Household.F.BUDGET : -1])
+            .update()
+
+        // 予算削除
+        _ = tblBudget.setWhere("\(Budget.F.YEAR_MONTH)=?", yearMonth.toInt())
+            .delete()
+    }
+    
     func copyBudgets(from: YearMonth, to: YearMonth) {
-        guard let tbl = db.from(Budget.self) else { assert(false); return }
+        guard let tbl = db_w.from(Budget.self) else { assert(false); return }
         defer { tbl.close() }
 
         let (fromItems, error) = tbl
@@ -127,14 +189,15 @@ class DataManager {
         }
     }
 
-    // MARK: - 支出
+    // MARK: - 支出（ししゅつ）
     
-    func loadPayList(date: SizYearMonthDay) -> [Household] {
-        guard let tbl = db.from(Household.self) else { assert(false); return [] }
+    func loadPayList(yearMonth: YearMonth) -> [Household] {
+        guard let tbl = db_r.from(Household.self) else { assert(false); return [] }
         defer { tbl.close() }
         
+        let date_val = yearMonth.toInt()*100
         let (rows, error) = tbl
-            .setWhere("\(Household.F.DATE)=?", date.toInt)
+            .setWhere("\(Household.F.DATE) BETWEEN ? AND ?", date_val, date_val + 99)
             .select { Household() }
         
         guard error == nil else {
@@ -146,5 +209,26 @@ class DataManager {
         return rows
     }
 
+    func getTotalAmount(yearMonth: YearMonth, budget: Budget) -> Int {
+        guard let tbl = db_r.from(Household.self) else { assert(false); return 0 }
+        defer { tbl.close() }
+
+        let date_begin = yearMonth.toInt()*100 + 1
+        let date_end = date_begin + 30
+        let (rows, error) = tbl.setWhere("\(Household.F.DATE) BETWEEN ? AND ?", date_begin, date_end)
+            .andWhere("\(Household.F.BUDGET) = ?", budget.seq)
+            .select { Household() }
+        
+        guard error == nil else {
+            print(error.debugDescription)
+            return 0
+        }
+        
+        var sum = 0
+        for row in rows {
+            sum += row.price
+        }
+        return sum
+    }
     
 }

@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import SizUtil
 
 class HouseholdTable: UITableView, UITableViewDataSource, UITableViewDelegate {
     
+    var ownerViewController: UIViewController!
     var items: [[Household]] = []
     
     func setDataSource(items: [Household]) {
@@ -19,13 +21,15 @@ class HouseholdTable: UITableView, UITableViewDataSource, UITableViewDelegate {
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
+        
+        HouseholdTableCell.register(to: self)
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    func getSection(_ index: Int) -> [Household] {
+    func getHouseholds(bySection index: Int) -> [Household] {
         var i = 0
         for section in self.items {
             guard section.isEmpty == false else { continue }
@@ -46,8 +50,8 @@ class HouseholdTable: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let section = getSection(section)
-        guard let day = section.first?.date.day else {
+        let households = getHouseholds(bySection: section)
+        guard let day = households.first?.date.day else {
             assert(false)
             return nil
         }
@@ -56,11 +60,23 @@ class HouseholdTable: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        getSection(section).count
+        getHouseholds(bySection: section).count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        UITableViewCell()
+        dequeueReusableCell(withIdentifier: HouseholdTableCell.resId, for: indexPath) as! HouseholdTableCell
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let cell = cell as? HouseholdTableCell else { return }
+        
+        let households = getHouseholds(bySection: indexPath.section)
+        guard
+            households.isEmpty == false,
+            let item = households[at: indexPath.row]
+        else { return }
+        
+        cell.refresh(item: item)
     }
     
 }

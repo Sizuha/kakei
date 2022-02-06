@@ -20,9 +20,12 @@ class EditBudgetViewController: UIViewController {
     }
     
     static func present(from: UIViewController, addNew date: YearMonth) {
+        let dm = DataManager.shared
+        
         let newItem = Budget()
         newItem.date = date
-        newItem.seq = DataManager.shared.getLastBudgetSeq(date: date) + 1
+        newItem.seq = dm.getLastBudgetSeq(yearMonth: date) + 1
+        newItem.displaySeq = dm.getLastBudgetDispSeq(yearMonth: date) + 1
         
         let vc = EditBudgetViewController()
         vc.budget = newItem
@@ -55,9 +58,8 @@ class EditBudgetViewController: UIViewController {
         super.viewDidLoad()
         assert(self.budget != nil)
         
-        self.title = self.mode == .addNew
-            ? "予算追加：\(self.budget.date.year)年\(self.budget.date.month)月"
-            : "予算編集：\(self.budget.date.year)年\(self.budget.date.month)月"
+        let titlePrefix = self.mode == .addNew ? "予算追加" : "予算編集"
+        self.title = "\(titlePrefix)：\(self.budget.date.year)年\(self.budget.date.month)月"
 
         let bbiCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(closeWithoutSave))
         let bbiSave = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(closeWithSave))
@@ -81,7 +83,11 @@ class EditBudgetViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.editLabel?.becomeFirstResponder()
+        
+        (self.mode == .edit
+            ? self.editAmount
+            : self.editLabel
+        )?.becomeFirstResponder()
     }
     
     // MARK: - Functions
@@ -100,11 +106,11 @@ class EditBudgetViewController: UIViewController {
                     self.editLabel = cell.textField
                 },
                 .read {
-                    self.budget.keyword
+                    self.budget.label
                 },
                 .valueChanged { value in
                     let data = value as? String ?? ""
-                    self.budget.keyword = data
+                    self.budget.label = data
                 },
                 .hint("最初の２文字のみ表示"),
             ]),
@@ -131,6 +137,20 @@ class EditBudgetViewController: UIViewController {
             ]),
         ])
         
+        let sec_buttons = TableSection(rows: [
+            ButtonCell(label: "削除", attrs: [
+                .tintColor(.systemRed),
+                .created { cell, _ in
+                    let cell = ButtonCell.cellView(cell)
+                    cell.textLabel?.textAlignment = .center
+                },
+                .selected { i in
+                    self.tableView.deselectRow(at: i, animated: true)
+                    self.tryRemove()
+                }
+            ])
+        ])
+        
         /*
         // ラベル色
         let color_list: [(String,UIColor)] = [
@@ -152,7 +172,12 @@ class EditBudgetViewController: UIViewController {
         let sec_color = TableSection(title: "ラベル色", rows: color_rows)
          */
         
-        self.tableView.setDataSource([sec_base])
+        if self.mode == .addNew {
+            self.tableView.setDataSource([sec_base])
+        }
+        else {
+            self.tableView.setDataSource([sec_base, sec_buttons])
+        }
     }
     
     @objc
@@ -192,12 +217,22 @@ class EditBudgetViewController: UIViewController {
             return false
         }
         
-        self.budget.keyword = self.editLabel.text!
+        self.budget.label = self.editLabel.text!
         self.budget.amountSimple = amount
         
         return true
     }
 
+    func tryRemove() {
+        SizUI.Alert(message: "削除しますか？", buttons: [
+            .cancel("キャンセル"),
+            .destrucive("削除", action: {
+                _ = DataManager.shared.removeBudget(self.budget)
+                self.closeWithoutSave()
+            })
+        ]).show(from: self)
+    }
+    
 }
 
 // MARK: - UITextField Delegate

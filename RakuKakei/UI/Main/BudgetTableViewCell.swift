@@ -29,8 +29,8 @@ class BudgetTableViewCell: UITableViewCell {
     }
     
     func refresh(item: Budget) {
-        lblLabel.text = item.keyword.subStr(from: 0, length: 2)
-        lblFullName.text = item.keyword
+        lblLabel.text = item.shortLabel
+        lblFullName.text = item.label
         lblAmount.text = "\(item.amountSimple)千円"
     }
     

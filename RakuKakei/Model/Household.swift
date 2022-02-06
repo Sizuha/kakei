@@ -40,7 +40,12 @@ class Household: SQueryRowEx {
     var seq: Int = 0
     var time: SizHourMinSec? = nil
     var budget_seq: Int = -1
+    
     var price: Int = 0
+    var priceForDisplay: Int {
+        price / AMOUNT_MULTIPLIER
+    }
+    
     var memo = ""
     
     func load(from cursor: SQLiteCursor) {

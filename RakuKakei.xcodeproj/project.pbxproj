@@ -12,6 +12,8 @@
 		0D62F45224DE6DAE00FA96F0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D62F45124DE6DAE00FA96F0 /* SceneDelegate.swift */; };
 		0D62F45924DE6DAF00FA96F0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D62F45824DE6DAF00FA96F0 /* Assets.xcassets */; };
 		0D62F45C24DE6DAF00FA96F0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D62F45A24DE6DAF00FA96F0 /* LaunchScreen.storyboard */; };
+		0D8227F927B039AA00ABB884 /* EditPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8227F727B039AA00ABB884 /* EditPayViewController.swift */; };
+		0D8227FA27B039AA00ABB884 /* EditPayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D8227F827B039AA00ABB884 /* EditPayViewController.xib */; };
 		0DA52D6D24DE705E0002BB92 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA52D6B24DE705E0002BB92 /* MainViewController.swift */; };
 		0DA52D6E24DE705E0002BB92 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DA52D6C24DE705E0002BB92 /* MainViewController.xib */; };
 		0DA52D7124DE71710002BB92 /* SQuery in Frameworks */ = {isa = PBXBuildFile; productRef = 0DA52D7024DE71710002BB92 /* SQuery */; };
@@ -35,8 +37,8 @@
 		0DBB9C2A277D481C002B8961 /* HouseholdTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBB9C29277D481C002B8961 /* HouseholdTable.swift */; };
 		0DBB9C2D277D77AC002B8961 /* HouseholdTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBB9C2B277D77AC002B8961 /* HouseholdTableCell.swift */; };
 		0DBB9C2E277D77AC002B8961 /* HouseholdTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DBB9C2C277D77AC002B8961 /* HouseholdTableCell.xib */; };
-		0DBB9C302785B3D7002B8961 /* BudgetGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBB9C2F2785B3D7002B8961 /* BudgetGroupView.swift */; };
-		0DBB9C322785B3FE002B8961 /* BudgetGroupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DBB9C312785B3FE002B8961 /* BudgetGroupView.xib */; };
+		0DBB9C352785BE37002B8961 /* BudgetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBB9C332785BE37002B8961 /* BudgetCell.swift */; };
+		0DBB9C362785BE37002B8961 /* BudgetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DBB9C342785BE37002B8961 /* BudgetCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +49,8 @@
 		0D62F45824DE6DAF00FA96F0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0D62F45B24DE6DAF00FA96F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0D62F45D24DE6DAF00FA96F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0D8227F727B039AA00ABB884 /* EditPayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPayViewController.swift; sourceTree = "<group>"; };
+		0D8227F827B039AA00ABB884 /* EditPayViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditPayViewController.xib; sourceTree = "<group>"; };
 		0DA52D6B24DE705E0002BB92 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0DA52D6C24DE705E0002BB92 /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 		0DA52D7924DE71EA0002BB92 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
@@ -67,8 +71,8 @@
 		0DBB9C29277D481C002B8961 /* HouseholdTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseholdTable.swift; sourceTree = "<group>"; };
 		0DBB9C2B277D77AC002B8961 /* HouseholdTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseholdTableCell.swift; sourceTree = "<group>"; };
 		0DBB9C2C277D77AC002B8961 /* HouseholdTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HouseholdTableCell.xib; sourceTree = "<group>"; };
-		0DBB9C2F2785B3D7002B8961 /* BudgetGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetGroupView.swift; sourceTree = "<group>"; };
-		0DBB9C312785B3FE002B8961 /* BudgetGroupView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BudgetGroupView.xib; sourceTree = "<group>"; };
+		0DBB9C332785BE37002B8961 /* BudgetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetCell.swift; sourceTree = "<group>"; };
+		0DBB9C342785BE37002B8961 /* BudgetCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BudgetCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +134,15 @@
 			path = RakuKakei;
 			sourceTree = "<group>";
 		};
+		0D8227F627B0362D00ABB884 /* EditPay */ = {
+			isa = PBXGroup;
+			children = (
+				0D8227F727B039AA00ABB884 /* EditPayViewController.swift */,
+				0D8227F827B039AA00ABB884 /* EditPayViewController.xib */,
+			);
+			path = EditPay;
+			sourceTree = "<group>";
+		};
 		0DA52D6624DE6DE20002BB92 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +160,7 @@
 				0D42EE3524DFDC4D00A5E631 /* Shared */,
 				0DA52D6A24DE6E010002BB92 /* Main */,
 				0DBB9C1E27740E44002B8961 /* EditBudget */,
+				0D8227F627B0362D00ABB884 /* EditPay */,
 				0D5D11DF24DFBD110014ABB5 /* Settings */,
 			);
 			path = UI;
@@ -175,6 +189,8 @@
 		0DA52D6A24DE6E010002BB92 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				0DBB9C332785BE37002B8961 /* BudgetCell.swift */,
+				0DBB9C342785BE37002B8961 /* BudgetCell.xib */,
 				0DBB9C1A27738A33002B8961 /* BudgetTableView.swift */,
 				0DBB9C25277B8DF6002B8961 /* BudgetTableViewCell.swift */,
 				0DBB9C26277B8DF6002B8961 /* BudgetTableViewCell.xib */,
@@ -183,8 +199,6 @@
 				0DBB9C2C277D77AC002B8961 /* HouseholdTableCell.xib */,
 				0DA52D6B24DE705E0002BB92 /* MainViewController.swift */,
 				0DA52D6C24DE705E0002BB92 /* MainViewController.xib */,
-				0DBB9C2F2785B3D7002B8961 /* BudgetGroupView.swift */,
-				0DBB9C312785B3FE002B8961 /* BudgetGroupView.xib */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -240,7 +254,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1160;
+				LastUpgradeCheck = 1320;
 				ORGANIZATIONNAME = Sizuha;
 				TargetAttributes = {
 					0D62F44B24DE6DAE00FA96F0 = {
@@ -277,11 +291,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0DBB9C362785BE37002B8961 /* BudgetCell.xib in Resources */,
+				0D8227FA27B039AA00ABB884 /* EditPayViewController.xib in Resources */,
 				0DBB9C2E277D77AC002B8961 /* HouseholdTableCell.xib in Resources */,
 				0D62F45C24DE6DAF00FA96F0 /* LaunchScreen.storyboard in Resources */,
 				0DBB9C28277B8DF6002B8961 /* BudgetTableViewCell.xib in Resources */,
 				0DBB9C2227740E61002B8961 /* EditBudgetViewController.xib in Resources */,
-				0DBB9C322785B3FE002B8961 /* BudgetGroupView.xib in Resources */,
 				0DA52D6E24DE705E0002BB92 /* MainViewController.xib in Resources */,
 				0D62F45924DE6DAF00FA96F0 /* Assets.xcassets in Resources */,
 			);
@@ -298,14 +313,15 @@
 				0DA52D6D24DE705E0002BB92 /* MainViewController.swift in Sources */,
 				0DBB9C27277B8DF6002B8961 /* BudgetTableViewCell.swift in Sources */,
 				0D62F45024DE6DAE00FA96F0 /* AppDelegate.swift in Sources */,
+				0D8227F927B039AA00ABB884 /* EditPayViewController.swift in Sources */,
 				0DBB9C1B27738A33002B8961 /* BudgetTableView.swift in Sources */,
 				0DA52D7C24DE72670002BB92 /* Budget.swift in Sources */,
 				0DA52D8424DE75B80002BB92 /* Household.swift in Sources */,
 				0DA52D8624DFB8540002BB92 /* Settings.swift in Sources */,
 				0DA52D8024DE746E0002BB92 /* DataManager.swift in Sources */,
 				0DA52D7E24DE73EA0002BB92 /* YearMonth.swift in Sources */,
+				0DBB9C352785BE37002B8961 /* BudgetCell.swift in Sources */,
 				0DBB9C2127740E61002B8961 /* EditBudgetViewController.swift in Sources */,
-				0DBB9C302785B3D7002B8961 /* BudgetGroupView.swift in Sources */,
 				0DA52D8224DE74F40002BB92 /* Config.swift in Sources */,
 				0DA52D7A24DE71EA0002BB92 /* Strings.swift in Sources */,
 				0DA52D8824DFBA160002BB92 /* Images.swift in Sources */,
@@ -357,6 +373,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -381,7 +398,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -417,6 +434,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -435,7 +453,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -519,7 +537,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Sizuha/SizUI-iOS";
 			requirement = {
-				branch = dev;
+				branch = master;
 				kind = branch;
 			};
 		};

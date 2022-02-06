@@ -36,7 +36,7 @@ class BudgetTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     private func tryRemove(indexPath: IndexPath, handler: ((Bool)->Void)? = nil) {
         let item = self.items[indexPath.row]
         
-        SizUI.Alert(message: "削除しますか？", buttons: [
+        Alert(message: "削除しますか？", buttons: [
             .cancel("キャンセル", action: { handler?(false) }),
             .destrucive("削除", action: {
                 handler?(false)
@@ -77,8 +77,12 @@ class BudgetTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         edit(item: item)
     }
     
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        .none
+    }
+    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        SizUI.Swipe(actions: [
+        Swipe(actions: [
             .destructive(image: UIImage(systemName: "trash"), action: { action, view, handler in
                 self.tryRemove(indexPath: indexPath, handler: handler)
             })

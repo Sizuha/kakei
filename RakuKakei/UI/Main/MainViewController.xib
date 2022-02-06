@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -16,6 +15,7 @@
                 <outlet property="btnAdd" destination="qjD-bx-XTu" id="HD3-Bc-wC1"/>
                 <outlet property="btnAddBudget" destination="p4f-QP-RrY" id="T3o-rd-h69"/>
                 <outlet property="btnBudget" destination="ILK-zV-dd5" id="ClA-6m-7oP"/>
+                <outlet property="btnClearBudgets" destination="OfJ-1r-cyl" id="4sA-tj-d7g"/>
                 <outlet property="btnEditBudget" destination="IXy-br-SyN" id="A03-ZM-tSd"/>
                 <outlet property="btnImportBudget" destination="eTK-QR-FWZ" id="T6C-AF-ciZ"/>
                 <outlet property="btnMonth" destination="oC6-7t-6iI" id="yLq-9d-Us7"/>
@@ -24,8 +24,10 @@
                 <outlet property="btnPrevMonth" destination="c3j-xQ-lNv" id="W2C-xF-40G"/>
                 <outlet property="btnSettings" destination="rwS-dW-65r" id="SKt-Li-l8b"/>
                 <outlet property="btnToday" destination="DxW-Ye-SdE" id="8vm-rh-HB4"/>
+                <outlet property="budgetList" destination="u8y-F2-BG5" id="Hlp-Hs-6cM"/>
                 <outlet property="groupBottom" destination="dHr-my-7Lf" id="i6t-I6-AMB"/>
                 <outlet property="groupBudget" destination="BcM-4T-JJJ" id="nRO-Ib-A1J"/>
+                <outlet property="groupPay" destination="Sma-g4-x1R" id="c5Y-eN-b9F"/>
                 <outlet property="lblBudgetTitle" destination="Min-HD-wzU" id="cof-oG-qwi"/>
                 <outlet property="lblYear" destination="1rT-rT-Ucz" id="Qdg-Vg-8EN"/>
                 <outlet property="selectionBar" destination="iKr-et-OcH" id="rbu-3o-bMj"/>
@@ -145,7 +147,32 @@
                     </subviews>
                     <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                 </view>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BcM-4T-JJJ" userLabel="groupBudget">
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sma-g4-x1R" userLabel="groupPay">
+                    <rect key="frame" x="0.0" y="95" width="390" height="441"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="u8y-F2-BG5">
+                            <rect key="frame" x="0.0" y="0.0" width="390" height="60"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ptc-0o-8uf">
+                                <size key="itemSize" width="50" height="50"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                        </collectionView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="支出履歴がありません" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L2d-es-rCk" userLabel="lblEmptyPayMessage">
+                            <rect key="frame" x="61" y="211" width="266" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" systemColor="secondaryLabelColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BcM-4T-JJJ" userLabel="groupBudget">
                     <rect key="frame" x="0.0" y="149" width="390" height="542"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
@@ -160,15 +187,13 @@
                             <rect key="frame" x="319" y="19" width="62" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" title="編集">
-                                <fontDescription key="titleFontDescription" type="system" pointSize="14"/>
-                            </buttonConfiguration>
+                            <buttonConfiguration key="configuration" style="plain"/>
                             <connections>
                                 <action selector="btnEditBudgetTap:" destination="-1" eventType="touchUpInside" id="eI9-tI-0jy"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p4f-QP-RrY" userLabel="btnAddNewBudget">
-                            <rect key="frame" x="8" y="442" width="374" height="40"/>
+                            <rect key="frame" x="8" y="396" width="374" height="40"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="filled" title="予算追加" imagePadding="10">
@@ -180,7 +205,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eTK-QR-FWZ" userLabel="btnImportBudget">
-                            <rect key="frame" x="8" y="490" width="374" height="40"/>
+                            <rect key="frame" x="8" y="444" width="374" height="40"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="filled" title="前月から引き継ぎ" imagePadding="10">
@@ -192,12 +217,25 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="予算を追加してください" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fKD-xb-9mW" userLabel="lblEmptyMessage">
-                            <rect key="frame" x="60" y="262" width="266" height="21"/>
+                            <rect key="frame" x="58" y="203" width="266" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" systemColor="secondaryLabelColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OfJ-1r-cyl" userLabel="btnRemoveAll">
+                            <rect key="frame" x="8" y="502" width="374" height="40"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="filled" title="すべて削除" imagePadding="10">
+                                <imageReference key="image" image="trash.square" catalog="system" symbolScale="large"/>
+                                <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
+                                <color key="baseBackgroundColor" systemColor="systemRedColor"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="btnRemoveAllTap:" destination="-1" eventType="touchUpInside" id="Wj3-AU-cOz"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
@@ -213,6 +251,7 @@
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="square.and.arrow.down.on.square" catalog="system" width="122" height="128"/>
         <image name="square.and.pencil" catalog="system" width="128" height="115"/>
+        <image name="trash.square" catalog="system" width="128" height="114"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
@@ -221,6 +260,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
