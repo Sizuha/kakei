@@ -40,7 +40,7 @@ class Budget: SQueryRowEx {
     
     /// 年月
     var date: YearMonth! = nil
-    /// 連番
+    /// 連番：0より大きいこと！ 
     var seq: Int = 0
     /// 表示順番
     var displaySeq: Int = 0

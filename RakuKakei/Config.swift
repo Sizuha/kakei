@@ -7,9 +7,20 @@
 //
 
 import Foundation
+import SizUtil
+
+typealias YearMonth = SizYearMonth
 
 let USER_DB_VER = 0
 let DB_FILE = "user.db"
+
+var DEBUG_MODE: Bool {
+    #if DEBUG
+    true
+    #else
+    false
+    #endif
+}
 
 var AppDocUrl: URL {
     FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -24,3 +35,5 @@ let MAX_BUDGET_COUNT = 6
 
 /// 単位：千円
 let AMOUNT_MULTIPLIER = 1000
+
+let DATE_FMT_FOR_DISPLAY = "yyyy年M月d日"

@@ -8,11 +8,17 @@
 
 import UIKit
 import SizUI
+import SizUtil
 
 class MainViewController: UIViewController {
     
     /// 設定ボタン
-    @IBOutlet weak var btnSettings: UIButton!
+    @IBOutlet weak var btnMoreActions: UIButton!
+    @IBAction func btnMoreActionsTap(_ sender: UIButton) {
+        sender.isUserInteractionEnabled = false
+        showActionMenu()
+        sender.isUserInteractionEnabled = true
+    }
     
     /// 選択マーカー
     @IBOutlet weak var selectionBar: UIView!
@@ -42,50 +48,10 @@ class MainViewController: UIViewController {
         sender.isUserInteractionEnabled = true
     }
     
+    @IBOutlet weak var lblEmptyBudgetMsg: UILabel!
+    
     /// 予算一覧
     var tblBudgetList: BudgetTableView!
-    
-    /// 予算追加ボタン
-    @IBOutlet weak var btnAddBudget: UIButton!
-    @IBAction func btnAddBudgetTap(_ sender: UIButton) {
-        sender.isUserInteractionEnabled = false
-        addNewBudget()
-        sender.isUserInteractionEnabled = true
-    }
-    
-    ///「前月から引き継ぎ」ボタン
-    @IBOutlet weak var btnImportBudget: UIButton!
-    @IBAction func btnImportBudgetTap(_ sender: UIButton) {
-        sender.isUserInteractionEnabled = false
-        Alert(title: "警告", message: "現在編集中の内容は削除されます", buttons: [
-            .cancel("キャンセル"),
-            .destrucive("OK") {
-                DataManager.shared.copyBudgets(from: self.currentDate.prevMonth(), to: self.currentDate)
-                self.loadBudgets(date: self.currentDate)
-                
-                self.setEditMode(budgetTable: false, animated: false)
-                self.refresh_budgetTab()
-            }
-        ]).show(from: self)
-        sender.isUserInteractionEnabled = true
-    }
-    
-    /// 「すべて削除」ボタン
-    @IBOutlet weak var btnClearBudgets: UIButton!
-    @IBAction func btnRemoveAllTap(_ sender: UIButton) {
-        sender.isUserInteractionEnabled = false
-        Alert(title: "警告", message: "\(self.currentDate.year)年\(self.currentDate.month)月の予算を\nすべて削除します", buttons: [
-            .cancel("キャンセル"),
-            .destrucive("OK") {
-                DataManager.shared.removeBudgets(yearMonth: self.currentDate)
-                self.budges.removeAll()
-                
-                self.setEditMode(budgetTable: false, animated: false)
-                self.refresh_budgetTab()
-            }
-        ]).show(from: self)
-        sender.isUserInteractionEnabled = true
-    }
     
     // MARK: 支出タブ
     ///「支出」タブ
@@ -101,6 +67,9 @@ class MainViewController: UIViewController {
     
     /// 支出一覧
     var tblHoousehold: HouseholdTable!
+    
+    @IBOutlet weak var lblEmptyPayMsg: UILabel!
+    
         
     // MARK: 下部ツルバー
     /// 下部のツルバー
@@ -145,10 +114,13 @@ class MainViewController: UIViewController {
             addNewBudget()
             
         case .pay:
+            addNewPay()
             break
         }
         sender.isUserInteractionEnabled = true
     }
+    
+    
     
     /// 年月選択UI
     var yearMonthPicker: YearMonthPicker!
@@ -167,7 +139,7 @@ class MainViewController: UIViewController {
     var firstLoad = true
     
     var editMode = false
-    var budges: [Budget] = []
+    var budgets: [Budget] = []
     
     private let IMG_EDIT_SEQ = UIImage(systemName: "arrow.up.arrow.down")
     private let IMG_NULL = UIImage()
@@ -185,6 +157,12 @@ class MainViewController: UIViewController {
         let onMonthTap = UITapGestureRecognizer(target: self, action: #selector(showSelectYearMonth))
         self.btnMonth.addGestureRecognizer(onMonthTap)
         
+        let onEmptyBudgetTap = UITapGestureRecognizer(target: self, action: #selector(showAddNewBudgetMenu))
+        self.lblEmptyBudgetMsg.addGestureRecognizer(onEmptyBudgetTap)
+        
+        let onEmptyPayTap = UITapGestureRecognizer(target: self, action: #selector(showBudgetTab))
+        self.lblEmptyPayMsg.addGestureRecognizer(onEmptyPayTap)
+        
         self.yearMonthPicker = YearMonthPicker()
         self.yearMonthPicker.onSelected = { date in
             self.refresh_byDate(date)
@@ -195,7 +173,7 @@ class MainViewController: UIViewController {
         self.tblBudgetList.tableFooterView = UIView(frame: .zero)
         self.tblBudgetList.ownerViewController = self
         self.tblBudgetList.onItemRemoved = {
-            self.budges = self.tblBudgetList.items
+            self.budgets = self.tblBudgetList.items
             if self.tblBudgetList.items.isEmpty {
                 self.refresh_budgetTab()
             }
@@ -205,13 +183,18 @@ class MainViewController: UIViewController {
         self.tblHoousehold = HouseholdTable(frame: .zero, style: .plain)
         self.tblHoousehold.tableFooterView = UIView(frame: .zero)
         self.tblHoousehold.ownerViewController = self
+        self.tblHoousehold.onItemRemoved = {
+            if self.tblHoousehold.items.isEmpty {
+                self.refresh_payTab()
+            }
+        }
         self.groupPay.addSubview(self.tblHoousehold)
         
         BudgetCell.register(to: self.budgetList)
         self.budgetList.dataSource = self
         self.budgetList.delegate = self
         
-        self.budges.reserveCapacity(MAX_BUDGET_COUNT)
+        self.budgets.reserveCapacity(MAX_BUDGET_COUNT)
         change(tab: .pay, animation: false)
         self.firstLoad = true
     }
@@ -231,36 +214,12 @@ class MainViewController: UIViewController {
         self.groupPay.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.groupPay.topAnchor.constraint(equalTo: self.borderTop.bottomAnchor, constant: 10).isActive = true
         self.groupPay.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: 0).isActive = true
-
         
-        // IBで、自動レイアウトが設定されているが、
-        // iPhoneをバックグラウンドで横の状態 --> 縦にするとレイアウトが崩れる為
-        // ここで再び設定する
-        
-        self.btnClearBudgets.translatesAutoresizingMaskIntoConstraints = false
-        self.btnClearBudgets.leftAnchor.constraint(equalTo: self.groupBottom.leftAnchor, constant: 8).isActive = true
-        self.btnClearBudgets.rightAnchor.constraint(equalTo: self.groupBottom.rightAnchor, constant: -8).isActive = true
-        self.btnClearBudgets.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: -12).isActive = true
-        self.btnClearBudgets.heightAnchor.constraint(equalToConstant: self.btnClearBudgets.frame.height) .isActive = true
-        
-        self.btnImportBudget.translatesAutoresizingMaskIntoConstraints = false
-        self.btnImportBudget.leftAnchor.constraint(equalTo: self.groupBottom.leftAnchor, constant: 8).isActive = true
-        self.btnImportBudget.rightAnchor.constraint(equalTo: self.groupBottom.rightAnchor, constant: -8).isActive = true
-        self.btnImportBudget.bottomAnchor.constraint(equalTo: self.btnClearBudgets.topAnchor, constant: -8*3).isActive = true
-        self.btnImportBudget.heightAnchor.constraint(equalToConstant: self.btnImportBudget.frame.height) .isActive = true
-
-        self.btnAddBudget.translatesAutoresizingMaskIntoConstraints = false
-        self.btnAddBudget.leftAnchor.constraint(equalTo: self.groupBottom.leftAnchor, constant: 8).isActive = true
-        self.btnAddBudget.rightAnchor.constraint(equalTo: self.groupBottom.rightAnchor, constant: -8).isActive = true
-        self.btnAddBudget.bottomAnchor.constraint(equalTo: self.btnImportBudget.topAnchor, constant: -8).isActive = true
-        self.btnAddBudget.heightAnchor.constraint(equalToConstant: self.btnAddBudget.frame.height) .isActive = true
-
-
         self.tblBudgetList.translatesAutoresizingMaskIntoConstraints = false
         self.tblBudgetList.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.tblBudgetList.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.tblBudgetList.topAnchor.constraint(equalTo: self.lblBudgetTitle.bottomAnchor, constant: 10).isActive = true
-        self.tblBudgetList.bottomAnchor.constraint(equalTo: self.btnAddBudget.topAnchor, constant: -8).isActive = true
+        self.tblBudgetList.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: -8).isActive = true
         
         self.tblHoousehold.translatesAutoresizingMaskIntoConstraints = false
         self.tblHoousehold.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
@@ -390,10 +349,12 @@ class MainViewController: UIViewController {
     
     /// 「予算」タブの更新
     private func refresh_budgetTab() {
+        self.btnMoreActions.isEnabled = true
+        
         self.lblBudgetTitle.text = String(format:"%d年%d月の予算", self.currentDate.year, self.currentDate.month)
         
         self.tblBudgetList.items.removeAll()
-        self.tblBudgetList.items = self.budges
+        self.tblBudgetList.items = self.budgets
         
         self.tblBudgetList.isHidden = self.tblBudgetList.items.isEmpty
         self.btnEditBudget.isHidden = self.tblBudgetList.items.isEmpty
@@ -405,34 +366,149 @@ class MainViewController: UIViewController {
             self.tblBudgetList.reloadData()
         }
         
-        let enableAdd = self.tblBudgetList.items.count < MAX_BUDGET_COUNT
+        let enableAdd = self.budgets.count < MAX_BUDGET_COUNT
         self.btnAdd.isEnabled = enableAdd
-        self.btnAddBudget.isEnabled = enableAdd
-        
-        self.btnClearBudgets.isEnabled = !self.tblBudgetList.items.isEmpty
-        
-        let prevMonth = self.currentDate.prevMonth()
-        let prevMonthItems = DataManager.shared.loadBudgetList(yearMonth: prevMonth)
-        self.btnImportBudget.isEnabled = !prevMonthItems.isEmpty
     }
     
     /// 「支出」タブの更新
     private func refresh_payTab() {
-        self.btnAdd.isEnabled = !self.budges.isEmpty
+        self.btnMoreActions.isEnabled = !self.budgets.isEmpty
+        self.btnAdd.isEnabled = !self.budgets.isEmpty
         
-        let payItems = DataManager.shared.loadPayList(yearMonth: self.currentDate)
+        let payItems = DataManager.shared.loadHouseholdList(yearMonth: self.currentDate)
         self.tblHoousehold.setDataSource(items: payItems)
         self.tblHoousehold.reloadData()
         self.tblHoousehold.isHidden = payItems.isEmpty
         
-        for budget in self.budges {
+        if payItems.isEmpty {
+            if self.budgets.isEmpty {
+                self.lblEmptyPayMsg.text = "先に予算を登録してください"
+                self.lblEmptyPayMsg.textColor = .link
+                self.lblEmptyPayMsg.isUserInteractionEnabled = true
+            }
+            else {
+                self.lblEmptyPayMsg.text = "支出履歴がありません"
+                self.lblEmptyPayMsg.textColor = .secondaryLabel
+                self.lblEmptyPayMsg.isUserInteractionEnabled = false
+            }
+        }
+
+        for budget in self.budgets {
             budget.used = DataManager.shared.getTotalAmount(yearMonth: self.currentDate, budget: budget)
         }
         self.budgetList.reloadData()
     }
     
+    private func makeAcrionButtons_forBudget() -> [ActionButton] {
+        var buttons = [ActionButton]()
+        
+        if self.budgets.count < MAX_BUDGET_COUNT {
+            buttons.append(
+                .default("予算登録", action: {
+                    self.addNewBudget()
+                })
+            )
+        }
+        
+        let prevMonth = self.currentDate.prevMonth()
+        if DataManager.shared.countBudgetList(yearMonth: prevMonth) > 0 {
+            buttons.append(
+                self.budgets.isEmpty
+                    ? .default("前月から引き継ぎ", action: { self.confirmImportBudget() })
+                    : .destrucive("前月から引き継ぎ", action: { self.confirmImportBudget() })
+            )
+        }
+        
+        if !self.budgets.isEmpty {
+            buttons.append(
+                .destrucive("すべて削除", action: {
+                    self.confrimRemoveAllBugdets()
+                })
+            )
+        }
+        
+        return buttons
+    }
+    
+    func showActionMenu() {
+        var buttons = [ActionButton]()
+        
+        if self.currentTab == .budget {
+            buttons.append(contentsOf: makeAcrionButtons_forBudget())
+        }
+        else if self.currentTab == .pay {
+            if !self.budgets.isEmpty {
+                buttons.append(
+                    .default("支出登録", action: {
+                        self.addNewBudget()
+                    })
+                )
+            }
+        }
+        
+        guard !buttons.isEmpty else { return }
+        
+        buttons.append(.cancel("キャンセル", action: nil))
+        ActionSheet(title: nil, message: nil, buttons: buttons).show(from: self)
+    }
+    
+    @objc
+    func showBudgetTab() {
+        change(tab: .budget)
+    }
+    
+    @objc
+    func showAddNewBudgetMenu() {
+        var buttons = makeAcrionButtons_forBudget()
+        buttons.append(.cancel("キャンセル", action: nil))
+        ActionSheet(title: nil, message: nil, buttons: buttons).show(from: self)
+    }
+    
+    // MARK: 予算処理
+    
+    func loadBudgets(date: YearMonth) {
+        let items = DataManager.shared.loadBudgetList(yearMonth: date)
+        self.budgets.removeAll()
+        self.budgets.append(contentsOf: items)
+    }
+
     func addNewBudget() {
         EditBudgetViewController.present(from: self, addNew: self.currentDate)
+    }
+    
+    /// 前月から引き継ぎ（予算）
+    func confirmImportBudget() {
+        func importBudget() {
+            DataManager.shared.copyBudgets(from: self.currentDate.prevMonth(), to: self.currentDate)
+            loadBudgets(date: self.currentDate)
+            
+            setEditMode(budgetTable: false, animated: false)
+            refresh_budgetTab()
+        }
+        
+        if self.budgets.isEmpty {
+            importBudget()
+            return
+        }
+        
+        Alert(title: "警告", message: "現在編集中の内容は削除されます", buttons: [
+            .cancel("キャンセル"),
+            .destrucive("OK") { importBudget() }
+        ]).show(from: self)
+    }
+    
+    /// 現在の月の予算を全て削除
+    func confrimRemoveAllBugdets() {
+        Alert(title: "警告", message: "\(self.currentDate.year)年\(self.currentDate.month)月の予算を\nすべて削除します", buttons: [
+            .cancel("キャンセル"),
+            .destrucive("OK") {
+                DataManager.shared.removeBudgets(yearMonth: self.currentDate)
+                self.budgets.removeAll()
+                
+                self.setEditMode(budgetTable: false, animated: false)
+                self.refresh_budgetTab()
+            }
+        ]).show(from: self)
     }
     
     func setEditMode(budgetTable flag: Bool, animated: Bool = true) {
@@ -454,12 +530,15 @@ class MainViewController: UIViewController {
         }
     }
     
-    // MARK: - データ読み取り
+    // MARK: 支出処理
     
-    func loadBudgets(date: YearMonth) {
-        let items = DataManager.shared.loadBudgetList(yearMonth: date)
-        self.budges.removeAll()
-        self.budges.append(contentsOf: items)
+    func addNewPay() {
+        let today = SizYearMonthDay.now
+        let date = self.currentDate.year == today.year && self.currentDate.month == today.month
+            ? today
+            : SizYearMonthDay(self.currentDate.year, self.currentDate.month, 1)
+        
+        EditPayViewController.present(from: self, addNew: date)
     }
     
 }
@@ -468,7 +547,7 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        self.budges.count
+        self.budgets.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -481,7 +560,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         guard let cell = cell as? BudgetCell else { return }
         
         //print("collectionView cell at \(indexPath)")
-        let budget = self.budges[indexPath.row]
+        let budget = self.budgets[indexPath.row]
         cell.refresh(budget: budget)
     }
     

@@ -12,7 +12,7 @@ import SizUtil
 
 class EditBudgetViewController: UIViewController {
     
-    static func present(from: UIViewController, edit budget: Budget? = nil) {
+    static func present(from: UIViewController, edit budget: Budget) {
         let vc = EditBudgetViewController()
         vc.budget = budget
         vc.mode = .edit
@@ -58,7 +58,7 @@ class EditBudgetViewController: UIViewController {
         super.viewDidLoad()
         assert(self.budget != nil)
         
-        let titlePrefix = self.mode == .addNew ? "予算追加" : "予算編集"
+        let titlePrefix = "予算\(self.mode == .addNew ? "登録" : "編集")"
         self.title = "\(titlePrefix)：\(self.budget.date.year)年\(self.budget.date.month)月"
 
         let bbiCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(closeWithoutSave))
@@ -92,7 +92,7 @@ class EditBudgetViewController: UIViewController {
     
     // MARK: - Functions
     
-    func setupEditTableView() {
+    private func setupEditTableView() {
         let sec_base = TableSection(rows: [
             EditTextCell(label: "予算名", attrs: [
                 .created { cell, _ in
@@ -172,12 +172,7 @@ class EditBudgetViewController: UIViewController {
         let sec_color = TableSection(title: "ラベル色", rows: color_rows)
          */
         
-        if self.mode == .addNew {
-            self.tableView.setDataSource([sec_base])
-        }
-        else {
-            self.tableView.setDataSource([sec_base, sec_buttons])
-        }
+        self.tableView.setDataSource(self.mode == .addNew ? [sec_base] : [sec_base, sec_buttons])
     }
     
     @objc

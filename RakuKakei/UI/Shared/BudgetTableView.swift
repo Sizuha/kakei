@@ -16,6 +16,10 @@ class BudgetTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     var ownerViewController: UIViewController!
     var onItemRemoved: (()->Void)?
     
+    var editalbe = true
+    var onItemSelected: ((_ item: Budget)->Void)? = nil
+    var selectedRow = -1
+    
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
         
@@ -69,12 +73,21 @@ class BudgetTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         guard let cell = cell as? BudgetTableViewCell else { assert(false); return }
         let item = items[indexPath.row]
         cell.refresh(item: item)
+        
+        //cell.accessoryType = self.selectedRow == indexPath.row ? .checkmark : .none
+        cell.backgroundColor = self.selectedRow == indexPath.row ? .secondarySystemFill : nil
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let item = items[indexPath.row]
-        edit(item: item)
+        
+        if self.editalbe {
+            edit(item: item)
+        }
+        else {
+            onItemSelected?(item)
+        }
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
@@ -82,7 +95,9 @@ class BudgetTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        Swipe(actions: [
+        guard self.editalbe else { return nil }
+        
+        return Swipe(actions: [
             .destructive(image: UIImage(systemName: "trash"), action: { action, view, handler in
                 self.tryRemove(indexPath: indexPath, handler: handler)
             })
@@ -90,6 +105,8 @@ class BudgetTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        guard self.editalbe else { return }
+        
         let from_i = sourceIndexPath.row
         let to_i = destinationIndexPath.row
         

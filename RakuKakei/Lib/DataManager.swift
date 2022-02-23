@@ -33,17 +33,21 @@ class DataManager {
     // MARK: - 予算
     
     func getBudget(by household: Household) -> Budget? {
-        guard household.budget_seq >= 0 else { return nil }
-        
-        guard let tbl = db_r.from(Budget.self) else { assert(false); return nil }
-        defer { tbl.close() }
-
         let ym = YearMonth(year: household.date.year, month: household.date.month)
-        let (budget, error) = tbl.setWhere("\(Budget.F.YEAR_MONTH)=?", ym.toInt())
-            .andWhere("\(Budget.F.SEQ)=?", household.budget_seq)
+        return getBudget(date: ym, budgeSeq: household.budget_seq)
+    }
+    
+    func getBudget(date: YearMonth, budgeSeq: Int) -> Budget? {
+        guard budgeSeq >= 0 else { return nil }
+        
+        guard let tbl = db_r.from(Budget.self) else { fatalError() }
+        defer { tbl.close() }
+        
+        let (budget, error) = tbl.setWhere("\(Budget.F.YEAR_MONTH)=?", date.toInt())
+            .andWhere("\(Budget.F.SEQ)=?", budgeSeq)
             .selectOne { Budget() }
         
-        if let error = error {
+        if DEBUG_MODE, let error = error {
             print(error.localizedDescription)
         }
         return budget
@@ -55,6 +59,7 @@ class DataManager {
         
         let (rows, error) = tbl
             .setWhere("\(Budget.F.YEAR_MONTH)=?", yearMonth.toInt())
+            .andWhere("\(Budget.F.SEQ) > 0")
             .orderBy(Budget.F.DISP_SEQ, desc: false)
             .orderBy(Budget.F.SEQ, desc: false)
             .select { Budget() }
@@ -65,6 +70,18 @@ class DataManager {
             return []
         }
         return rows
+    }
+    
+    func countBudgetList(yearMonth: YearMonth) -> Int {
+        guard let tbl = db_r.from(Budget.self) else { assert(false); return 0 }
+        defer { tbl.close() }
+        
+        let count = tbl
+            .setWhere("\(Budget.F.YEAR_MONTH)=?", yearMonth.toInt())
+            .andWhere("\(Budget.F.SEQ) > 0")
+            .count() ?? 0
+        
+        return count
     }
     
     func getLastBudgetSeq(yearMonth: YearMonth) -> Int {
@@ -172,7 +189,7 @@ class DataManager {
             .setWhere("\(Budget.F.YEAR_MONTH)=?", from.toInt())
             .select { Budget() }
         
-        if let error = error {
+        if DEBUG_MODE, let error = error {
             print(error.localizedDescription)
             assert(false)
         }
@@ -191,7 +208,7 @@ class DataManager {
 
     // MARK: - 支出（ししゅつ）
     
-    func loadPayList(yearMonth: YearMonth) -> [Household] {
+    func loadHouseholdList(yearMonth: YearMonth) -> [Household] {
         guard let tbl = db_r.from(Household.self) else { assert(false); return [] }
         defer { tbl.close() }
         
@@ -221,6 +238,7 @@ class DataManager {
         
         guard error == nil else {
             print(error.debugDescription)
+            assert(false)
             return 0
         }
         
@@ -229,6 +247,35 @@ class DataManager {
             sum += row.price
         }
         return sum
+    }
+    
+    func removeHousehold(_ item: Household) {
+        removeHousehold(date: item.date, seq: item.seq)
+    }
+    
+    func removeHousehold(date: SizYearMonthDay, seq: Int) {
+        guard let tbl = db_w.from(Household.self) else { assert(false); return }
+        defer { tbl.close() }
+        
+        let r = tbl.setWhere("\(Household.F.DATE)=?", date.toInt())
+            .andWhere("\(Household.F.SEQ)=?", seq)
+            .delete()
+        
+        if DEBUG_MODE, let err = r.error {
+            print(err)
+            assert(false)
+        }
+    }
+    
+    func writeHousehold(_ item: Household) {
+        guard let tbl = db_w.from(Household.self) else { assert(false); return }
+        defer { tbl.close() }
+
+        let result = tbl
+            .keys(columns: Household.tableScheme.getKeys())
+            .values(item)
+            .insertOrUpdate()
+        assert(result)
     }
     
 }

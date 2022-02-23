@@ -11,9 +11,12 @@ import SizUtil
 
 class HouseholdTable: UITableView, UITableViewDataSource, UITableViewDelegate {
     
-    var ownerViewController: UIViewController!
+    
     var items: [[Household]] = []
     
+    var ownerViewController: UIViewController!
+    var onItemRemoved: (()->Void)?
+
     func setDataSource(items: [Household]) {
         self.items.removeAll()
         self.items = [[Household]](repeating: [Household](), count: 31)
@@ -39,6 +42,10 @@ class HouseholdTable: UITableView, UITableViewDataSource, UITableViewDelegate {
             i += 1
         }
         return []
+    }
+    
+    func edit(item: Household) {
+        EditPayViewController.present(from: self.ownerViewController, item: item)
     }
     
     override var numberOfSections: Int {
@@ -77,6 +84,12 @@ class HouseholdTable: UITableView, UITableViewDataSource, UITableViewDelegate {
         else { return }
         
         cell.refresh(item: item)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        //let item = items[indexPath.row]
+        //edit(item: item)
     }
     
 }
