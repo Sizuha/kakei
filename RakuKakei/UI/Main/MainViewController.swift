@@ -324,7 +324,7 @@ class MainViewController: UIViewController {
         let max_year = MAX_YEAR
         
         self.btnToday.isEnabled = self.currentDate != now
-        self.btnPrevMonth.isEnabled = self.currentDate.year >= min_year || self.currentDate.month > 1
+        self.btnPrevMonth.isEnabled = self.currentDate.year > min_year || self.currentDate.year == min_year && self.currentDate.month > 1
         self.btnNextMonth.isEnabled = self.currentDate.year < max_year || self.currentDate.year == max_year && self.currentDate.month < 12
         
         self.lblYear.text = String(format: "%d年", self.currentDate.year)

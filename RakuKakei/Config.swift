@@ -26,7 +26,7 @@ var AppDocUrl: URL {
     FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 }
 
-let MIN_YEAR = 2020
+let MIN_YEAR = 2022
 var MAX_YEAR: Int {
     YearMonth.now.year + 1
 }
