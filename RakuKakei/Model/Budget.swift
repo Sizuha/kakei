@@ -73,6 +73,18 @@ class Budget: SQueryRowEx {
         self.amount - self.used
     }
     
+    init() {}
+    
+    init(_ copy: Budget) {
+        self.date = copy.date
+        self.seq = copy.seq
+        self.displaySeq = copy.displaySeq
+        self.amount = copy.amount
+        self.label = "\(copy.label)"
+        self.color = copy.color
+        self.used = copy.used
+    }
+    
     func load(from cursor: SQLiteCursor) {
         cursor.forEachColumn { c, i in
             let colName = c.getColumnName(i)

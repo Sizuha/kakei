@@ -12,19 +12,22 @@ import SizUtil
 
 class EditPayViewController: UIViewController {
     
-    static func present(from: UIViewController, item: Household) {
+    static func present(from: UIViewController, item: Household, onChanged: ((_ item: Household?)->Void)? = nil) {
         let vc = EditPayViewController()
         vc.item = item
         vc.mode = .edit
+        vc.oriDate = item.date
+        vc.onChanged = onChanged
         
         present(vc, from: from)
     }
     
-    static func present(from: UIViewController, addNew date: SizYearMonthDay) {
+    static func present(from: UIViewController, addNew date: SizYearMonthDay, onChanged: ((_ item: Household?)->Void)? = nil) {
         let vc = EditPayViewController()
         vc.item = Household()
         vc.item.date = date
         vc.mode = .addNew
+        vc.onChanged = onChanged
         
         present(vc, from: from)
     }
@@ -41,12 +44,16 @@ class EditPayViewController: UIViewController {
     var editPrice: UITextField!
     var editMemo: UITextField!
     
+    var onChanged: ((_ item: Household?)->Void)? = nil
+    
     // MARK: - Member Vars
     
     /// 支出情報
     var item: Household!
     /// 予算情報
     var budget: Budget?
+    
+    private var oriDate: SizYearMonthDay?
     
     enum Mode { case addNew, edit }
     var mode: Mode = .addNew
@@ -107,11 +114,11 @@ class EditPayViewController: UIViewController {
                     self.editPrice = cell.textField
                 },
                 .read {
-                    self.item.price <= 0 ? "" : "\(self.item.price)"
+                    self.item.priceForDisplay <= 0 ? "" : "\(self.item.priceForDisplay)"
                 },
                 .valueChanged { value in
                     let data = value as? String ?? "0"
-                    self.item.price = Int(data) ?? 0
+                    self.item.price = (Int(data) ?? 0) * AMOUNT_MULTIPLIER
                 },
                 .hint("0"),
             ]),
@@ -121,7 +128,7 @@ class EditPayViewController: UIViewController {
                     cell.valueViewWidth = HALF_WIDTH
                 },
                 .read {
-                    self.budget?.label ?? "無し"
+                    self.budget?.shortLabel ?? "無し"
                 },
                 .selected { i in
                     self.tableView.deselectRow(at: i, animated: true)
@@ -134,7 +141,7 @@ class EditPayViewController: UIViewController {
                     cell.valueViewWidth = FILL_WIDTH
                 },
                 .read {
-                    guard let date = self.item.date?.toDate() else {
+                    guard self.item.date.day > 0, let date = self.item.date?.toDate() else {
                         return "無し"
                     }
                     return self.DATE_FMT.string(from: date)
@@ -147,10 +154,11 @@ class EditPayViewController: UIViewController {
         ])
         
         let sec_memo = TableSection(rows: [
-            EditTextCell(attrs: [
+            EditTextCell(label: "", attrs: [
                 .created { cell, _ in
                     let cell = EditTextCell.cellView(cell)
                     cell.maxLength = 100
+                    cell.valueViewWidth = FILL_WIDTH
                     cell.textField.clearButtonMode = .whileEditing
                     cell.textField.returnKeyType = .done
                     cell.delegate = self
@@ -160,7 +168,7 @@ class EditPayViewController: UIViewController {
                     self.item.memo
                 },
                 .valueChanged { value in
-                    self.item.memo = value as? String ?? ""
+                    self.item.memo = (value as? String ?? "").trimmingCharacters(in: .whitespaces)
                 },
                 .hint("メモ"),
             ]),
@@ -210,6 +218,7 @@ class EditPayViewController: UIViewController {
             .destrucive("削除", action: {
                 DataManager.shared.removeHousehold(self.item)
                 self.closeWithoutSave()
+                self.onChanged?(nil)
             }),
             .cancel("キャンセル", action: nil),
         ]).show(from: self)
@@ -226,7 +235,23 @@ class EditPayViewController: UIViewController {
             return
         }
         
+        if self.mode == .addNew {
+            self.item.seq = DataManager.shared.getLastHouseholdSeq(date: self.item.date) + 1
+            assert(self.item.seq >= 0)
+        }
+        else {
+            // DATEもPKなので、DATEが変わった場合に対処する
+            if self.mode == .edit && self.oriDate != self.item.date {
+                assert(self.oriDate != nil)
+                let oriSeq = self.item.seq
+                DataManager.shared.removeHousehold(date: self.oriDate!, seq: oriSeq)
+                
+                self.item.seq = DataManager.shared.getLastHouseholdSeq(date: self.item.date) + 1
+            }
+        }
+        
         DataManager.shared.writeHousehold(self.item)
+        self.onChanged?(self.item)
         dismiss(animated: true)
     }
     
@@ -248,7 +273,7 @@ class EditPayViewController: UIViewController {
             return false
         }
         
-        guard self.item.date != nil else {
+        guard self.item.date != nil, self.item.date.day > 0 else {
             Alert(message: "日付を選択してください", buttons: [
                 .default("OK", action: {
                     self.showDateSelector()

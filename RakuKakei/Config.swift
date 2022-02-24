@@ -37,3 +37,4 @@ let MAX_BUDGET_COUNT = 6
 let AMOUNT_MULTIPLIER = 1000
 
 let DATE_FMT_FOR_DISPLAY = "yyyy年M月d日"
+let WEEKDAY_TEXT = ["日","月","火","水","木","金","土"]

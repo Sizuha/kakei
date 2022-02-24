@@ -151,7 +151,10 @@ class DataManager {
         defer { tblHousehold.close() }
         
         // 支出記録から、予算情報を消す
-        var r = tblHousehold.setWhere("\(Household.F.BUDGET)=?", budget.seq)
+        let date_begin = budget.date.toInt()*100
+        let date_end = date_begin + 99
+        var r = tblHousehold.setWhere("\(Household.F.DATE) BETWEEN ? AND ?", date_begin, date_end)
+            .andWhere("\(Household.F.BUDGET)=?", budget.seq)
             .values([Household.F.BUDGET : -1])
             .update()
 
@@ -215,6 +218,8 @@ class DataManager {
         let date_val = yearMonth.toInt()*100
         let (rows, error) = tbl
             .setWhere("\(Household.F.DATE) BETWEEN ? AND ?", date_val, date_val + 99)
+            .orderBy(Household.F.DATE, desc: true)
+            .orderBy(Household.F.SEQ, desc: false)
             .select { Household() }
         
         guard error == nil else {
@@ -224,6 +229,22 @@ class DataManager {
         }
         
         return rows
+    }
+    
+    func getLastHouseholdSeq(date: SizYearMonthDay) -> Int {
+        guard let tbl = db_r.from(Household.self) else { assert(false); return -1 }
+        defer { tbl.close() }
+
+        let (row, error) = tbl.setWhere("\(Household.F.DATE)=?", date.toInt())
+            .orderBy(Household.F.SEQ, desc: true)
+            .selectOne { Household() }
+
+        guard error == nil else {
+            print(error.debugDescription)
+            assert(false)
+        }
+
+        return row?.seq ?? -1
     }
 
     func getTotalAmount(yearMonth: YearMonth, budget: Budget) -> Int {
@@ -266,6 +287,22 @@ class DataManager {
             assert(false)
         }
     }
+    
+    func removeHouseholds(yearMonth date: YearMonth) {
+        guard let tbl = db_w.from(Household.self) else { assert(false); return }
+        defer { tbl.close() }
+        
+        let date_begin = date.toInt()*100
+        let date_end = date_begin + 99
+        let r = tbl.setWhere("\(Household.F.DATE) BETWEEN ? AND ?", date_begin, date_end)
+            .delete()
+        
+        if DEBUG_MODE, let err = r.error {
+            print(err)
+            assert(false)
+        }
+    }
+
     
     func writeHousehold(_ item: Household) {
         guard let tbl = db_w.from(Household.self) else { assert(false); return }

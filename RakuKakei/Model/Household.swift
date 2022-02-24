@@ -36,16 +36,25 @@ class Household: SQueryRowEx {
         static let MEMO = "memo"
     }
     
+    /// 日付：年月日
     var date: SizYearMonthDay! = nil
+    
+    /// 連番：0からスタート
     var seq: Int = 0
+    
+    /// 今は使わない
     var time: SizHourMinSec? = nil
+    
+    /// 予算ID
     var budget_seq: Int = -1
     
+    /// 金額
     var price: Int = 0
     var priceForDisplay: Int {
         price / AMOUNT_MULTIPLIER
     }
     
+    /// メモ
     var memo = ""
     
     func load(from cursor: SQLiteCursor) {

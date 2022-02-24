@@ -14,7 +14,9 @@ class BudgetTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     
     var items: [Budget] = []
     var ownerViewController: UIViewController!
+    
     var onItemRemoved: (()->Void)?
+    var onItemChanged: (()->Void)?
     
     var editalbe = true
     var onItemSelected: ((_ item: Budget)->Void)? = nil
@@ -34,7 +36,12 @@ class BudgetTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func edit(item: Budget) {
-        EditBudgetViewController.present(from: self.ownerViewController, edit: item)
+        // 編集画面で修正された内容に影響を受けない為。
+        // 編集画面で明確に「保存」を行った時のみ、反映する必要がある。
+        let copy = Budget(item)
+        EditBudgetViewController.present(from: self.ownerViewController, edit: copy) {
+            self.onItemChanged?()
+        }
     }
     
     private func tryRemove(indexPath: IndexPath, handler: ((Bool)->Void)? = nil) {

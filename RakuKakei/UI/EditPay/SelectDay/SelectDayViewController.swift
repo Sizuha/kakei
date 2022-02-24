@@ -24,8 +24,6 @@ class SelectDayViewController: UIViewController {
     private var yearMonth: YearMonth!
     private var days: [Int] = []
     private var onSelected: ((_ day: Int)->Void)?
-    
-    let WEEKDAY_TEXT = ["日","月","火","水","木","金","土"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +44,18 @@ class SelectDayViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.tableView.setMatchTo(parent: self.view)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        guard self.date.day > 0 else { return }
+        let ip = IndexPath(row: self.date.day-1, section: 0)
+        self.tableView.scrollToRow(at: ip, at: .middle, animated: true)
     }
 
 }

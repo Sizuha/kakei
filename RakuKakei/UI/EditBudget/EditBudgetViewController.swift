@@ -12,14 +12,15 @@ import SizUtil
 
 class EditBudgetViewController: UIViewController {
     
-    static func present(from: UIViewController, edit budget: Budget) {
+    static func present(from: UIViewController, edit budget: Budget, onChanged: (()->Void)? = nil) {
         let vc = EditBudgetViewController()
         vc.budget = budget
         vc.mode = .edit
+        vc.onChanged = onChanged
         present(vc, from: from)
     }
     
-    static func present(from: UIViewController, addNew date: YearMonth) {
+    static func present(from: UIViewController, addNew date: YearMonth, onChanged: (()->Void)? = nil) {
         let dm = DataManager.shared
         
         let newItem = Budget()
@@ -30,6 +31,7 @@ class EditBudgetViewController: UIViewController {
         let vc = EditBudgetViewController()
         vc.budget = newItem
         vc.mode = .addNew
+        vc.onChanged = onChanged
         present(vc, from: from)
     }
     
@@ -44,6 +46,8 @@ class EditBudgetViewController: UIViewController {
     var tableView: SizPropertyTableView!
     var editLabel: UITextField!
     var editAmount: UITextField!
+    
+    var onChanged: (()->Void)?
     
     // MARK: - Member Vars
     
@@ -188,6 +192,7 @@ class EditBudgetViewController: UIViewController {
         
         DataManager.shared.writeBudget(self.budget!)
         dismiss(animated: true)
+        self.onChanged?()
     }
     
     // MARK: 入力チェック
@@ -224,6 +229,7 @@ class EditBudgetViewController: UIViewController {
             .destrucive("削除", action: {
                 _ = DataManager.shared.removeBudget(self.budget)
                 self.closeWithoutSave()
+                self.onChanged?()
             })
         ]).show(from: self)
     }

@@ -66,7 +66,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var budgetList: UICollectionView!
     
     /// 支出一覧
-    var tblHoousehold: HouseholdTable!
+    var tblHousehold: HouseholdTable!
     
     @IBOutlet weak var lblEmptyPayMsg: UILabel!
     
@@ -135,8 +135,6 @@ class MainViewController: UIViewController {
     private var currentTab: Tab! = nil
     /// 現在の年月
     var currentDate: YearMonth = .now
-    /// 画面を準備してから、初めてのデータ読み取りか？
-    var firstLoad = true
     
     var editMode = false
     var budgets: [Budget] = []
@@ -178,17 +176,22 @@ class MainViewController: UIViewController {
                 self.refresh_budgetTab()
             }
         }
+        self.tblBudgetList.onItemChanged = {
+            self.refresh_byDate()
+        }
         self.groupBudget.addSubview(self.tblBudgetList)
         
-        self.tblHoousehold = HouseholdTable(frame: .zero, style: .plain)
-        self.tblHoousehold.tableFooterView = UIView(frame: .zero)
-        self.tblHoousehold.ownerViewController = self
-        self.tblHoousehold.onItemRemoved = {
-            if self.tblHoousehold.items.isEmpty {
-                self.refresh_payTab()
-            }
+        self.tblHousehold = HouseholdTable(frame: .zero, style: .plain)
+        self.tblHousehold.tableFooterView = UIView(frame: .zero)
+        self.tblHousehold.ownerViewController = self
+        self.tblHousehold.onItemRemoved = {
+            self.refresh_payTab()
         }
-        self.groupPay.addSubview(self.tblHoousehold)
+        self.tblHousehold.onItemChanged = { item in
+            self.refresh_payTab()
+            self.tblHousehold.scrollTo(item)
+        }
+        self.groupPay.addSubview(self.tblHousehold)
         
         BudgetCell.register(to: self.budgetList)
         self.budgetList.dataSource = self
@@ -196,7 +199,6 @@ class MainViewController: UIViewController {
         
         self.budgets.reserveCapacity(MAX_BUDGET_COUNT)
         change(tab: .pay, animation: false)
-        self.firstLoad = true
     }
     
     // MARK: Layout
@@ -221,22 +223,15 @@ class MainViewController: UIViewController {
         self.tblBudgetList.topAnchor.constraint(equalTo: self.lblBudgetTitle.bottomAnchor, constant: 10).isActive = true
         self.tblBudgetList.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: -8).isActive = true
         
-        self.tblHoousehold.translatesAutoresizingMaskIntoConstraints = false
-        self.tblHoousehold.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.tblHoousehold.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.tblHoousehold.topAnchor.constraint(equalTo: self.budgetList.bottomAnchor, constant: 10).isActive = true
-        self.tblHoousehold.bottomAnchor.constraint(equalTo: self.groupPay.bottomAnchor, constant: 0).isActive = true
+        self.tblHousehold.translatesAutoresizingMaskIntoConstraints = false
+        self.tblHousehold.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.tblHousehold.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.tblHousehold.topAnchor.constraint(equalTo: self.budgetList.bottomAnchor, constant: 10).isActive = true
+        self.tblHousehold.bottomAnchor.constraint(equalTo: self.groupPay.bottomAnchor, constant: 0).isActive = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if self.firstLoad {
-            self.firstLoad = false
-        }
-        else {
-            refresh_byDate()
-        }
     }
     
     // MARK: - Functions
@@ -343,8 +338,6 @@ class MainViewController: UIViewController {
         case .pay:
             refresh_payTab()
         }
-        
-        self.firstLoad = false
     }
     
     /// 「予算」タブの更新
@@ -372,13 +365,14 @@ class MainViewController: UIViewController {
     
     /// 「支出」タブの更新
     private func refresh_payTab() {
-        self.btnMoreActions.isEnabled = !self.budgets.isEmpty
         self.btnAdd.isEnabled = !self.budgets.isEmpty
         
         let payItems = DataManager.shared.loadHouseholdList(yearMonth: self.currentDate)
-        self.tblHoousehold.setDataSource(items: payItems)
-        self.tblHoousehold.reloadData()
-        self.tblHoousehold.isHidden = payItems.isEmpty
+        self.btnMoreActions.isEnabled = !self.budgets.isEmpty
+        
+        self.tblHousehold.setDataSource(items: payItems)
+        self.tblHousehold.reloadData()
+        self.tblHousehold.isHidden = payItems.isEmpty
         
         if payItems.isEmpty {
             if self.budgets.isEmpty {
@@ -440,7 +434,15 @@ class MainViewController: UIViewController {
             if !self.budgets.isEmpty {
                 buttons.append(
                     .default("支出登録", action: {
-                        self.addNewBudget()
+                        self.addNewPay()
+                    })
+                )
+            }
+            
+            if !self.tblHousehold.items.isEmpty {
+                buttons.append(
+                    .destrucive("すべて削除", action: {
+                        self.confrimRemoveAllHouseholds()
                     })
                 )
             }
@@ -473,7 +475,9 @@ class MainViewController: UIViewController {
     }
 
     func addNewBudget() {
-        EditBudgetViewController.present(from: self, addNew: self.currentDate)
+        EditBudgetViewController.present(from: self, addNew: self.currentDate) {
+            self.refresh_byDate()
+        }
     }
     
     /// 前月から引き継ぎ（予算）
@@ -501,7 +505,7 @@ class MainViewController: UIViewController {
     func confrimRemoveAllBugdets() {
         Alert(title: "警告", message: "\(self.currentDate.year)年\(self.currentDate.month)月の予算を\nすべて削除します", buttons: [
             .cancel("キャンセル"),
-            .destrucive("OK") {
+            .destrucive("削除") {
                 DataManager.shared.removeBudgets(yearMonth: self.currentDate)
                 self.budgets.removeAll()
                 
@@ -536,10 +540,27 @@ class MainViewController: UIViewController {
         let today = SizYearMonthDay.now
         let date = self.currentDate.year == today.year && self.currentDate.month == today.month
             ? today
-            : SizYearMonthDay(self.currentDate.year, self.currentDate.month, 1)
+            : SizYearMonthDay(self.currentDate.year, self.currentDate.month, 0)
         
-        EditPayViewController.present(from: self, addNew: date)
+        EditPayViewController.present(from: self, addNew: date) { item in
+            self.refresh_payTab()
+            if let item = item {
+                self.tblHousehold.scrollTo(item)
+            }
+        }
     }
+    
+    /// 現在の月の支出を全て削除
+    func confrimRemoveAllHouseholds() {
+        Alert(title: "警告", message: "\(self.currentDate.year)年\(self.currentDate.month)月の支出履歴を\nすべて削除します", buttons: [
+            .cancel("キャンセル"),
+            .destrucive("削除") {
+                DataManager.shared.removeHouseholds(yearMonth: self.currentDate)
+                self.refresh_payTab()
+            }
+        ]).show(from: self)
+    }
+
     
 }
 
