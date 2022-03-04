@@ -12,8 +12,9 @@ import SizUtil
 
 class SettingsViewController: UIViewController {
     
-    static func present(from: UIViewController) {
+    static func present(from: UIViewController, onNeedReload: (()->Void)? = nil) {
         let vc = SettingsViewController()
+        vc.onNeedReload = onNeedReload
         
         let navi = UINavigationController()
         navi.pushViewController(vc, animated: false)
@@ -23,8 +24,9 @@ class SettingsViewController: UIViewController {
         from.present(navi, animated: true, completion: nil)
     }
     
-    var settingsView: SizPropertyTableView!
+    private var settingsView: SizPropertyTableView!
     private var lastBackupText = "無し"
+    private var onNeedReload: (()->Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,6 +93,7 @@ class SettingsViewController: UIViewController {
     @objc
     func closeThis() {
         self.dismiss(animated: true, completion: nil)
+        self.onNeedReload?()
     }
     
     func refreshLastBackupDate() {
@@ -102,7 +105,9 @@ class SettingsViewController: UIViewController {
             var result = DataManager.shared.syncBackupData()
             
             if result {
-                if let modiDate = try? FileManager.default.attributesOfItem(atPath: iCloudBackupUrl!.path)[.modificationDate] as? Date {
+                if let url = iCloudBackupUrl,
+                    let modiDate = try? FileManager.default.attributesOfItem(atPath: url.path)[.modificationDate] as? Date
+                {
                     self.lastBackupText = fmt.string(from: modiDate)
                 }
                 else {

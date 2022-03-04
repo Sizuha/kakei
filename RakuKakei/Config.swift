@@ -43,9 +43,11 @@ let WEEKDAY_TEXT = ["日","月","火","水","木","金","土"]
 fileprivate let ICLOUD_CONTAINER_ID = "iCloud.com.kishe.sizuha.rakukakei"
 
 var iCloudBackupUrl: URL? {
-    let url = FileManager.default.url(forUbiquityContainerIdentifier: ICLOUD_CONTAINER_ID)?.appendingPathComponent("Backup")
+    guard let url = FileManager.default.url(forUbiquityContainerIdentifier: ICLOUD_CONTAINER_ID)?.appendingPathComponent("Backup")
+    else { return nil }
+    
     do {
-        try FileManager.default.createDirectory(at: url!, withIntermediateDirectories: true, attributes: nil)
+        try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
         return url
     }
     catch {

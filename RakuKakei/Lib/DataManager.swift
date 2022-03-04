@@ -242,6 +242,7 @@ class DataManager {
         guard error == nil else {
             print(error.debugDescription)
             assert(false)
+            return -1
         }
 
         return row?.seq ?? -1
@@ -318,9 +319,12 @@ class DataManager {
     // MARK: - Backup/Restore
     
     func syncBackupData() -> Bool {
-        let url = iCloudBackupUrl?.appendingPathComponent(BACKUP_DB_FILE)
+        guard
+            let url = iCloudBackupUrl?.appendingPathComponent(BACKUP_DB_FILE)
+        else { return false }
+        
         do {
-            try FileManager.default.startDownloadingUbiquitousItem(at: url!)
+            try FileManager.default.startDownloadingUbiquitousItem(at: url)
             return true
         }
         catch let error {

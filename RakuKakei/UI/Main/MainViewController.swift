@@ -466,7 +466,9 @@ class MainViewController: UIViewController {
     }
     
     func showSettings() {
-        SettingsViewController.present(from: self)
+        SettingsViewController.present(from: self) {
+            self.refresh_byDate()
+        }
     }
     
     @objc
