@@ -12,11 +12,19 @@ import SizUtil
 
 class MainViewController: UIViewController {
     
-    /// 設定ボタン
+    /// Actionボタン
     @IBOutlet weak var btnMoreActions: UIButton!
     @IBAction func btnMoreActionsTap(_ sender: UIButton) {
         sender.isUserInteractionEnabled = false
         showActionMenu()
+        sender.isUserInteractionEnabled = true
+    }
+    
+    /// 設定ボタン
+    @IBOutlet weak var btnSettings: UIButton!
+    @IBAction func btnSettingsTap(_ sender: UIButton) {
+        sender.isUserInteractionEnabled = false
+        showSettings()
         sender.isUserInteractionEnabled = true
     }
     
@@ -63,6 +71,7 @@ class MainViewController: UIViewController {
     /// 支出画面
     @IBOutlet weak var groupPay: UIView!
     
+    /// 支出画面内の予算一覧
     @IBOutlet weak var budgetList: UICollectionView!
     
     /// 支出一覧
@@ -119,8 +128,6 @@ class MainViewController: UIViewController {
         }
         sender.isUserInteractionEnabled = true
     }
-    
-    
     
     /// 年月選択UI
     var yearMonthPicker: YearMonthPicker!
@@ -232,6 +239,10 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+//        DispatchQueue.global().async {
+//            DataManager.shared.backupIfNeed()
+//        }
     }
     
     // MARK: - Functions
@@ -452,6 +463,10 @@ class MainViewController: UIViewController {
         
         buttons.append(.cancel("キャンセル", action: nil))
         ActionSheet(title: nil, message: nil, buttons: buttons).show(from: self)
+    }
+    
+    func showSettings() {
+        SettingsViewController.present(from: self)
     }
     
     @objc

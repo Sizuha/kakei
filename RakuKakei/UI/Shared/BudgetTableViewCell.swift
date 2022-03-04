@@ -28,10 +28,19 @@ class BudgetTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func refresh(item: Budget) {
+    func refresh(item: Budget, showRemain: Bool = false) {
         lblLabel.text = item.shortLabel
         lblFullName.text = item.label
-        lblAmount.text = "\(item.amountSimple)千円"
+        
+        if showRemain {
+            let remain = item.amount - item.used
+            lblAmount.text = "残り\(remain)枚"
+            lblAmount.textColor = remain >= 0 ? .label : .systemRed
+        }
+        else {
+            lblAmount.text = "\(item.amount)枚"
+            lblAmount.textColor = .label
+        }
     }
     
 }

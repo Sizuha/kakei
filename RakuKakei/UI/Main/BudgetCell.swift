@@ -27,7 +27,7 @@ class BudgetCell: UICollectionViewCell {
     func refresh(budget: Budget) {
         self.lblLabel.text = budget.shortLabel
         
-        let remains: Int = budget.remains/AMOUNT_MULTIPLIER
+        let remains: Int = budget.remains
         self.lblAmount.text = "\(remains)"
         self.lblAmount.textColor = remains < 0 ? .systemRed : .label
     }

@@ -315,4 +315,73 @@ class DataManager {
         assert(result)
     }
     
+    // MARK: - Backup/Restore
+    
+    func syncBackupData() -> Bool {
+        let url = iCloudBackupUrl?.appendingPathComponent(BACKUP_DB_FILE)
+        do {
+            try FileManager.default.startDownloadingUbiquitousItem(at: url!)
+            return true
+        }
+        catch let error {
+            print("error: \(error.localizedDescription)")
+            return false
+        }
+    }
+    
+    private func copyFile(from fromUrl: URL, to toUrl: URL) -> Bool {
+        let fileMng = FileManager.default
+        do { try fileMng.removeItem(at: toUrl) } catch {
+            print("fail: remove a target file")
+        }
+        do { try fileMng.copyItem(at: fromUrl, to: toUrl) } catch {
+            print("fail: copy file")
+            return false
+        }
+        
+        return true
+    }
+    
+    func backup() -> Bool {
+        guard let iCloudUrl = iCloudBackupUrl else { assert(false); return false }
+        let fromUrl = AppDocUrl.appendingPathComponent(DB_FILE)
+        let toUrl = iCloudUrl.appendingPathComponent(BACKUP_DB_FILE)
+        
+        if copyFile(from: fromUrl, to: toUrl) {
+            AppSettings.shared.lastBackup = Date()
+            return true
+        }
+        return false
+    }
+    
+    func restore(fromOldDB: Bool = false) -> Bool {
+        guard let iCloudUrl = iCloudBackupUrl else { assert(false); return false }
+        let fromUrl = iCloudUrl.appendingPathComponent(BACKUP_DB_FILE)
+        let toUrl = AppDocUrl.appendingPathComponent(DB_FILE)
+        
+        _ = syncBackupData()
+        
+        guard FileManager.default.fileExists(atPath: fromUrl.path) else {
+            return false
+        }
+        
+        return copyFile(from: fromUrl, to: toUrl)
+    }
+    
+    /// 自動バックアップ機能
+    func backupIfNeed() {
+        guard let last = AppSettings.shared.lastBackup else {
+            _ = backup()
+            return
+        }
+        
+        let cal = Calendar.standard
+        let next: Date? = cal.date(byAdding: .day, value: 1, to: last)
+        
+        let now = Date()
+        if let date = next, now >= date {
+            _ = backup()
+        }
+    }
+    
 }

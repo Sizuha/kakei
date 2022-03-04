@@ -30,7 +30,7 @@ class Household: SQueryRowEx {
         static let TIME = "time"
         /// 使用した予算
         static let BUDGET = "budget_seq"
-        /// 金額（単位：円）
+        /// 金額（単位：千円）
         static let PRICE = "price"
         /// メモ
         static let MEMO = "memo"
@@ -48,11 +48,8 @@ class Household: SQueryRowEx {
     /// 予算ID
     var budget_seq: Int = -1
     
-    /// 金額
+    /// 金額（単位：千円）
     var price: Int = 0
-    var priceForDisplay: Int {
-        price / AMOUNT_MULTIPLIER
-    }
     
     /// メモ
     var memo = ""

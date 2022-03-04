@@ -20,6 +20,7 @@
                 <outlet property="btnNextMonth" destination="Ddg-lj-sWm" id="Itl-VX-Fbx"/>
                 <outlet property="btnPay" destination="Thf-4y-b7a" id="duH-xk-c5w"/>
                 <outlet property="btnPrevMonth" destination="c3j-xQ-lNv" id="W2C-xF-40G"/>
+                <outlet property="btnSettings" destination="Nh3-hz-g0G" id="dtl-YD-LrO"/>
                 <outlet property="btnToday" destination="DxW-Ye-SdE" id="8vm-rh-HB4"/>
                 <outlet property="budgetList" destination="u8y-F2-BG5" id="Hlp-Hs-6cM"/>
                 <outlet property="groupBottom" destination="dHr-my-7Lf" id="i6t-I6-AMB"/>
@@ -49,7 +50,7 @@
                     <color key="backgroundColor" systemColor="tintColor"/>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ILK-zV-dd5" userLabel="btnBudget">
-                    <rect key="frame" x="20" y="44" width="110" height="36"/>
+                    <rect key="frame" x="10" y="44" width="110" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="tintColor" systemColor="secondaryLabelColor"/>
                     <state key="normal" title="Button"/>
@@ -61,7 +62,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Thf-4y-b7a" userLabel="btnPay">
-                    <rect key="frame" x="138" y="44" width="110" height="36"/>
+                    <rect key="frame" x="128" y="44" width="110" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="tintColor" systemColor="secondaryLabelColor"/>
                     <state key="normal" title="Button"/>
@@ -73,7 +74,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rwS-dW-65r" userLabel="btnMoreActions">
-                    <rect key="frame" x="332" y="47" width="44" height="31"/>
+                    <rect key="frame" x="334" y="47" width="40" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     <buttonConfiguration key="configuration" style="plain" image="ellipsis" catalog="system"/>
                     <connections>
@@ -152,7 +153,7 @@
                     <rect key="frame" x="0.0" y="95" width="390" height="441"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="u8y-F2-BG5">
+                        <collectionView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="u8y-F2-BG5">
                             <rect key="frame" x="0.0" y="0.0" width="390" height="60"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -166,7 +167,7 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="支出履歴がありません" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L2d-es-rCk" userLabel="lblEmptyPayMessage">
                             <rect key="frame" x="61" y="211" width="266" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <color key="textColor" systemColor="secondaryLabelColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -196,13 +197,21 @@
                         <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="予算を登録してください" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fKD-xb-9mW" userLabel="lblEmptyMessage">
                             <rect key="frame" x="58" y="261" width="266" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <color key="textColor" systemColor="linkColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nh3-hz-g0G" userLabel="btnSettings">
+                    <rect key="frame" x="286" y="47" width="40" height="31"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <buttonConfiguration key="configuration" style="plain" image="gearshape" catalog="system"/>
+                    <connections>
+                        <action selector="btnSettingsTap:" destination="-1" eventType="touchUpInside" id="2O1-bv-OgE"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -213,6 +222,7 @@
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
+        <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="square.and.pencil" catalog="system" width="128" height="115"/>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

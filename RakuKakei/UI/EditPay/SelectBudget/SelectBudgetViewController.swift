@@ -33,11 +33,17 @@ class SelectBudgetViewController: UIViewController {
         super.viewDidLoad()
         title = "予算"
         
-        let items = DataManager.shared.loadBudgetList(yearMonth: date)
+        let items = DataManager.shared.loadBudgetList(yearMonth: self.date)
         
-        self.tableView = BudgetTableView(frame: .zero, style: .plain)
+        self.tableView = BudgetTableView(frame: .zero, style: .grouped)
+        
         self.tableView.items = items
-        self.tableView.editalbe = false
+        for item in items {
+            item.used = DataManager.shared.getTotalAmount(yearMonth: self.date, budget: item)
+        }
+        
+        self.tableView.editable = false
+        self.tableView.showRemain = true
         self.tableView.selectedRow = items.firstIndex { $0.seq == self.preSelected } ?? -1
         self.tableView.onItemSelected = { item in
             self.onSelected?(item)

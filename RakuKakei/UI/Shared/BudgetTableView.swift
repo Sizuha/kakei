@@ -18,7 +18,11 @@ class BudgetTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     var onItemRemoved: (()->Void)?
     var onItemChanged: (()->Void)?
     
-    var editalbe = true
+    /// 予算を編集可能
+    var editable = true
+    /// 予算の残りを表示
+    var showRemain = false
+    
     var onItemSelected: ((_ item: Budget)->Void)? = nil
     var selectedRow = -1
     
@@ -79,7 +83,7 @@ class BudgetTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let cell = cell as? BudgetTableViewCell else { assert(false); return }
         let item = items[indexPath.row]
-        cell.refresh(item: item)
+        cell.refresh(item: item, showRemain: self.showRemain)
         
         //cell.accessoryType = self.selectedRow == indexPath.row ? .checkmark : .none
         cell.backgroundColor = self.selectedRow == indexPath.row ? .secondarySystemFill : nil
@@ -89,7 +93,7 @@ class BudgetTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         let item = items[indexPath.row]
         
-        if self.editalbe {
+        if self.editable {
             edit(item: item)
         }
         else {
@@ -102,7 +106,7 @@ class BudgetTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard self.editalbe else { return nil }
+        guard self.editable else { return nil }
         
         return Swipe(actions: [
             .destructive(image: UIImage(systemName: "trash"), action: { action, view, handler in
@@ -112,7 +116,7 @@ class BudgetTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        guard self.editalbe else { return }
+        guard self.editable else { return }
         
         let from_i = sourceIndexPath.row
         let to_i = destinationIndexPath.row

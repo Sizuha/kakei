@@ -73,6 +73,7 @@ class EditPayViewController: UIViewController {
         self.DATE_FMT.dateFormat = DATE_FMT_FOR_DISPLAY
         
         self.tableView = SizPropertyTableView(frame: .zero, style: .grouped)
+        self.tableView.deselectAfterSelectedRow = true
         setupEditTableView()
         self.view.addSubview(self.tableView)
         
@@ -114,11 +115,11 @@ class EditPayViewController: UIViewController {
                     self.editPrice = cell.textField
                 },
                 .read {
-                    self.item.priceForDisplay <= 0 ? "" : "\(self.item.priceForDisplay)"
+                    self.item.price <= 0 ? "" : "\(self.item.price)"
                 },
                 .valueChanged { value in
                     let data = value as? String ?? "0"
-                    self.item.price = (Int(data) ?? 0) * AMOUNT_MULTIPLIER
+                    self.item.price = Int(data) ?? 0
                 },
                 .hint("0"),
             ]),
@@ -131,7 +132,6 @@ class EditPayViewController: UIViewController {
                     self.budget?.shortLabel ?? "無し"
                 },
                 .selected { i in
-                    self.tableView.deselectRow(at: i, animated: true)
                     self.showBudgets()
                 },
             ]),
@@ -147,7 +147,6 @@ class EditPayViewController: UIViewController {
                     return self.DATE_FMT.string(from: date)
                 },
                 .selected { i in
-                    self.tableView.deselectRow(at: i, animated: true)
                     self.showDateSelector()
                 },
             ]),
@@ -179,10 +178,11 @@ class EditPayViewController: UIViewController {
                 .tintColor(.systemRed),
                 .created { cell, _ in
                     let cell = ButtonCell.cellView(cell)
-                    cell.textLabel?.textAlignment = .center
+                    var content = cell.contentConfiguration as! UIListContentConfiguration
+                    content.textProperties.alignment = .center
+                    cell.contentConfiguration = content
                 },
                 .selected { i in
-                    self.tableView.deselectRow(at: i, animated: true)
                     self.tryRemove()
                 }
             ])

@@ -71,6 +71,7 @@ class EditBudgetViewController: UIViewController {
         self.navigationItem.rightBarButtonItems = [bbiSave]
         
         self.tableView = SizPropertyTableView(frame: .zero, style: .grouped)
+        self.tableView.deselectAfterSelectedRow = true
         setupEditTableView()
         self.view.addSubview(self.tableView)
     }
@@ -131,11 +132,11 @@ class EditBudgetViewController: UIViewController {
                     self.editAmount = cell.textField
                 },
                 .read {
-                    self.budget.amountSimple > 0 ? "\(self.budget.amountSimple)" : ""
+                    self.budget.amount > 0 ? "\(self.budget.amount)" : ""
                 },
                 .valueChanged { value in
                     let data = value as? String ?? ""
-                    self.budget.amountSimple = Int(data) ?? 0
+                    self.budget.amount = Int(data) ?? 0
                 },
                 .hint("0"),
             ]),
@@ -146,10 +147,11 @@ class EditBudgetViewController: UIViewController {
                 .tintColor(.systemRed),
                 .created { cell, _ in
                     let cell = ButtonCell.cellView(cell)
-                    cell.textLabel?.textAlignment = .center
+                    var content = cell.contentConfiguration as! UIListContentConfiguration
+                    content.textProperties.alignment = .center
+                    cell.contentConfiguration = content
                 },
                 .selected { i in
-                    self.tableView.deselectRow(at: i, animated: true)
                     self.tryRemove()
                 }
             ])
@@ -218,7 +220,7 @@ class EditBudgetViewController: UIViewController {
         }
         
         self.budget.label = self.editLabel.text!
-        self.budget.amountSimple = amount
+        self.budget.amount = amount
         
         return true
     }

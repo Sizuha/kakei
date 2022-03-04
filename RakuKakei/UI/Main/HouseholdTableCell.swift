@@ -38,7 +38,7 @@ class HouseholdTableCell: UITableViewCell {
         self.lblBudget.textColor = budget == nil ? .systemRed : .label
         
         self.lblMemo.text = item.memo
-        self.lblAmount.text = "\(item.priceForDisplay)"
+        self.lblAmount.text = "\(item.price)"
     }
     
 }

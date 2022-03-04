@@ -47,11 +47,6 @@ class Budget: SQueryRowEx {
     
     /// 予算
     var amount: Int = 0
-    /// 予算（単位：千円）
-    var amountSimple: Int {
-        get { self.amount / AMOUNT_MULTIPLIER }
-        set { self.amount = newValue * AMOUNT_MULTIPLIER }
-    }
     
     /// ラベル
     var label = ""
@@ -65,10 +60,10 @@ class Budget: SQueryRowEx {
     /// 色
     var color: UIColor = DEFAULT_COLOR
     
-    /// 使用した金額（画面表示用）単位：円
+    /// 使用した金額（画面表示用）単位：千円
     var used = 0
     
-    /// 予算の残り（画面表示用）単位：円
+    /// 予算の残り（画面表示用）単位：千円
     var remains: Int {
         self.amount - self.used
     }
