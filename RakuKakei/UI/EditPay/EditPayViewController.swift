@@ -54,6 +54,7 @@ class EditPayViewController: UIViewController {
     var budget: Budget?
     
     private var oriDate: SizYearMonthDay?
+    private var fisrtLoad = true
     
     enum Mode { case addNew, edit }
     var mode: Mode = .addNew
@@ -94,7 +95,11 @@ class EditPayViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.editPrice?.becomeFirstResponder()
+        
+        if self.fisrtLoad {
+            self.editPrice?.becomeFirstResponder()
+            self.fisrtLoad = false
+        }
     }
     
     // MARK: - Functions
@@ -202,14 +207,29 @@ class EditPayViewController: UIViewController {
         ) { budget in
             self.item.budget_seq = budget.seq
             self.budget = budget
-            self.tableView.reloadData()
+            
+            self.tableView.beginUpdates()
+            self.tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .right)
+            self.tableView.endUpdates()
+            
+            if self.mode == .addNew {
+                let currPrice = Int(self.editPrice.text ?? "0") ?? 0
+                if currPrice > 0 {
+                    self.editMemo.becomeFirstResponder()
+                }
+                else {
+                    self.editPrice.becomeFirstResponder()
+                }
+            }
         }
     }
     
     func showDateSelector() {
         SelectDayViewController.push(to: self.navigationController!, date: self.item.date) { day in
             self.item.date = SizYearMonthDay(self.item.date.year, self.item.date.month, day)
-            self.tableView.reloadData()
+            self.tableView.beginUpdates()
+            self.tableView.reloadRows(at: [IndexPath(row: 2, section: 0)], with: .right)
+            self.tableView.endUpdates()
         }
     }
     
