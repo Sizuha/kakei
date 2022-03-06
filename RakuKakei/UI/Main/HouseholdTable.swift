@@ -116,6 +116,8 @@ class HouseholdTable: UITableView, UITableViewDataSource, UITableViewDelegate {
         DataManager.shared.removeHousehold(item)
     }
     
+    // MARK: - Delegates
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         self.days.count
     }
@@ -127,6 +129,30 @@ class HouseholdTable: UITableView, UITableViewDataSource, UITableViewDelegate {
         let weekday = Calendar.standard.component(.weekday, from: ymd.toDate()!)
         
         return "\(day)日（\(WEEKDAY_TEXT[weekday-1])）"
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard
+            let day = self.days[at: section],
+            let header = view as? UITableViewHeaderFooterView
+        else { return }
+        
+        let ymd = SizYearMonthDay(self.yearMonth.year, self.yearMonth.month, day)
+        let weekday = Calendar.standard.component(.weekday, from: ymd.toDate()!)
+        
+        if header.contentConfiguration == nil {
+            header.contentConfiguration = header.defaultContentConfiguration()
+        }
+        
+        var content = header.contentConfiguration as! UIListContentConfiguration
+        content.text = "\(day)日（\(WEEKDAY_TEXT[weekday-1])）"
+        content.textProperties.color = getWeekdayColor(weekday, defaultColor: .systemBrown)
+        header.contentConfiguration = content
+        
+        /*header.textLabel?.textColor = UIColor.red
+        header.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        header.textLabel?.frame = header.bounds
+        header.textLabel?.textAlignment = .center*/
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

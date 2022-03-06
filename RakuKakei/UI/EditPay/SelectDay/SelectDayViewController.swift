@@ -91,12 +91,4 @@ extension SelectDayViewController: UITableViewDataSource, UITableViewDelegate {
         popSelf()
     }
     
-    func getWeekdayColor(_ weekday: Int) -> UIColor {
-        weekday == 1
-            ? .systemRed
-            : weekday == 7
-                ? .systemBlue
-                : .defaultText
-    }
-    
 }

@@ -21,3 +21,11 @@ extension UIViewController {
     }
     
 }
+
+func getWeekdayColor(_ weekday: Int, defaultColor: UIColor = .defaultText) -> UIColor {
+    weekday == 1
+        ? .systemRed
+        : weekday == 7
+            ? .systemBlue
+            : defaultColor
+}
