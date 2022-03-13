@@ -119,7 +119,7 @@ class EditPayViewController: UIViewController {
                     cell.delegate = self
                     self.editPrice = cell.textField
                 },
-                .read {
+                .value {
                     self.item.price <= 0 ? "" : "\(self.item.price)"
                 },
                 .valueChanged { value in
@@ -133,7 +133,7 @@ class EditPayViewController: UIViewController {
                     let cell = TextCell.cellView(cell)
                     cell.valueViewWidth = HALF_WIDTH
                 },
-                .read {
+                .value {
                     self.budget?.shortLabel ?? "無し"
                 },
                 .selected { i in
@@ -145,7 +145,7 @@ class EditPayViewController: UIViewController {
                     let cell = TextCell.cellView(cell)
                     cell.valueViewWidth = FILL_WIDTH
                 },
-                .read {
+                .value {
                     guard self.item.date.day > 0, let date = self.item.date?.toDate() else {
                         return "無し"
                     }
@@ -168,7 +168,7 @@ class EditPayViewController: UIViewController {
                     cell.delegate = self
                     self.editMemo = cell.textField
                 },
-                .read {
+                .value {
                     self.item.memo
                 },
                 .valueChanged { value in

@@ -124,35 +124,22 @@ class HouseholdTable: UITableView, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let day = self.days[at: section] else { return nil }
-        
-        let ymd = SizYearMonthDay(self.yearMonth.year, self.yearMonth.month, day)
-        let weekday = Calendar.standard.component(.weekday, from: ymd.toDate()!)
-        
-        return "\(day)日（\(WEEKDAY_TEXT[weekday-1])）"
+        return "\(day)"
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard
-            let day = self.days[at: section],
-            let header = view as? UITableViewHeaderFooterView
+            let header = view as? UITableViewHeaderFooterView,
+            let day = self.days[at: section]
         else { return }
         
         let ymd = SizYearMonthDay(self.yearMonth.year, self.yearMonth.month, day)
         let weekday = Calendar.standard.component(.weekday, from: ymd.toDate()!)
         
-        if header.contentConfiguration == nil {
-            header.contentConfiguration = header.defaultContentConfiguration()
-        }
-        
-        var content = header.contentConfiguration as! UIListContentConfiguration
+        var content = (header.contentConfiguration ?? header.defaultContentConfiguration()) as! UIListContentConfiguration
         content.text = "\(day)日（\(WEEKDAY_TEXT[weekday-1])）"
         content.textProperties.color = getWeekdayColor(weekday, defaultColor: .systemBrown)
         header.contentConfiguration = content
-        
-        /*header.textLabel?.textColor = UIColor.red
-        header.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        header.textLabel?.frame = header.bounds
-        header.textLabel?.textAlignment = .center*/
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

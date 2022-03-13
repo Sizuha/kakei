@@ -40,7 +40,7 @@ class SettingsViewController: UIViewController {
         
         let secInfo = SizPropertyTableSection(title: "情報", rows: [
             TextCell(label: "バージョン", attrs: [
-                .read {
+                .value {
                     "\(SizApplication.shortVersion).\(SizApplication.buildVersion)"
                 },
             ]),
@@ -56,7 +56,7 @@ class SettingsViewController: UIViewController {
 //                .created { cell, i in
 //                    let cell = TextCell.cellView(cell)
 //                },
-                .read {
+                .value {
                     self.lastBackupText
                 },
             ]),

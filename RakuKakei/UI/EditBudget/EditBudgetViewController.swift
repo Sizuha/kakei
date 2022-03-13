@@ -110,7 +110,7 @@ class EditBudgetViewController: UIViewController {
                     cell.delegate = self
                     self.editLabel = cell.textField
                 },
-                .read {
+                .value {
                     self.budget.label
                 },
                 .valueChanged { value in
@@ -131,7 +131,7 @@ class EditBudgetViewController: UIViewController {
                     cell.delegate = self
                     self.editAmount = cell.textField
                 },
-                .read {
+                .value {
                     self.budget.amount > 0 ? "\(self.budget.amount)" : ""
                 },
                 .valueChanged { value in

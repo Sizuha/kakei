@@ -319,6 +319,7 @@ class MainViewController: UIViewController {
         let now = YearMonth.now
         let selYear = now.year - MIN_YEAR
         let selMonth = now.month - 1
+        
         self.yearMonthPicker.selectedRows = [selYear, selMonth]
         self.yearMonthPicker.show()
         
