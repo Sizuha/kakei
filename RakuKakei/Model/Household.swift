@@ -59,7 +59,7 @@ class Household: SQueryRowEx {
         newItem.date = self.date
         newItem.seq = self.seq
         newItem.time = self.time
-        newItem.budget_seq = self.seq
+        newItem.budget_seq = self.budget_seq
         newItem.price = self.price
         newItem.memo = "\(self.memo)"
         return newItem
