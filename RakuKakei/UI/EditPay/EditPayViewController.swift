@@ -14,7 +14,7 @@ class EditPayViewController: UIViewController {
     
     static func present(from: UIViewController, item: Household, onChanged: ((_ item: Household?)->Void)? = nil) {
         let vc = EditPayViewController()
-        vc.item = item
+        vc.item = item.clone()
         vc.mode = .edit
         vc.oriDate = item.date
         vc.onChanged = onChanged
@@ -157,8 +157,9 @@ class EditPayViewController: UIViewController {
             ]),
         ])
         
-        let sec_memo = TableSection(rows: [
-            EditTextCell(label: "", attrs: [
+        let sec_memo_title: String? = self.mode == .edit ? "メモ" : nil
+        let sec_memo = TableSection(title: sec_memo_title, rows: [
+            EditTextCell(attrs: [
                 .created { cell, _ in
                     let cell = EditTextCell.cellView(cell)
                     cell.maxLength = 100

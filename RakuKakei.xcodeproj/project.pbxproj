@@ -527,7 +527,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = RakuKakei/RakuKakei.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = R8QQLU625A;
 				INFOPLIST_FILE = RakuKakei/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
@@ -535,6 +535,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kishe.sizuha.RakuKakei;
 				PRODUCT_NAME = "楽家計";
 				SWIFT_VERSION = 5.0;
@@ -548,7 +549,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = RakuKakei/RakuKakei.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = R8QQLU625A;
 				INFOPLIST_FILE = RakuKakei/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
@@ -556,6 +557,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kishe.sizuha.RakuKakei;
 				PRODUCT_NAME = "楽家計";
 				SWIFT_VERSION = 5.0;

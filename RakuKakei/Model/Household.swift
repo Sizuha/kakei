@@ -54,6 +54,17 @@ class Household: SQueryRowEx {
     /// メモ
     var memo = ""
     
+    func clone() -> Household {
+        let newItem = Household()
+        newItem.date = self.date
+        newItem.seq = self.seq
+        newItem.time = self.time
+        newItem.budget_seq = self.seq
+        newItem.price = self.price
+        newItem.memo = "\(self.memo)"
+        return newItem
+    }
+    
     func load(from cursor: SQLiteCursor) {
         cursor.forEachColumn { c, i in
             let colName = c.getColumnName(i)
