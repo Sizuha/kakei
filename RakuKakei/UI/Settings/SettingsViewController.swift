@@ -53,11 +53,16 @@ class SettingsViewController: UIViewController {
         
         let secBackup = SizPropertyTableSection(title: "バックアップ", rows: [
             TextCell(label: "バックアップ", attrs: [
-//                .created { cell, i in
-//                    let cell = TextCell.cellView(cell)
-//                },
+                .created { cell, i in
+                    let cell = TextCell.cellView(cell)
+                    cell.accessoryType = .none
+                },
+                .labelColor(.tintColor),
                 .value {
                     self.lastBackupText
+                },
+                .selected { i in
+                    self.confirmBackupNow()
                 },
             ]),
             ButtonCell(label: "復元", attrs: [
@@ -88,6 +93,17 @@ class SettingsViewController: UIViewController {
         
         DataManager.shared.backupIfNeed()
         refreshLastBackupDate()
+    }
+    
+    func confirmBackupNow() {
+        Alert(title: "今すぐバックアップ", message: "バックアップを行いますか？", buttons: [
+            .cancel("キャンセル"),
+            .default("アップアップ", action: {
+                if DataManager.shared.backup() {
+                    self.refreshLastBackupDate()
+                }
+            })
+        ]).show(from: self)
     }
     
     @objc
