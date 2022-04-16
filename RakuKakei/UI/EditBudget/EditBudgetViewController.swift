@@ -213,8 +213,9 @@ class EditBudgetViewController: UIViewController {
             return false
         }
         
+        // わざと「0」を許可している
         let amount = Int(self.editAmount.text ?? "0") ?? 0
-        guard amount > 0 else {
+        guard amount >= 0 else {
             showError(message: "予算を入力してください", focusTo: self.editAmount)
             return false
         }

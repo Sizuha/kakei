@@ -55,6 +55,7 @@ class SettingsViewController: UIViewController {
             TextCell(label: "バックアップ", attrs: [
                 .created { cell, i in
                     let cell = TextCell.cellView(cell)
+                    cell.valueViewWidth = FILL_WIDTH
                     cell.accessoryType = .none
                 },
                 .labelColor(.tintColor),
