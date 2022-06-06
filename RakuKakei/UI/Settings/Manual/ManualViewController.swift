@@ -20,7 +20,7 @@ class ManualViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "使い方"
+        title = Strings.HOW_TO_USE
         
         guard
             let pdfURL = Bundle.main.url(forResource: "README", withExtension: "pdf", subdirectory: nil, localization: nil),

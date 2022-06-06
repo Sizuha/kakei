@@ -62,7 +62,7 @@ class EditBudgetViewController: UIViewController {
         super.viewDidLoad()
         assert(self.budget != nil)
         
-        let titlePrefix = "予算\(self.mode == .addNew ? "登録" : "編集")"
+        let titlePrefix = "予算\(self.mode == .addNew ? Strings.ADD : Strings.EDIT)"
         self.title = "\(titlePrefix)：\(self.budget.date.year)年\(self.budget.date.month)月"
 
         let bbiCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(closeWithoutSave))
@@ -143,7 +143,7 @@ class EditBudgetViewController: UIViewController {
         ])
         
         let sec_buttons = TableSection(rows: [
-            ButtonCell(label: "削除", attrs: [
+            ButtonCell(label: Strings.REMOVE, attrs: [
                 .tintColor(.systemRed),
                 .created { cell, _ in
                     let cell = ButtonCell.cellView(cell)
@@ -204,19 +204,19 @@ class EditBudgetViewController: UIViewController {
         }
         
         guard self.editLabel.text?.isEmpty == false else {
-            showError(message: "予算名を入力してください", focusTo: self.editLabel)
+            showError(message: Strings.Error.EMPTY_BUDGET_NAME, focusTo: self.editLabel)
             return false
         }
         
         guard "^[0-9]{1,4}$".asPattern! == self.editAmount.text ?? "" else {
-            showError(message: "予算は半角数字で\n入力してください", focusTo: self.editAmount)
+            showError(message: Strings.Error.EMPTY_BUDGET, focusTo: self.editAmount)
             return false
         }
         
         // わざと「0」を許可している
         let amount = Int(self.editAmount.text ?? "0") ?? 0
         guard amount >= 0 else {
-            showError(message: "予算を入力してください", focusTo: self.editAmount)
+            showError(message: Strings.Error.WRONG_BUDGET, focusTo: self.editAmount)
             return false
         }
         
@@ -227,9 +227,9 @@ class EditBudgetViewController: UIViewController {
     }
 
     func tryRemove() {
-        SizUI.Alert(message: "削除しますか？", buttons: [
-            .cancel("キャンセル"),
-            .destrucive("削除", action: {
+        SizUI.Alert(message: Strings.Message.CONFIRM_REMOVE, buttons: [
+            .cancel(Strings.CANCEL),
+            .destrucive(Strings.REMOVE, action: {
                 _ = DataManager.shared.removeBudget(self.budget)
                 self.closeWithoutSave()
                 self.onChanged?()

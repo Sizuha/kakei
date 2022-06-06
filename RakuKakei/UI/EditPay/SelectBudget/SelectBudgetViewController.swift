@@ -31,7 +31,7 @@ class SelectBudgetViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "予算"
+        title = Strings.BUDGET
         
         let items = DataManager.shared.loadBudgetList(yearMonth: self.date)
         

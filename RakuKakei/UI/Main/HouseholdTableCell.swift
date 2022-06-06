@@ -34,7 +34,7 @@ class HouseholdTableCell: UITableViewCell {
     func refresh(item: Household) {
         let budget = DataManager.shared.getBudget(by: item)
         
-        self.lblBudget.text = budget?.shortLabel ?? "予算外"
+        self.lblBudget.text = budget?.shortLabel ?? Strings.WITHOUT_BUDGET
         self.lblBudget.textColor = budget == nil ? .systemRed : .label
         
         self.lblMemo.text = item.memo

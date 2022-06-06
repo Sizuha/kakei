@@ -51,9 +51,9 @@ class BudgetTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     private func tryRemove(indexPath: IndexPath, handler: ((Bool)->Void)? = nil) {
         let item = self.items[indexPath.row]
         
-        Alert(message: "削除しますか？", buttons: [
-            .cancel("キャンセル", action: { handler?(false) }),
-            .destrucive("削除", action: {
+        Alert(message: Strings.Message.CONFIRM_REMOVE, buttons: [
+            .cancel(Strings.CANCEL, action: { handler?(false) }),
+            .destrucive(Strings.REMOVE, action: {
                 handler?(false)
                 if self.remove(item: item) {
                     self.beginUpdates()

@@ -102,9 +102,9 @@ class HouseholdTable: UITableView, UITableViewDataSource, UITableViewDelegate {
         let households = getHouseholds(bySection: indexPath.section)
         guard let item = households[at: indexPath.row] else { return }
         
-        Alert(message: "削除しますか？", buttons: [
-            .cancel("キャンセル", action: { handler?(false) }),
-            .destrucive("削除", action: {
+        Alert(message: Strings.Message.CONFIRM_REMOVE, buttons: [
+            .cancel(Strings.CANCEL, action: { handler?(false) }),
+            .destrucive(Strings.REMOVE, action: {
                 handler?(false)
                 self.remove(item: item)
                 self.onItemRemoved?()

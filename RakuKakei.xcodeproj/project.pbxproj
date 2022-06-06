@@ -44,6 +44,7 @@
 		0DBB9C2E277D77AC002B8961 /* HouseholdTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DBB9C2C277D77AC002B8961 /* HouseholdTableCell.xib */; };
 		0DBB9C352785BE37002B8961 /* BudgetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBB9C332785BE37002B8961 /* BudgetCell.swift */; };
 		0DBB9C362785BE37002B8961 /* BudgetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DBB9C342785BE37002B8961 /* BudgetCell.xib */; };
+		0DE0D1D9284E6BBD0060D3AC /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE0D1D8284E6BBD0060D3AC /* BaseViewController.swift */; };
 		0DEB2ED327D2750D00304881 /* ManualViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEB2ED127D2750D00304881 /* ManualViewController.swift */; };
 		0DEB2ED427D2750D00304881 /* ManualViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DEB2ED227D2750D00304881 /* ManualViewController.xib */; };
 		0DEB2ED627D276D700304881 /* README.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0DEB2ED527D276D700304881 /* README.pdf */; };
@@ -87,6 +88,7 @@
 		0DBB9C2C277D77AC002B8961 /* HouseholdTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HouseholdTableCell.xib; sourceTree = "<group>"; };
 		0DBB9C332785BE37002B8961 /* BudgetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetCell.swift; sourceTree = "<group>"; };
 		0DBB9C342785BE37002B8961 /* BudgetCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BudgetCell.xib; sourceTree = "<group>"; };
+		0DE0D1D8284E6BBD0060D3AC /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		0DEB2ED127D2750D00304881 /* ManualViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualViewController.swift; sourceTree = "<group>"; };
 		0DEB2ED227D2750D00304881 /* ManualViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ManualViewController.xib; sourceTree = "<group>"; };
 		0DEB2ED527D276D700304881 /* README.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = README.pdf; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 		0D42EE3524DFDC4D00A5E631 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				0DE0D1D8284E6BBD0060D3AC /* BaseViewController.swift */,
 				0DBB9C1A27738A33002B8961 /* BudgetTableView.swift */,
 				0DBB9C25277B8DF6002B8961 /* BudgetTableViewCell.swift */,
 				0DBB9C26277B8DF6002B8961 /* BudgetTableViewCell.xib */,
@@ -384,6 +387,7 @@
 				0DA52D7A24DE71EA0002BB92 /* Strings.swift in Sources */,
 				0DA52D8824DFBA160002BB92 /* Images.swift in Sources */,
 				0D62F45224DE6DAE00FA96F0 /* SceneDelegate.swift in Sources */,
+				0DE0D1D9284E6BBD0060D3AC /* BaseViewController.swift in Sources */,
 				0DBB9C1827724337002B8961 /* YearMonthPicker.swift in Sources */,
 				0D2C2A2127C6AD1A0068907D /* SelectBudgetViewController.swift in Sources */,
 				0DBB9C2D277D77AC002B8961 /* HouseholdTableCell.swift in Sources */,
@@ -535,7 +539,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kishe.sizuha.RakuKakei;
 				PRODUCT_NAME = "楽家計";
 				SWIFT_VERSION = 5.0;
@@ -557,7 +561,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kishe.sizuha.RakuKakei;
 				PRODUCT_NAME = "楽家計";
 				SWIFT_VERSION = 5.0;

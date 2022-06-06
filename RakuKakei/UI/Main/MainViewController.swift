@@ -10,7 +10,7 @@ import UIKit
 import SizUI
 import SizUtil
 
-class MainViewController: UIViewController {
+class MainViewController: BaseViewController {
     
     /// Actionボタン
     @IBOutlet weak var btnMoreActions: UIButton!
@@ -168,7 +168,12 @@ class MainViewController: UIViewController {
         let onEmptyPayTap = UITapGestureRecognizer(target: self, action: #selector(showBudgetTab))
         self.lblEmptyPayMsg.addGestureRecognizer(onEmptyPayTap)
         
+        addFadeView()
+        
         self.yearMonthPicker = YearMonthPicker()
+        self.yearMonthPicker.onHidden = {
+            self.fadeIn()
+        }
         self.yearMonthPicker.onSelected = { date in
             self.refresh_byDate(date)
         }
@@ -320,10 +325,16 @@ class MainViewController: UIViewController {
         let selYear = now.year - MIN_YEAR
         let selMonth = now.month - 1
         
+        fadeOut()
+        
         self.yearMonthPicker.selectedRows = [selYear, selMonth]
         self.yearMonthPicker.show()
         
         self.btnMonth.isUserInteractionEnabled = true
+    }
+    
+    override func onFadeViewTap() {
+        self.yearMonthPicker?.cancel()
     }
     
     func refresh_byDate(_ toDate: YearMonth? = nil) {
@@ -388,12 +399,12 @@ class MainViewController: UIViewController {
         
         if payItems.isEmpty {
             if self.budgets.isEmpty {
-                self.lblEmptyPayMsg.text = "先に予算を登録してください"
+                self.lblEmptyPayMsg.text = Strings.Message.EMPTY_BUDGET
                 self.lblEmptyPayMsg.textColor = .link
                 self.lblEmptyPayMsg.isUserInteractionEnabled = true
             }
             else {
-                self.lblEmptyPayMsg.text = "支出履歴がありません"
+                self.lblEmptyPayMsg.text = Strings.Message.EMPTY_PAY_LIST
                 self.lblEmptyPayMsg.textColor = .secondaryLabel
                 self.lblEmptyPayMsg.isUserInteractionEnabled = false
             }
@@ -410,7 +421,7 @@ class MainViewController: UIViewController {
         
         if self.budgets.count < MAX_BUDGET_COUNT {
             buttons.append(
-                .default("予算登録", action: {
+                .default(Strings.ADD_BUDGET, action: {
                     self.addNewBudget()
                 })
             )
@@ -420,14 +431,14 @@ class MainViewController: UIViewController {
         if DataManager.shared.countBudgetList(yearMonth: prevMonth) > 0 {
             buttons.append(
                 self.budgets.isEmpty
-                    ? .default("前月から引き継ぎ", action: { self.confirmImportBudget() })
-                    : .destrucive("前月から引き継ぎ", action: { self.confirmImportBudget() })
+                    ? .default(Strings.IMPORT_FROM_PREV_MONTH, action: { self.confirmImportBudget() })
+                    : .destrucive(Strings.IMPORT_FROM_PREV_MONTH, action: { self.confirmImportBudget() })
             )
         }
         
         if !self.budgets.isEmpty {
             buttons.append(
-                .destrucive("すべて削除", action: {
+                .destrucive(Strings.REMOVE_ALL, action: {
                     self.confrimRemoveAllBugdets()
                 })
             )
@@ -445,7 +456,7 @@ class MainViewController: UIViewController {
         else if self.currentTab == .pay {
             if !self.budgets.isEmpty {
                 buttons.append(
-                    .default("支出登録", action: {
+                    .default(Strings.ADD_PAY, action: {
                         self.addNewPay()
                     })
                 )
@@ -453,7 +464,7 @@ class MainViewController: UIViewController {
             
             if !self.tblHousehold.items.isEmpty {
                 buttons.append(
-                    .destrucive("すべて削除", action: {
+                    .destrucive(Strings.REMOVE_ALL, action: {
                         self.confrimRemoveAllHouseholds()
                     })
                 )
@@ -462,7 +473,7 @@ class MainViewController: UIViewController {
         
         guard !buttons.isEmpty else { return }
         
-        buttons.append(.cancel("キャンセル", action: nil))
+        buttons.append(.cancel(Strings.CANCEL, action: nil))
         ActionSheet(title: nil, message: nil, buttons: buttons).show(from: self)
     }
     
@@ -480,7 +491,7 @@ class MainViewController: UIViewController {
     @objc
     func showAddNewBudgetMenu() {
         var buttons = makeAcrionButtons_forBudget()
-        buttons.append(.cancel("キャンセル", action: nil))
+        buttons.append(.cancel(Strings.CANCEL, action: nil))
         ActionSheet(title: nil, message: nil, buttons: buttons).show(from: self)
     }
     
@@ -513,17 +524,17 @@ class MainViewController: UIViewController {
             return
         }
         
-        Alert(title: "警告", message: "現在編集中の内容は削除されます", buttons: [
-            .cancel("キャンセル"),
-            .destrucive("OK") { importBudget() }
+        Alert(title: Strings.WARNING, message: Strings.Message.ALERT_CELAR, buttons: [
+            .cancel(Strings.CANCEL),
+            .destrucive(Strings.OK) { importBudget() }
         ]).show(from: self)
     }
     
     /// 現在の月の予算を全て削除
     func confrimRemoveAllBugdets() {
-        Alert(title: "警告", message: "\(self.currentDate.year)年\(self.currentDate.month)月の予算を\nすべて削除します", buttons: [
-            .cancel("キャンセル"),
-            .destrucive("削除") {
+        Alert(title: Strings.WARNING, message: "\(self.currentDate.year)年\(self.currentDate.month)月の予算を\nすべて削除します", buttons: [
+            .cancel(Strings.CANCEL),
+            .destrucive(Strings.REMOVE) {
                 DataManager.shared.removeBudgets(yearMonth: self.currentDate)
                 self.budgets.removeAll()
                 
@@ -542,7 +553,7 @@ class MainViewController: UIViewController {
                 self.tblBudgetList.setEditing(false, animated: false)
             }
             self.tblBudgetList.setEditing(true, animated: animated)
-            btnEditBudget.setTitle("完了", for: .normal)
+            btnEditBudget.setTitle(Strings.DONE, for: .normal)
             btnEditBudget.setImage(IMG_NULL, for: .normal)
         }
         else {
@@ -570,9 +581,9 @@ class MainViewController: UIViewController {
     
     /// 現在の月の支出を全て削除
     func confrimRemoveAllHouseholds() {
-        Alert(title: "警告", message: "\(self.currentDate.year)年\(self.currentDate.month)月の支出履歴を\nすべて削除します", buttons: [
-            .cancel("キャンセル"),
-            .destrucive("削除") {
+        Alert(title: Strings.WARNING, message: "\(self.currentDate.year)年\(self.currentDate.month)月の支出履歴を\nすべて削除します", buttons: [
+            .cancel(Strings.CANCEL),
+            .destrucive(Strings.REMOVE) {
                 DataManager.shared.removeHouseholds(yearMonth: self.currentDate)
                 self.refresh_payTab()
             }

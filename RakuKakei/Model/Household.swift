@@ -15,7 +15,7 @@ class Household: SQueryRowEx {
     static var tableScheme = TableScheme(name: "household", columns: [
         .def(F.DATE, type: .integer, [.primaryKey()]),
         .def(F.SEQ, type: .integer, [.primaryKey()]),
-        .def(F.TIME, type: .integer, []),
+        .def(F.DISP_SEQ, type: .integer, []),
         .def(F.BUDGET, type: .integer, [.notNull]),
         .def(F.PRICE, type: .integer, [.notNull, .default(.integer(0))]),
         .def(F.MEMO, type: .text, []),
@@ -26,8 +26,8 @@ class Household: SQueryRowEx {
         static let DATE = "date"
         /// 連番（PK）
         static let SEQ = "seq"
-        /// 時間
-        static let TIME = "time"
+        /// 時間(X) --> 表示順番(O)：時間記録ように使う予定だったが、表示順番用に変更（2022-05-05）
+        static let DISP_SEQ = "time"
         /// 使用した予算
         static let BUDGET = "budget_seq"
         /// 金額（単位：千円）
@@ -42,8 +42,8 @@ class Household: SQueryRowEx {
     /// 連番：0からスタート
     var seq: Int = 0
     
-    /// 今は使わない
-    var time: SizHourMinSec? = nil
+    /// 表示順番
+    var dispSeq = 0
     
     /// 予算ID
     var budget_seq: Int = -1
@@ -58,7 +58,7 @@ class Household: SQueryRowEx {
         let newItem = Household()
         newItem.date = self.date
         newItem.seq = self.seq
-        newItem.time = self.time
+        newItem.dispSeq = self.dispSeq
         newItem.budget_seq = self.budget_seq
         newItem.price = self.price
         newItem.memo = "\(self.memo)"
@@ -71,7 +71,7 @@ class Household: SQueryRowEx {
             switch colName {
             case F.DATE: date = SizYearMonthDay(from: c.getInt(i))!
             case F.SEQ: seq = c.getInt(i)!
-            case F.TIME: time = SizHourMinSec(from: c.getInt(i))
+            case F.DISP_SEQ: dispSeq = c.getInt(i) ?? 0
             case F.BUDGET: budget_seq = c.getInt(i)!
             case F.PRICE: price = c.getInt(i) ?? 0
             case F.MEMO: memo = c.getString(i) ?? ""
@@ -86,7 +86,7 @@ class Household: SQueryRowEx {
         [
             F.DATE: date.toInt(),
             F.SEQ: seq,
-            F.TIME: time?.toInt() ?? sqlNil,
+            F.DISP_SEQ: dispSeq,
             F.BUDGET: budget_seq,
             F.PRICE: price,
             F.MEMO: memo

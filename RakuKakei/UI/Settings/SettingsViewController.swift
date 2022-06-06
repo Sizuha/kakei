@@ -25,34 +25,34 @@ class SettingsViewController: UIViewController {
     }
     
     private var settingsView: SizPropertyTableView!
-    private var lastBackupText = "無し"
+    private var lastBackupText = Strings.NONE
     private var onNeedReload: (()->Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "設定"
+        title = Strings.SETTINGS
         
-        let bbiClose = UIBarButtonItem(title: "閉じる", style: .plain, target: self, action: #selector(closeThis))
+        let bbiClose = UIBarButtonItem(title: Strings.CLOSE, style: .plain, target: self, action: #selector(closeThis))
         self.navigationItem.leftBarButtonItems = [bbiClose]
 
         self.settingsView = SizPropertyTableView(frame: .zero, style: .grouped)
         self.settingsView.deselectAfterSelectedRow = true
         
-        let secInfo = SizPropertyTableSection(title: "情報", rows: [
-            TextCell(label: "バージョン", attrs: [
+        let secInfo = SizPropertyTableSection(title: Strings.INFO, rows: [
+            TextCell(label: Strings.VERSION, attrs: [
                 .value {
                     "\(SizApplication.shortVersion).\(SizApplication.buildVersion)"
                 },
             ]),
-            TextCell(label: "使い方", attrs: [
+            TextCell(label: Strings.HOW_TO_USE, attrs: [
                 .selected { i in
                     ManualViewController.push(to: self.navigationController!)
                 },
             ]),
         ])
         
-        let secBackup = SizPropertyTableSection(title: "バックアップ", rows: [
-            TextCell(label: "バックアップ", attrs: [
+        let secBackup = SizPropertyTableSection(title: Strings.BACKUP, rows: [
+            TextCell(label: Strings.BACKUP, attrs: [
                 .created { cell, i in
                     let cell = TextCell.cellView(cell)
                     cell.valueViewWidth = FILL_WIDTH
@@ -66,7 +66,7 @@ class SettingsViewController: UIViewController {
                     self.confirmBackupNow()
                 },
             ]),
-            ButtonCell(label: "復元", attrs: [
+            ButtonCell(label: Strings.RESTORE, attrs: [
                 .created { cell, i in
                     let cell = ButtonCell.cellView(cell)
                     var content = cell.contentConfiguration as! UIListContentConfiguration
@@ -97,9 +97,9 @@ class SettingsViewController: UIViewController {
     }
     
     func confirmBackupNow() {
-        Alert(title: "今すぐバックアップ", message: "バックアップを行いますか？", buttons: [
-            .cancel("キャンセル"),
-            .default("アップアップ", action: {
+        Alert(title: "今すぐバックアップ", message: Strings.Message.CONFIRM_BACKUP, buttons: [
+            .cancel(Strings.CANCEL),
+            .default(Strings.BACKUP, action: {
                 if DataManager.shared.backup() {
                     self.refreshLastBackupDate()
                 }
@@ -133,7 +133,7 @@ class SettingsViewController: UIViewController {
             }
             
             if !result {
-                self.lastBackupText = "無し"
+                self.lastBackupText = Strings.NONE
             }
             
             self.settingsView.reloadData()
@@ -141,16 +141,16 @@ class SettingsViewController: UIViewController {
     }
     
     func tryRestore() {
-        ActionSheet(title: "復元", message: "最後のバックアップ内容で復元します。\n現在の全てのデータは消えます。", buttons: [
-            .destrucive("復元") {
+        ActionSheet(title: Strings.RESTORE, message: Strings.Message.CONFIRM_RESTORE, buttons: [
+            .destrucive(Strings.RESTORE) {
                 if DataManager.shared.restore() {
-                    Alert(message: "復元しました", buttons: [ .default("OK") ]).show(from: self)
+                    Alert(message: "復元しました", buttons: [ .default(Strings.OK) ]).show(from: self)
                 }
                 else {
-                    self.showError(title: "復元失敗", message: "バックアップが無いか\n途中でエラーが発生しました。", focusTo: nil)
+                    self.showError(title: Strings.Error.FAIL_RESTORE, message: Strings.Error.FAIL_RESTORE_MSG, focusTo: nil)
                 }
             },
-            .cancel("キャンセル")
+            .cancel(Strings.CANCEL)
         ]).show(from: self)
     }
     

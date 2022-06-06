@@ -180,7 +180,7 @@ class EditPayViewController: UIViewController {
         ])
         
         let sec_buttons = TableSection(rows: [
-            ButtonCell(label: "削除", attrs: [
+            ButtonCell(label: Strings.REMOVE, attrs: [
                 .tintColor(.systemRed),
                 .created { cell, _ in
                     let cell = ButtonCell.cellView(cell)
@@ -235,13 +235,13 @@ class EditPayViewController: UIViewController {
     }
     
     func tryRemove() {
-        Alert(message: "削除しますか？", buttons: [
-            .destrucive("削除", action: {
+        Alert(message: Strings.Message.CONFIRM_REMOVE, buttons: [
+            .destrucive(Strings.REMOVE, action: {
                 DataManager.shared.removeHousehold(self.item)
                 self.closeWithoutSave()
                 self.onChanged?(nil)
             }),
-            .cancel("キャンセル", action: nil),
+            .cancel(Strings.CANCEL, action: nil),
         ]).show(from: self)
     }
     

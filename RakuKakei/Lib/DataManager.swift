@@ -219,6 +219,7 @@ class DataManager {
         let (rows, error) = tbl
             .setWhere("\(Household.F.DATE) BETWEEN ? AND ?", date_val, date_val + 99)
             .orderBy(Household.F.DATE, desc: true)
+            .orderBy(Household.F.DISP_SEQ, desc: false)
             .orderBy(Household.F.SEQ, desc: false)
             .select { Household() }
         
@@ -359,7 +360,7 @@ class DataManager {
     }
     
     func restore(fromOldDB: Bool = false) -> Bool {
-        guard let iCloudUrl = iCloudBackupUrl else { assert(false); return false }
+        guard let iCloudUrl = iCloudBackupUrl else { return false }
         let fromUrl = iCloudUrl.appendingPathComponent(BACKUP_DB_FILE)
         let toUrl = AppDocUrl.appendingPathComponent(DB_FILE)
         
