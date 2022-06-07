@@ -371,6 +371,9 @@ class MainViewController: BaseViewController {
         
         self.tblBudgetList.items.removeAll()
         self.tblBudgetList.items = self.budgets
+        for item in self.budgets {
+            item.used = DataManager.shared.getTotalAmount(yearMonth: self.currentDate, budget: item)
+        }
         
         self.tblBudgetList.isHidden = self.tblBudgetList.items.isEmpty
         self.btnEditBudget.isHidden = self.tblBudgetList.items.isEmpty
