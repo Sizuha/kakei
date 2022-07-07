@@ -39,4 +39,13 @@ class AppSettings {
         }
     }
     
+    var enableAutoBackup: Bool {
+        get {
+            !pref.bool(forKey: "disable_auto_backup")
+        }
+        set {
+            pref.setValue(!newValue, forKey: "disable_auto_backup")
+        }
+    }
+    
 }

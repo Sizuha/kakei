@@ -27,6 +27,8 @@ class SettingsViewController: UIViewController {
     private var settingsView: SizPropertyTableView!
     private var lastBackupText = Strings.NONE
     private var onNeedReload: (()->Void)?
+    
+    private var switchAutoBackup: UISwitch!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,20 +40,25 @@ class SettingsViewController: UIViewController {
         self.settingsView = SizPropertyTableView(frame: .zero, style: .grouped)
         self.settingsView.deselectAfterSelectedRow = true
         
+        // MARK: 情報
         let secInfo = SizPropertyTableSection(title: Strings.INFO, rows: [
-            TextCell(label: Strings.VERSION, attrs: [
+            // MARK: バージョン
+            TextCell(label: Strings.VERSION, [
                 .value {
                     "\(SizApplication.shortVersion).\(SizApplication.buildVersion)"
                 },
             ]),
-            TextCell(label: Strings.HOW_TO_USE, attrs: [
+            // MARK: 使い方
+            TextCell(label: Strings.HOW_TO_USE, [
                 .selected { i in
                     ManualViewController.push(to: self.navigationController!)
                 },
             ]),
         ])
         
+        // MARK: バックアップ
         let secBackup = SizPropertyTableSection(title: Strings.BACKUP, rows: [
+            // MARK: バックアップ
             TextCell(label: Strings.BACKUP, attrs: [
                 .created { cell, i in
                     let cell = TextCell.cellView(cell)
@@ -66,7 +73,28 @@ class SettingsViewController: UIViewController {
                     self.confirmBackupNow()
                 },
             ]),
-            ButtonCell(label: Strings.RESTORE, attrs: [
+            // MARK: 自動バックアップ
+            OnOffCell(label: "\(Strings.AUTO_BACKUP)（毎日）", [
+                .created { cell, i in
+                    let cell = OnOffCell.cellView(cell)
+                    self.switchAutoBackup = cell.switchCtrl
+                },
+                .valueBoolean {
+                    AppSettings.shared.enableAutoBackup
+                },
+                .valueChanged { value in
+                    let isOn = (value as? Bool) == true
+                    AppSettings.shared.enableAutoBackup = isOn
+                },
+                .selected { i in
+                    guard let onOffCtrl = self.switchAutoBackup else { return }
+                    
+                    let isOn = !onOffCtrl.isOn
+                    onOffCtrl.setOn(isOn, animated: true)
+                }
+            ]),
+            // MARK: 復元
+            ButtonCell(label: Strings.RESTORE, [
                 .created { cell, i in
                     let cell = ButtonCell.cellView(cell)
                     var content = cell.contentConfiguration as! UIListContentConfiguration
@@ -99,7 +127,7 @@ class SettingsViewController: UIViewController {
     func confirmBackupNow() {
         Alert(title: "今すぐバックアップ", message: Strings.Message.CONFIRM_BACKUP, buttons: [
             .cancel(Strings.CANCEL),
-            .default(Strings.BACKUP, action: {
+            .destrucive(Strings.BACKUP, action: {
                 if DataManager.shared.backup() {
                     self.refreshLastBackupDate()
                 }

@@ -14,17 +14,17 @@ class MainViewController: BaseViewController {
     
     /// Actionボタン
     @IBOutlet weak var btnMoreActions: UIButton!
-    @IBAction func btnMoreActionsTap(_ sender: UIButton) {
-        sender.isUserInteractionEnabled = false
-        showActionMenu()
-        sender.isUserInteractionEnabled = true
-    }
     
     /// 設定ボタン
-    @IBOutlet weak var btnSettings: UIButton!
-    @IBAction func btnSettingsTap(_ sender: UIButton) {
+    @IBOutlet weak var btnMoveUpDown: UIButton!
+    @IBAction func btnMoveUpDownTap(_ sender: UIButton) {
         sender.isUserInteractionEnabled = false
-        showSettings()
+        if self.currentTab == .budget {
+            setEditMode(budgetTable: !self.editMode)
+        }
+        else {
+            
+        }
         sender.isUserInteractionEnabled = true
     }
     
@@ -48,15 +48,7 @@ class MainViewController: BaseViewController {
     /// 予算タップのタイトル
     @IBOutlet weak var lblBudgetTitle: UILabel!
     
-    ///（予算）編集ボタン
-    @IBOutlet weak var btnEditBudget: UIButton!
-    @IBAction func btnEditBudgetTap(_ sender: UIButton) {
-        sender.isUserInteractionEnabled = false
-        setEditMode(budgetTable: !self.editMode)
-        sender.isUserInteractionEnabled = true
-    }
-    
-    @IBOutlet weak var lblEmptyBudgetMsg: UILabel!
+    @IBOutlet weak var btnEmptyBudgetTap: UIButton!
     
     /// 予算一覧
     var tblBudgetList: BudgetTableView!
@@ -162,9 +154,6 @@ class MainViewController: BaseViewController {
         let onMonthTap = UITapGestureRecognizer(target: self, action: #selector(showSelectYearMonth))
         self.btnMonth.addGestureRecognizer(onMonthTap)
         
-        let onEmptyBudgetTap = UITapGestureRecognizer(target: self, action: #selector(showAddNewBudgetMenu))
-        self.lblEmptyBudgetMsg.addGestureRecognizer(onEmptyBudgetTap)
-        
         let onEmptyPayTap = UITapGestureRecognizer(target: self, action: #selector(showBudgetTab))
         self.lblEmptyPayMsg.addGestureRecognizer(onEmptyPayTap)
         
@@ -248,6 +237,50 @@ class MainViewController: BaseViewController {
 //        DispatchQueue.global().async {
 //            DataManager.shared.backupIfNeed()
 //        }
+    }
+    
+    
+    func setupMenuItems() -> UIMenu {
+        var menuItems = [UIMenuElement]()
+        
+        if self.currentTab == .budget {
+            makeActionButtons_forBudget(to: &menuItems)
+        }
+        else if self.currentTab == .pay {
+            if !self.budgets.isEmpty {
+                // Add: 支出登録
+                menuItems.append(UIAction(title: Strings.ADD_PAY, image: Images.IC_ADD_NEW) { action in
+                    self.addNewPay()
+                })
+            }
+            
+            if !self.tblHousehold.items.isEmpty {
+                // Add: 全て削除
+                let actRemoveAll = UIAction(
+                    title: Strings.REMOVE_ALL,
+                    image: Images.IC_REMOVE,
+                    attributes: .destructive
+                ) { action in
+                    self.confrimRemoveAllHouseholds()
+                }
+                menuItems.append(actRemoveAll)
+            }
+        }
+        
+        // Add: 設定
+        let menuSettings = UIMenu(options: .displayInline, children: [
+            UIAction(title: Strings.SETTINGS, image: Images.IC_SETTINGS) { action in
+                self.showSettings()
+            }
+        ])
+        
+        menuItems.append(menuSettings)
+        /*menuItems.append(UIAction(title: Strings.SETTINGS, image: Images.IC_SETTINGS) { action in
+            self.showSettings()
+        })*/
+        
+        let menu = UIMenu(options: .displayInline, children: menuItems)
+        return menu
     }
     
     // MARK: - Functions
@@ -365,8 +398,6 @@ class MainViewController: BaseViewController {
     
     /// 「予算」タブの更新
     private func refresh_budgetTab() {
-        self.btnMoreActions.isEnabled = true
-        
         self.lblBudgetTitle.text = String(format:"%d年%d月の予算", self.currentDate.year, self.currentDate.month)
         
         self.tblBudgetList.items.removeAll()
@@ -376,10 +407,16 @@ class MainViewController: BaseViewController {
         }
         
         self.tblBudgetList.isHidden = self.tblBudgetList.items.isEmpty
-        self.btnEditBudget.isHidden = self.tblBudgetList.items.isEmpty
+        self.btnMoveUpDown.isHidden = self.tblBudgetList.isHidden
         
         if self.tblBudgetList.isHidden {
             setEditMode(budgetTable: false, animated: false)
+            
+            // 予算登録の案内メッセージをタップした時のアクション
+            var menuItems_forBudget = [UIMenuElement]()
+            makeActionButtons_forBudget(to: &menuItems_forBudget)
+            self.btnEmptyBudgetTap.menu = UIMenu(title: "予算の登録", children: menuItems_forBudget)
+            self.btnEmptyBudgetTap.showsMenuAsPrimaryAction = true
         }
         else {
             self.tblBudgetList.reloadData()
@@ -387,14 +424,17 @@ class MainViewController: BaseViewController {
         
         let enableAdd = self.budgets.count < MAX_BUDGET_COUNT
         self.btnAdd.isEnabled = enableAdd
+        
+        self.btnMoreActions.menu = setupMenuItems()
+        self.btnMoreActions.showsMenuAsPrimaryAction = true
     }
     
     /// 「支出」タブの更新
     private func refresh_payTab() {
+        self.btnMoveUpDown.isHidden = true
         self.btnAdd.isEnabled = !self.budgets.isEmpty
         
         let payItems = DataManager.shared.loadHouseholdList(yearMonth: self.currentDate)
-        self.btnMoreActions.isEnabled = !self.budgets.isEmpty
         
         self.tblHousehold.setDataSource(items: payItems)
         self.tblHousehold.reloadData()
@@ -417,69 +457,44 @@ class MainViewController: BaseViewController {
             budget.used = DataManager.shared.getTotalAmount(yearMonth: self.currentDate, budget: budget)
         }
         self.budgetList.reloadData()
+        
+        self.btnMoreActions.menu = setupMenuItems()
+        self.btnMoreActions.showsMenuAsPrimaryAction = true
     }
     
-    private func makeAcrionButtons_forBudget() -> [ActionButton] {
-        var buttons = [ActionButton]()
-        
+    private func makeActionButtons_forBudget(to menuItems: inout [UIMenuElement]) {
         if self.budgets.count < MAX_BUDGET_COUNT {
-            buttons.append(
-                .default(Strings.ADD_BUDGET, action: {
-                    self.addNewBudget()
-                })
-            )
+            menuItems.append(UIAction(title: Strings.ADD_BUDGET, image: Images.IC_ADD_NEW) { _ in
+                self.addNewBudget()
+            })
         }
         
         let prevMonth = self.currentDate.prevMonth()
         if DataManager.shared.countBudgetList(yearMonth: prevMonth) > 0 {
-            buttons.append(
-                self.budgets.isEmpty
-                    ? .default(Strings.IMPORT_FROM_PREV_MONTH, action: { self.confirmImportBudget() })
-                    : .destrucive(Strings.IMPORT_FROM_PREV_MONTH, action: { self.confirmImportBudget() })
+            menuItems.append(
+                UIAction(
+                    title: Strings.IMPORT_FROM_PREV_MONTH,
+                    image: Images.IC_IMPORT,
+                    attributes: self.budgets.isEmpty ? [] : .destructive
+                ) { _ in
+                    self.confirmImportBudget()
+                }
             )
         }
         
         if !self.budgets.isEmpty {
-            buttons.append(
-                .destrucive(Strings.REMOVE_ALL, action: {
+            menuItems.append(
+                UIAction(
+                    title: Strings.REMOVE_ALL,
+                    image: Images.IC_REMOVE,
+                    attributes: .destructive
+                ) { _ in
                     self.confrimRemoveAllBugdets()
-                })
+                }
             )
         }
-        
-        return buttons
     }
-    
-    func showActionMenu() {
-        var buttons = [ActionButton]()
         
-        if self.currentTab == .budget {
-            buttons.append(contentsOf: makeAcrionButtons_forBudget())
-        }
-        else if self.currentTab == .pay {
-            if !self.budgets.isEmpty {
-                buttons.append(
-                    .default(Strings.ADD_PAY, action: {
-                        self.addNewPay()
-                    })
-                )
-            }
-            
-            if !self.tblHousehold.items.isEmpty {
-                buttons.append(
-                    .destrucive(Strings.REMOVE_ALL, action: {
-                        self.confrimRemoveAllHouseholds()
-                    })
-                )
-            }
-        }
-        
-        guard !buttons.isEmpty else { return }
-        
-        buttons.append(.cancel(Strings.CANCEL, action: nil))
-        ActionSheet(title: nil, message: nil, buttons: buttons).show(from: self)
-    }
-    
     func showSettings() {
         SettingsViewController.present(from: self) {
             self.refresh_byDate()
@@ -489,13 +504,6 @@ class MainViewController: BaseViewController {
     @objc
     func showBudgetTab() {
         change(tab: .budget)
-    }
-    
-    @objc
-    func showAddNewBudgetMenu() {
-        var buttons = makeAcrionButtons_forBudget()
-        buttons.append(.cancel(Strings.CANCEL, action: nil))
-        ActionSheet(title: nil, message: nil, buttons: buttons).show(from: self)
     }
     
     // MARK: 予算処理
@@ -556,13 +564,9 @@ class MainViewController: BaseViewController {
                 self.tblBudgetList.setEditing(false, animated: false)
             }
             self.tblBudgetList.setEditing(true, animated: animated)
-            btnEditBudget.setTitle(Strings.DONE, for: .normal)
-            btnEditBudget.setImage(IMG_NULL, for: .normal)
         }
         else {
             self.tblBudgetList.setEditing(false, animated: animated)
-            btnEditBudget.setTitle("", for: .normal)
-            btnEditBudget.setImage(IMG_EDIT_SEQ, for: .normal)
         }
     }
     

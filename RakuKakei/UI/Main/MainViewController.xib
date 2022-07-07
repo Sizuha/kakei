@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -14,20 +14,19 @@
                 <outlet property="borderTop" destination="VGd-we-jBm" id="iI7-2n-gkY"/>
                 <outlet property="btnAdd" destination="qjD-bx-XTu" id="HD3-Bc-wC1"/>
                 <outlet property="btnBudget" destination="ILK-zV-dd5" id="ClA-6m-7oP"/>
-                <outlet property="btnEditBudget" destination="IXy-br-SyN" id="A03-ZM-tSd"/>
+                <outlet property="btnEmptyBudgetTap" destination="jt0-Hb-R4B" id="avA-FM-CXY"/>
                 <outlet property="btnMonth" destination="oC6-7t-6iI" id="yLq-9d-Us7"/>
                 <outlet property="btnMoreActions" destination="rwS-dW-65r" id="v3e-bm-9ib"/>
+                <outlet property="btnMoveUpDown" destination="Nh3-hz-g0G" id="dtl-YD-LrO"/>
                 <outlet property="btnNextMonth" destination="Ddg-lj-sWm" id="Itl-VX-Fbx"/>
                 <outlet property="btnPay" destination="Thf-4y-b7a" id="duH-xk-c5w"/>
                 <outlet property="btnPrevMonth" destination="c3j-xQ-lNv" id="W2C-xF-40G"/>
-                <outlet property="btnSettings" destination="Nh3-hz-g0G" id="dtl-YD-LrO"/>
                 <outlet property="btnToday" destination="DxW-Ye-SdE" id="8vm-rh-HB4"/>
                 <outlet property="budgetList" destination="u8y-F2-BG5" id="Hlp-Hs-6cM"/>
                 <outlet property="groupBottom" destination="dHr-my-7Lf" id="i6t-I6-AMB"/>
                 <outlet property="groupBudget" destination="BcM-4T-JJJ" id="nRO-Ib-A1J"/>
                 <outlet property="groupPay" destination="Sma-g4-x1R" id="c5Y-eN-b9F"/>
                 <outlet property="lblBudgetTitle" destination="Min-HD-wzU" id="cof-oG-qwi"/>
-                <outlet property="lblEmptyBudgetMsg" destination="fKD-xb-9mW" id="ueI-gQ-4pp"/>
                 <outlet property="lblEmptyPayMsg" destination="L2d-es-rCk" id="wOP-Y2-Rde"/>
                 <outlet property="lblYear" destination="1rT-rT-Ucz" id="Qdg-Vg-8EN"/>
                 <outlet property="selectionBar" destination="iKr-et-OcH" id="rbu-3o-bMj"/>
@@ -77,9 +76,6 @@
                     <rect key="frame" x="334" y="47" width="40" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     <buttonConfiguration key="configuration" style="plain" image="ellipsis" catalog="system"/>
-                    <connections>
-                        <action selector="btnMoreActionsTap:" destination="-1" eventType="touchUpInside" id="9TQ-ou-Azf"/>
-                    </connections>
                 </button>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dHr-my-7Lf" userLabel="groupBottom">
                     <rect key="frame" x="0.0" y="743" width="390" height="101"/>
@@ -185,31 +181,23 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IXy-br-SyN" userLabel="btnEditBudget">
-                            <rect key="frame" x="319" y="19" width="62" height="31"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain"/>
-                            <connections>
-                                <action selector="btnEditBudgetTap:" destination="-1" eventType="touchUpInside" id="eI9-tI-0jy"/>
-                            </connections>
-                        </button>
-                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="予算を登録してください" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fKD-xb-9mW" userLabel="lblEmptyMessage">
-                            <rect key="frame" x="58" y="246" width="266" height="50"/>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jt0-Hb-R4B" userLabel="btnEmptyBudget">
+                            <rect key="frame" x="58" y="248" width="266" height="47"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                            <color key="textColor" systemColor="linkColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="予算を登録してください">
+                                <fontDescription key="titleFontDescription" type="system" pointSize="20"/>
+                            </buttonConfiguration>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nh3-hz-g0G" userLabel="btnSettings">
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nh3-hz-g0G" userLabel="btnMoveUpDown">
                     <rect key="frame" x="286" y="47" width="40" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                    <buttonConfiguration key="configuration" style="plain" image="gearshape" catalog="system"/>
+                    <buttonConfiguration key="configuration" style="plain" image="arrow.up.arrow.down" catalog="system"/>
                     <connections>
-                        <action selector="btnSettingsTap:" destination="-1" eventType="touchUpInside" id="2O1-bv-OgE"/>
+                        <action selector="btnMoveUpDownTap:" destination="-1" eventType="touchUpInside" id="QD6-CW-ClP"/>
                     </connections>
                 </button>
             </subviews>
@@ -219,14 +207,11 @@
         </view>
     </objects>
     <resources>
+        <image name="arrow.up.arrow.down" catalog="system" width="128" height="98"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
-        <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="square.and.pencil" catalog="system" width="128" height="115"/>
-        <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

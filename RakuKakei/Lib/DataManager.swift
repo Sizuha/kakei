@@ -375,6 +375,8 @@ class DataManager {
     
     /// 自動バックアップ機能
     func backupIfNeed() {
+        guard AppSettings.shared.enableAutoBackup else { return }
+        
         guard let last = AppSettings.shared.lastBackup else {
             _ = backup()
             return

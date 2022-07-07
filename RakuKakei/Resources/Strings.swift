@@ -32,6 +32,7 @@ struct Strings {
     static let INFO = "情報"
     static let VERSION = "バージョン"
     static let BACKUP = "バックアップ"
+    static let AUTO_BACKUP = "自動バックアップ"
     static let RESTORE = "復元"
     
     struct Message {
