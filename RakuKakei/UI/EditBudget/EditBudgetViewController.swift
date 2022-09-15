@@ -62,7 +62,7 @@ class EditBudgetViewController: UIViewController {
         super.viewDidLoad()
         assert(self.budget != nil)
         
-        let titlePrefix = "予算\(self.mode == .addNew ? Strings.ADD : Strings.EDIT)"
+        let titlePrefix = "\(Strings.BUDGET)\(self.mode == .addNew ? Strings.ADD : Strings.EDIT)"
         self.title = "\(titlePrefix)：\(self.budget.date.year)年\(self.budget.date.month)月"
 
         let bbiCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(closeWithoutSave))
@@ -99,7 +99,8 @@ class EditBudgetViewController: UIViewController {
     
     private func setupEditTableView() {
         let sec_base = TableSection(rows: [
-            EditTextCell(label: "予算名", attrs: [
+            // 予算名
+            EditTextCell(label: Strings.BUDGET_TITLE, attrs: [
                 .created { cell, _ in
                     let cell = EditTextCell.cellView(cell)
                     cell.maxLength = 10
@@ -117,9 +118,10 @@ class EditBudgetViewController: UIViewController {
                     let data = value as? String ?? ""
                     self.budget.label = data
                 },
-                .hint("最初の２文字のみ表示"),
+                .hint(Strings.Hint.BUDGET_TITLE),
             ]),
-            EditTextCell(label: "予算（単位：千円）", attrs: [
+            // 予算（金額）
+            EditTextCell(label: Strings.LABEL_BUDGET_AMOUNT, attrs: [
                 .created { cell, _ in
                     let cell = EditTextCell.cellView(cell)
                     cell.maxLength = 4

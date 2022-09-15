@@ -40,6 +40,13 @@ class EditPayViewController: UIViewController {
         from.present(navi, animated: true, completion: nil)
     }
     
+    @IBOutlet weak var btnSave: UIButton!
+    @IBAction func btnSaveTap(_ sender: UIButton) {
+        sender.isUserInteractionEnabled = false
+        closeWithSave()
+        sender.isUserInteractionEnabled = true
+    }
+    
     var tableView: SizPropertyTableView!
     var editPrice: UITextField!
     var editMemo: UITextField!
@@ -67,7 +74,7 @@ class EditPayViewController: UIViewController {
         assert(self.item.date != nil)
         
         super.viewDidLoad()
-        title = "支出\(self.mode == .addNew ? "登録" : "編集")"
+        title = "\(Strings.SPENDING)\(self.mode == .addNew ? Strings.ADD : Strings.EDIT)"
         
         self.budget = DataManager.shared.getBudget(by: item)
         self.DATE_FMT.calendar = .standard
@@ -86,7 +93,14 @@ class EditPayViewController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.tableView.setMatchTo(parent: self.view)
+        
+        self.tableView.translatesAutoresizingMaskIntoConstraints = false
+        [
+            self.tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            self.tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            self.tableView.bottomAnchor.constraint(equalTo: self.btnSave.topAnchor),
+        ].forEach { $0.isActive = true }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -106,7 +120,8 @@ class EditPayViewController: UIViewController {
 
     private func setupEditTableView() {
         let sec_base = TableSection(rows: [
-            EditTextCell(label: "金額（単位：千円）", attrs: [
+            // 金額
+            EditTextCell(label: Strings.LABEL_AMOUNT, attrs: [
                 .created { cell, _ in
                     let cell = EditTextCell.cellView(cell)
                     cell.maxLength = 4
@@ -128,26 +143,28 @@ class EditPayViewController: UIViewController {
                 },
                 .hint("0"),
             ]),
-            TextCell(label: "予算", attrs: [
+            // 予算
+            TextCell(label: Strings.BUDGET, attrs: [
                 .created { cell, _ in
                     let cell = TextCell.cellView(cell)
                     cell.valueViewWidth = HALF_WIDTH
                 },
                 .value {
-                    self.budget?.shortLabel ?? "無し"
+                    self.budget?.shortLabel ?? Strings.NONE
                 },
                 .selected { i in
                     self.showBudgets()
                 },
             ]),
-            TextCell(label: "日付", attrs: [
+            // 日付
+            TextCell(label: Strings.DATE, attrs: [
                 .created { cell, _ in
                     let cell = TextCell.cellView(cell)
                     cell.valueViewWidth = FILL_WIDTH
                 },
                 .value {
                     guard self.item.date.day > 0, let date = self.item.date?.toDate() else {
-                        return "無し"
+                        return Strings.NONE
                     }
                     return self.DATE_FMT.string(from: date)
                 },
@@ -157,7 +174,7 @@ class EditPayViewController: UIViewController {
             ]),
         ])
         
-        let sec_memo_title: String? = self.mode == .edit ? "メモ" : nil
+        let sec_memo_title: String? = self.mode == .edit ? Strings.MEMO : nil
         let sec_memo = TableSection(title: sec_memo_title, rows: [
             EditTextCell(attrs: [
                 .created { cell, _ in
@@ -175,7 +192,7 @@ class EditPayViewController: UIViewController {
                 .valueChanged { value in
                     self.item.memo = (value as? String ?? "").trimmingCharacters(in: .whitespaces)
                 },
-                .hint("メモ"),
+                .hint(Strings.MEMO),
             ]),
         ])
         
@@ -281,13 +298,13 @@ class EditPayViewController: UIViewController {
         self.editMemo.endEditing(true)
         
         guard self.item.price > 0 else {
-            showError(message: "金額を入力してください", focusTo: self.editPrice)
+            showError(message: Strings.Error.EMPTY_AMOUNT, focusTo: self.editPrice)
             return false
         }
         
         guard self.item.budget_seq > 0 else {
-            Alert(message: "予算を選択してください", buttons: [
-                .default("OK", action: {
+            Alert(message: Strings.Error.NO_SELECT_BUDGET, buttons: [
+                .default(Strings.OK, action: {
                     self.showBudgets()
                 })
             ]).show(from: self)
@@ -295,8 +312,8 @@ class EditPayViewController: UIViewController {
         }
         
         guard self.item.date != nil, self.item.date.day > 0 else {
-            Alert(message: "日付を選択してください", buttons: [
-                .default("OK", action: {
+            Alert(message: Strings.Error.NO_SELECT_DATE, buttons: [
+                .default(Strings.OK, action: {
                     self.showDateSelector()
                 })
             ]).show(from: self)

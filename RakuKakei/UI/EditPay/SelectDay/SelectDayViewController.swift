@@ -27,7 +27,7 @@ class SelectDayViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "日付：\(self.date.year)年\(self.date.month)月"
+        title = Strings.TITLE_DATE(year: self.date.year, month: self.date.month)
         
         self.yearMonth = YearMonth(year: self.date.year, month: self.date.month)
         self.days = (1...self.yearMonth.lastDayInMonth).map { $0 }
@@ -81,7 +81,7 @@ extension SelectDayViewController: UITableViewDataSource, UITableViewDelegate {
         let date = SizYearMonthDay(self.yearMonth.year, self.yearMonth.month, day)
         let weekday = Calendar.standard.component(.weekday, from: date.toDate()!)
         
-        content.text = "\(day)日（\(WEEKDAY_TEXT[weekday-1])曜日）"
+        content.text = Strings.DAY_AND_WEEK(day: day, weekday: weekday)
         content.textProperties.color = getWeekdayColor(weekday)
         cell.contentConfiguration = content
     }

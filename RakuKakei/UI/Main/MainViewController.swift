@@ -383,8 +383,8 @@ class MainViewController: BaseViewController {
         self.btnPrevMonth.isEnabled = self.currentDate.year > min_year || self.currentDate.year == min_year && self.currentDate.month > 1
         self.btnNextMonth.isEnabled = self.currentDate.year < max_year || self.currentDate.year == max_year && self.currentDate.month < 12
         
-        self.lblYear.text = String(format: "%d年", self.currentDate.year)
-        self.btnMonth.text = String(format: "%d月", self.currentDate.month)
+        self.lblYear.text = Strings.YEAR(self.currentDate.year)
+        self.btnMonth.text = Strings.MONTH(self.currentDate.month)
         
         loadBudgets(date: self.currentDate)
         switch self.currentTab! {
@@ -398,7 +398,8 @@ class MainViewController: BaseViewController {
     
     /// 「予算」タブの更新
     private func refresh_budgetTab() {
-        self.lblBudgetTitle.text = String(format:"%d年%d月の予算", self.currentDate.year, self.currentDate.month)
+        self.lblBudgetTitle.text =
+            Strings.TITLE_BUDGET_OF(year: self.currentDate.year, month: self.currentDate.month)
         
         self.tblBudgetList.items.removeAll()
         self.tblBudgetList.items = self.budgets
@@ -415,7 +416,7 @@ class MainViewController: BaseViewController {
             // 予算登録の案内メッセージをタップした時のアクション
             var menuItems_forBudget = [UIMenuElement]()
             makeActionButtons_forBudget(to: &menuItems_forBudget)
-            self.btnEmptyBudgetTap.menu = UIMenu(title: "予算の登録", children: menuItems_forBudget)
+            self.btnEmptyBudgetTap.menu = UIMenu(title: Strings.ADD_BUDGET, children: menuItems_forBudget)
             self.btnEmptyBudgetTap.showsMenuAsPrimaryAction = true
         }
         else {
@@ -543,16 +544,20 @@ class MainViewController: BaseViewController {
     
     /// 現在の月の予算を全て削除
     func confrimRemoveAllBugdets() {
-        Alert(title: Strings.WARNING, message: "\(self.currentDate.year)年\(self.currentDate.month)月の予算を\nすべて削除します", buttons: [
-            .cancel(Strings.CANCEL),
-            .destrucive(Strings.REMOVE) {
-                DataManager.shared.removeBudgets(yearMonth: self.currentDate)
-                self.budgets.removeAll()
+        Alert(
+            title: Strings.WARNING,
+            message: Strings.Message.CONFIRM_REMOVE_BUDGETS_IN(year: self.currentDate.year, month: self.currentDate.month),
+            buttons: [
+                .cancel(Strings.CANCEL),
+                .destrucive(Strings.REMOVE) {
+                    DataManager.shared.removeBudgets(yearMonth: self.currentDate)
+                    self.budgets.removeAll()
                 
-                self.setEditMode(budgetTable: false, animated: false)
-                self.refresh_budgetTab()
-            }
-        ]).show(from: self)
+                    self.setEditMode(budgetTable: false, animated: false)
+                    self.refresh_budgetTab()
+                }
+            ]
+        ).show(from: self)
     }
     
     func setEditMode(budgetTable flag: Bool, animated: Bool = true) {
@@ -588,13 +593,17 @@ class MainViewController: BaseViewController {
     
     /// 現在の月の支出を全て削除
     func confrimRemoveAllHouseholds() {
-        Alert(title: Strings.WARNING, message: "\(self.currentDate.year)年\(self.currentDate.month)月の支出履歴を\nすべて削除します", buttons: [
-            .cancel(Strings.CANCEL),
-            .destrucive(Strings.REMOVE) {
-                DataManager.shared.removeHouseholds(yearMonth: self.currentDate)
-                self.refresh_payTab()
-            }
-        ]).show(from: self)
+        Alert(
+            title: Strings.WARNING,
+            message: Strings.Message.CONFIRM_REMOVE_HOUSEHOLDS_IN(year: self.currentDate.year, month: self.currentDate.month),
+            buttons: [
+                .cancel(Strings.CANCEL),
+                .destrucive(Strings.REMOVE) {
+                    DataManager.shared.removeHouseholds(yearMonth: self.currentDate)
+                    self.refresh_payTab()
+                }
+            ]
+        ).show(from: self)
     }
 
     
