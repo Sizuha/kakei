@@ -232,6 +232,26 @@ class DataManager {
         return rows
     }
     
+    func loadHouseholdList(date: SizYearMonthDay) -> [Household] {
+        guard let tbl = db_r.from(Household.self) else { assert(false); return [] }
+        defer { tbl.close() }
+        
+        let date_val = date.toInt()
+        let (rows, error) = tbl
+            .setWhere("\(Household.F.DATE)=?", date_val)
+            .orderBy(Household.F.DISP_SEQ, desc: false)
+            .orderBy(Household.F.SEQ, desc: false)
+            .select { Household() }
+        
+        guard error == nil else {
+            print(error.debugDescription)
+            assert(false)
+            return []
+        }
+        
+        return rows
+    }
+    
     func getLastHouseholdSeq(date: SizYearMonthDay) -> Int {
         guard let tbl = db_r.from(Household.self) else { assert(false); return -1 }
         defer { tbl.close() }
@@ -304,7 +324,6 @@ class DataManager {
             assert(false)
         }
     }
-
     
     func writeHousehold(_ item: Household) {
         guard let tbl = db_w.from(Household.self) else { assert(false); return }
@@ -316,6 +335,23 @@ class DataManager {
             .insertOrUpdate()
         assert(result)
     }
+    
+    func updateHouseholdDisplaySeq(_ items: [Household]) {
+        guard let tbl = db_w.from(Budget.self) else { assert(false); return }
+        defer { tbl.close() }
+
+        for item in items {
+            let result = tbl
+                .setWhere("\(Household.F.DATE)=?", item.date.toInt())
+                .andWhere("\(Household.F.SEQ)=?", item.seq)
+                .values([
+                    Household.F.DISP_SEQ: item.displaySeq
+                ])
+                .update()
+            assert(result.isSuccess)
+        }
+    }
+    
     
     // MARK: - Backup/Restore
     

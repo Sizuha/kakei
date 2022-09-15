@@ -43,7 +43,7 @@ class Household: SQueryRowEx {
     var seq: Int = 0
     
     /// 表示順番
-    var dispSeq = 0
+    var displaySeq = 0
     
     /// 予算ID
     var budget_seq: Int = -1
@@ -58,7 +58,7 @@ class Household: SQueryRowEx {
         let newItem = Household()
         newItem.date = self.date
         newItem.seq = self.seq
-        newItem.dispSeq = self.dispSeq
+        newItem.displaySeq = self.displaySeq
         newItem.budget_seq = self.budget_seq
         newItem.price = self.price
         newItem.memo = "\(self.memo)"
@@ -71,7 +71,7 @@ class Household: SQueryRowEx {
             switch colName {
             case F.DATE: date = SizYearMonthDay(from: c.getInt(i))!
             case F.SEQ: seq = c.getInt(i)!
-            case F.DISP_SEQ: dispSeq = c.getInt(i) ?? 0
+            case F.DISP_SEQ: displaySeq = c.getInt(i) ?? 0
             case F.BUDGET: budget_seq = c.getInt(i)!
             case F.PRICE: price = c.getInt(i) ?? 0
             case F.MEMO: memo = c.getString(i) ?? ""
@@ -86,7 +86,7 @@ class Household: SQueryRowEx {
         [
             F.DATE: date.toInt(),
             F.SEQ: seq,
-            F.DISP_SEQ: dispSeq,
+            F.DISP_SEQ: displaySeq,
             F.BUDGET: budget_seq,
             F.PRICE: price,
             F.MEMO: memo
