@@ -337,7 +337,7 @@ class DataManager {
     }
     
     func updateHouseholdDisplaySeq(_ items: [Household]) {
-        guard let tbl = db_w.from(Budget.self) else { assert(false); return }
+        guard let tbl = db_w.from(Household.self) else { assert(false); return }
         defer { tbl.close() }
 
         for item in items {
