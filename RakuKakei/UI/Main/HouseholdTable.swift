@@ -62,8 +62,12 @@ class HouseholdTable: UITableView, UITableViewDataSource, UITableViewDelegate {
         super.reloadData()
     }
     
-    func getHouseholds(bySection index: Int) -> [Household] {
-        guard let day = self.days[at: index] else { return [] }
+    func getDayBy(section: Int) -> Int? {
+        self.days[at: section]
+    }
+    
+    func getHouseholdsBy(section index: Int) -> [Household] {
+        guard let day = getDayBy(section: index) else { return [] }
         return self.items[day] ?? []
     }
     
@@ -99,7 +103,7 @@ class HouseholdTable: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func tryRemove(indexPath: IndexPath, handler: ((Bool)->Void)? = nil) {
-        let households = getHouseholds(bySection: indexPath.section)
+        let households = getHouseholdsBy(section: indexPath.section)
         guard let item = households[at: indexPath.row] else { return }
         
         Alert(message: Strings.Message.CONFIRM_REMOVE, buttons: [
@@ -143,7 +147,7 @@ class HouseholdTable: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        getHouseholds(bySection: section).count
+        getHouseholdsBy(section: section).count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -153,7 +157,7 @@ class HouseholdTable: UITableView, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let cell = cell as? HouseholdTableCell else { return }
         
-        let households = getHouseholds(bySection: indexPath.section)
+        let households = getHouseholdsBy(section: indexPath.section)
         guard
             households.isEmpty == false,
             let item = households[at: indexPath.row]
@@ -165,7 +169,7 @@ class HouseholdTable: UITableView, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let households = getHouseholds(bySection: indexPath.section)
+        let households = getHouseholdsBy(section: indexPath.section)
         guard let item = households[at: indexPath.row] else { return }
         edit(item: item)
     }
@@ -176,6 +180,68 @@ class HouseholdTable: UITableView, UITableViewDataSource, UITableViewDelegate {
                 self.tryRemove(indexPath: indexPath, handler: handler)
             })
         ])
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        .none
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        guard
+            !self.items.isEmpty
+        else { assert(false); return }
+        
+        func updateDisplaySeqIn(day section: Int) {
+            guard let targets = self.items[section] else { return }
+            
+            var dispSeq = 0
+            for item in targets {
+                item.displaySeq = dispSeq
+                dispSeq += 1
+            }
+            
+            DataManager.shared.updateHouseholdDisplaySeq(targets)
+        }
+        
+        let households = getHouseholdsBy(section: sourceIndexPath.section)
+        guard
+            !households.isEmpty,
+            let backup = households[at: sourceIndexPath.row],
+            let from_day = getDayBy(section: sourceIndexPath.section),
+            let to_day = getDayBy(section: destinationIndexPath.section)
+        else { assert(false); return }
+        
+        if sourceIndexPath.section == destinationIndexPath.section {
+            // 同じSection内の移動
+            
+            let from_i = sourceIndexPath.row
+            let to_i = destinationIndexPath.row
+            
+            self.items[from_day]!.remove(at: from_i)
+            self.items[from_day]!.insert(backup, at: to_i)
+            updateDisplaySeqIn(day: from_day)
+            return
+        }
+        
+        // 違うSection間の移動
+        let orgKey = (date: SizYearMonthDay(from: backup.date.toInt())!, seq: backup.seq)
+        
+        backup.date = SizYearMonthDay(backup.date.year, backup.date.month, to_day)
+        backup.seq = DataManager.shared.getLastHouseholdSeq(date: backup.date) + 1
+        
+        self.items[from_day]!.remove(at: sourceIndexPath.row)
+        if self.items[from_day]!.isEmpty {
+            // 注意！
+            // Section内が空になるが、意図的にSectionを削除しない。
+            // 削除してしまうと、Section処理が面倒になることと、
+            // 後で空になったSection(日)に行を移動できるメリットもある。
+        }
+        self.items[to_day]!.insert(backup, at: destinationIndexPath.row)
+        
+        DataManager.shared.removeHousehold(date: orgKey.date, seq: orgKey.seq)
+        DataManager.shared.writeHousehold(backup)
+        
+        updateDisplaySeqIn(day: to_day)
     }
     
 }

@@ -15,16 +15,17 @@ class MainViewController: BaseViewController {
     /// Actionボタン
     @IBOutlet weak var btnMoreActions: UIButton!
     
-    /// 設定ボタン
+    /// 編集（並び変更）ボタン
     @IBOutlet weak var btnMoveUpDown: UIButton!
     @IBAction func btnMoveUpDownTap(_ sender: UIButton) {
         sender.isUserInteractionEnabled = false
-        if self.currentTab == .budget {
-            setEditMode(budgetTable: !self.editMode)
+        
+        switch self.currentTab {
+        case .budget: setEditMode(budgetTable: !self.editMode)
+        case .pay: setEditMode(householdTable: !self.editMode)
+        default: break
         }
-        else {
-            
-        }
+        
         sender.isUserInteractionEnabled = true
     }
     
@@ -302,6 +303,7 @@ class MainViewController: BaseViewController {
             
         case .budget:
             selBtn = self.btnBudget
+            setEditMode(householdTable: false, animated: false)
         }
         
         let fromSelFrame = self.selectionBar.frame
@@ -336,17 +338,20 @@ class MainViewController: BaseViewController {
     func moveNextMonth() {
         self.currentDate.moveNextMonth()
         self.setEditMode(budgetTable: false, animated: false)
+        self.setEditMode(householdTable: false, animated: false)
         refresh_byDate()
     }
     
     func movePrevMonth() {
         self.currentDate.movePrevMonth()
         self.setEditMode(budgetTable: false, animated: false)
+        self.setEditMode(householdTable: false, animated: false)
         refresh_byDate()
     }
     
     func moveToday() {
         self.setEditMode(budgetTable: false, animated: false)
+        self.setEditMode(householdTable: false, animated: false)
         refresh_byDate(.now)
     }
     
@@ -432,11 +437,11 @@ class MainViewController: BaseViewController {
     
     /// 「支出」タブの更新
     private func refresh_payTab() {
-        self.btnMoveUpDown.isHidden = true
         self.btnAdd.isEnabled = !self.budgets.isEmpty
         
         let payItems = DataManager.shared.loadHouseholdList(yearMonth: self.currentDate)
-        
+        self.btnMoveUpDown.isHidden = payItems.isEmpty
+
         self.tblHousehold.setDataSource(items: payItems)
         self.tblHousehold.reloadData()
         self.tblHousehold.isHidden = payItems.isEmpty
@@ -561,20 +566,28 @@ class MainViewController: BaseViewController {
     }
     
     func setEditMode(budgetTable flag: Bool, animated: Bool = true) {
-        self.editMode = flag
-        if flag {
-            if self.tblBudgetList.isEditing {
-                // Swipeメニューが表示されている場合、これも編集モードとして認識されるので
-                // 先に編集モードを終了する
-                self.tblBudgetList.setEditing(false, animated: false)
-            }
-            self.tblBudgetList.setEditing(true, animated: animated)
-        }
-        else {
-            self.tblBudgetList.setEditing(false, animated: animated)
-        }
+        setEditMode(tableView: self.tblBudgetList, flag: flag, animated: animated)
     }
     
+    func setEditMode(householdTable flag: Bool, animated: Bool = true) {
+        setEditMode(tableView: self.tblHousehold, flag: flag, animated: animated)
+    }
+    
+    private func setEditMode(tableView: UITableView, flag: Bool, animated: Bool) {
+        self.editMode = flag
+        if flag {
+            if tableView.isEditing {
+                // Swipeメニューが表示されている場合、これも編集モードとして認識されるので
+                // 先に編集モードを終了する
+                tableView.setEditing(false, animated: false)
+            }
+            tableView.setEditing(true, animated: animated)
+        }
+        else {
+            tableView.setEditing(false, animated: animated)
+        }
+    }
+
     // MARK: 支出処理
     
     func addNewPay() {
