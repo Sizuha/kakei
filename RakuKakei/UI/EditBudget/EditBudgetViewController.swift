@@ -43,9 +43,6 @@ class EditBudgetViewController: UIViewController {
         from.present(navi, animated: true, completion: nil)
     }
     
-    /// タイトル表示
-    @IBOutlet weak var lblTitle: UILabel!
-    
     var tableView: SizPropertyTableView!
     var editLabel: UITextField!
     var editAmount: UITextField!
@@ -56,7 +53,6 @@ class EditBudgetViewController: UIViewController {
     
     enum Mode { case edit, addNew }
     private var mode: Mode = .edit
-    
     private var budget: Budget!
     
     // MARK: - UI Events
@@ -76,28 +72,22 @@ class EditBudgetViewController: UIViewController {
         self.navigationItem.rightBarButtonItems = [bbiSave]
         
         self.tableView = SizPropertyTableView(frame: .zero, style: .grouped)
-        self.tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 55))
+        
+        let headerView = UILabel(frame: CGRect(x: 0, y: 0, width: 414, height: 55))
+        headerView.text = titleText
+        headerView.textAlignment = .center
+        headerView.font = .preferredFont(forTextStyle: .title1)
+        self.tableView.tableHeaderView = headerView
+        
         self.tableView.deselectAfterSelectedRow = true
+        self.tableView.didScroll = tableViewDidScroll
         setupEditTableView()
         self.view.addSubview(self.tableView)
-        
-        self.lblTitle.text = titleText
-        self.view.bringSubviewToFront(self.lblTitle)
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
         self.tableView.setMatchTo(parent: self.view)
-        
-        guard let naviBar = self.navigationController?.navigationBar else { return }
-        self.lblTitle.translatesAutoresizingMaskIntoConstraints = false
-        [
-            self.lblTitle.topAnchor.constraint(equalTo: naviBar.bottomAnchor),
-            self.lblTitle.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            self.lblTitle.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            self.lblTitle.heightAnchor.constraint(equalToConstant: self.lblTitle.frame.height),
-        ].forEach { $0.isActive = true }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -198,7 +188,7 @@ class EditBudgetViewController: UIViewController {
         let sec_color = TableSection(title: "ラベル色", rows: color_rows)
          */
         
-        self.tableView.setDataSource(self.mode == .addNew ? [sec_base] : [sec_base, sec_buttons])
+        self.tableView.sections = self.mode == .addNew ? [sec_base] : [sec_base, sec_buttons]
     }
     
     @objc
@@ -215,6 +205,27 @@ class EditBudgetViewController: UIViewController {
         DataManager.shared.writeBudget(self.budget!)
         dismiss(animated: true)
         self.onChanged?()
+    }
+    
+    func tableViewDidScroll() {
+        guard let headerView = self.tableView.tableHeaderView as? UILabel else { return }
+        
+        let y_offset = self.tableView.convert(headerView.frame.origin, to: self.view).y
+        
+        if DEBUG_MODE {
+            print(#function)
+            print(y_offset)
+        }
+        
+        if y_offset <= headerView.frame.height + 5 {
+            self.navigationItem.title = headerView.text
+            self.navigationController?.navigationBar.setNeedsLayout()
+            headerView.isHidden = true
+        }
+        else {
+            self.navigationItem.title = ""
+            headerView.isHidden = false
+        }
     }
     
     // MARK: 入力チェック

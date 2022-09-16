@@ -6,7 +6,7 @@
       "location" : "https://github.com/Sizuha/SizUI-iOS",
       "state" : {
         "branch" : "dev",
-        "revision" : "be483e3faed132a03b133ecf3757862826352782"
+        "revision" : "7e8765ed124e03cbf6db023027d4b1dcbd569a91"
       }
     },
     {
@@ -15,7 +15,7 @@
       "location" : "https://github.com/Sizuha/SizUtil-iOS",
       "state" : {
         "branch" : "master",
-        "revision" : "32602c8165732d21eea548f6a79262b5c14b555a"
+        "revision" : "b6ca5c0a5340b710bbd71f19076dfab51a8630d7"
       }
     },
     {
