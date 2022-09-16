@@ -40,6 +40,10 @@ class EditPayViewController: UIViewController {
         from.present(navi, animated: true, completion: nil)
     }
     
+    /// タイトル表示
+    @IBOutlet weak var lblTitle: UILabel!
+    
+    /// 保存ボタン
     @IBOutlet weak var btnSave: UIButton!
     @IBAction func btnSaveTap(_ sender: UIButton) {
         sender.isUserInteractionEnabled = false
@@ -74,17 +78,23 @@ class EditPayViewController: UIViewController {
         assert(self.item.date != nil)
         
         super.viewDidLoad()
-        title = "\(Strings.SPENDING)\(self.mode == .addNew ? Strings.ADD : Strings.EDIT)"
+        let titleText = "\(Strings.SPENDING)\(self.mode == .addNew ? Strings.ADD : Strings.EDIT)"
+        title = titleText
+        self.navigationItem.title = ""
         
         self.budget = DataManager.shared.getBudget(by: item)
         self.DATE_FMT.calendar = .standard
         self.DATE_FMT.dateFormat = DATE_FMT_FOR_DISPLAY
         
         self.tableView = SizPropertyTableView(frame: .zero, style: .grouped)
+        self.tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 55))
         self.tableView.deselectAfterSelectedRow = true
         setupEditTableView()
         self.view.addSubview(self.tableView)
         
+        self.lblTitle.text = titleText
+        self.view.bringSubviewToFront(self.lblTitle)
+
         let bbiCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(closeWithoutSave))
         let bbiSave = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(closeWithSave))
         self.navigationItem.leftBarButtonItems = [bbiCancel]
@@ -93,9 +103,19 @@ class EditPayViewController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        guard let naviBar = self.navigationController?.navigationBar else { return }
         
-        self.tableView.translatesAutoresizingMaskIntoConstraints = false
         [
+            self.lblTitle,
+            self.tableView,
+        ].forEach { $0?.translatesAutoresizingMaskIntoConstraints = false }
+        
+        [
+            self.lblTitle.topAnchor.constraint(equalTo: naviBar.bottomAnchor),
+            self.lblTitle.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.lblTitle.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            self.lblTitle.heightAnchor.constraint(equalToConstant: self.lblTitle.frame.height),
+            
             self.tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
             self.tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor),

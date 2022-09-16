@@ -43,6 +43,9 @@ class EditBudgetViewController: UIViewController {
         from.present(navi, animated: true, completion: nil)
     }
     
+    /// タイトル表示
+    @IBOutlet weak var lblTitle: UILabel!
+    
     var tableView: SizPropertyTableView!
     var editLabel: UITextField!
     var editAmount: UITextField!
@@ -63,7 +66,9 @@ class EditBudgetViewController: UIViewController {
         assert(self.budget != nil)
         
         let titlePrefix = "\(Strings.BUDGET)\(self.mode == .addNew ? Strings.ADD : Strings.EDIT)"
-        self.title = "\(titlePrefix)：\(self.budget.date.year)年\(self.budget.date.month)月"
+        let titleText = "\(titlePrefix)：\(self.budget.date.year)年\(self.budget.date.month)月"
+        self.title = titleText
+        self.navigationItem.title = ""
 
         let bbiCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(closeWithoutSave))
         let bbiSave = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(closeWithSave))
@@ -71,15 +76,28 @@ class EditBudgetViewController: UIViewController {
         self.navigationItem.rightBarButtonItems = [bbiSave]
         
         self.tableView = SizPropertyTableView(frame: .zero, style: .grouped)
+        self.tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 55))
         self.tableView.deselectAfterSelectedRow = true
         setupEditTableView()
         self.view.addSubview(self.tableView)
+        
+        self.lblTitle.text = titleText
+        self.view.bringSubviewToFront(self.lblTitle)
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         self.tableView.setMatchTo(parent: self.view)
+        
+        guard let naviBar = self.navigationController?.navigationBar else { return }
+        self.lblTitle.translatesAutoresizingMaskIntoConstraints = false
+        [
+            self.lblTitle.topAnchor.constraint(equalTo: naviBar.bottomAnchor),
+            self.lblTitle.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.lblTitle.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            self.lblTitle.heightAnchor.constraint(equalToConstant: self.lblTitle.frame.height),
+        ].forEach { $0.isActive = true }
     }
     
     override func viewWillAppear(_ animated: Bool) {
