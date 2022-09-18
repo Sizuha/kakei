@@ -125,6 +125,8 @@ class MainViewController: BaseViewController {
     /// 年月選択UI
     var yearMonthPicker: YearMonthPicker!
     
+    private var fadeViewTapReco: UITapGestureRecognizer!
+    
     // MARK: - Member Vars
     
     enum Tab {
@@ -152,17 +154,21 @@ class MainViewController: BaseViewController {
             btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 22)
         }
         
+        self.fadeViewTapReco = UITapGestureRecognizer(target: self, action: #selector(self.onFadeViewTap))
+        
         let onMonthTap = UITapGestureRecognizer(target: self, action: #selector(showSelectYearMonth))
         self.btnMonth.addGestureRecognizer(onMonthTap)
         
         let onEmptyPayTap = UITapGestureRecognizer(target: self, action: #selector(showBudgetTab))
         self.lblEmptyPayMsg.addGestureRecognizer(onEmptyPayTap)
         
-        addFadeView()
-        
         self.yearMonthPicker = YearMonthPicker()
         self.yearMonthPicker.onHidden = {
             self.fadeIn()
+            if let _ = self.fadeViewTapReco {
+                self.fadeView?.removeGestureRecognizer(self.fadeViewTapReco)
+            }
+            self.fadeView = nil
         }
         self.yearMonthPicker.onSelected = { date in
             self.refresh_byDate(date)
@@ -363,7 +369,9 @@ class MainViewController: BaseViewController {
         let selYear = now.year - MIN_YEAR
         let selMonth = now.month - 1
         
-        fadeOut()
+        self.fadeView?.removeFromSuperview()
+        self.fadeView = fadeOut()
+        self.fadeView?.addGestureRecognizer(self.fadeViewTapReco)
         
         self.yearMonthPicker.selectedRows = [selYear, selMonth]
         self.yearMonthPicker.show()

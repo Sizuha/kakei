@@ -337,8 +337,7 @@ class EditPayViewController: UIViewController {
     func tableViewDidScroll() {
         guard let headerView = self.tableView.tableHeaderView as? UILabel else { return }
         
-        let y_offset = self.tableView.convert(headerView.frame.origin, to: self.view).y
-        
+        let y_offset = self.tableView.convert(headerView.frame.origin, to: self.view).y        
         if DEBUG_MODE {
             print(#function)
             print(y_offset)
