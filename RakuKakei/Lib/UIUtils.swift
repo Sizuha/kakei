@@ -10,8 +10,7 @@ import Foundation
 import UIKit
 import SizUI
 
-extension UIViewController {
-    
+public extension UIViewController {
     func showError(title: String? = nil, message: String, focusTo: UIView? = nil) {
         SizUI.Alert(title: title, message: message, buttons: [
             .default("OK", action: {
@@ -19,7 +18,6 @@ extension UIViewController {
             })
         ]).show(from: self)
     }
- 
 }
 
 func getWeekdayColor(_ weekday: Int, defaultColor: UIColor = .defaultText) -> UIColor {
@@ -28,26 +26,4 @@ func getWeekdayColor(_ weekday: Int, defaultColor: UIColor = .defaultText) -> UI
         : weekday == 7
             ? .systemBlue
             : defaultColor
-}
-
-func blur(
-    view: UIView,
-    style: UIBlurEffect.Style = .regular,
-    alpha: CGFloat = 1,
-    completion: ((Bool)->Void)? = nil
-) -> UIVisualEffectView {
-    let blurEffect = UIBlurEffect(style: style)
-    let blurEffectView = UIVisualEffectView(effect: blurEffect)
-    blurEffectView.frame = view.frame
-    
-    view.addSubview(blurEffectView)
-    
-    blurEffectView.alpha = 0
-    blurEffectView.isHidden = false
-    
-    UIView.animate(withDuration: 0.2, animations: {
-        blurEffectView.alpha = alpha
-    }, completion: completion)
-    
-    return blurEffectView
 }

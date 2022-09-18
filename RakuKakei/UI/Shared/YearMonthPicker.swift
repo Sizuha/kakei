@@ -22,15 +22,6 @@ class YearMonthPicker: SizPopupPickerView, UIPickerViewDataSource, SizPopupPicke
         super.init(coder: aDecoder)
     }
     
-    func addTo(_ vc: UIViewController) {
-        if let window = UIApplication.shared.getKeyWindow() {
-            window.addSubview(self)
-        }
-        else {
-            vc.view.addSubview(self)
-        }
-    }
-    
     var onSelected: ((_ date: YearMonth)->Void)? = nil
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {

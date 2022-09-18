@@ -76,6 +76,8 @@ class MainViewController: BaseViewController {
     // MARK: 下部ツルバー
     /// 下部のツルバー
     @IBOutlet weak var groupBottom: UIView!
+    
+    private var blurView = Blur(frame: .zero, style: .prominent)
 
     /// 年表示
     @IBOutlet weak var lblYear: UILabel!
@@ -173,7 +175,6 @@ class MainViewController: BaseViewController {
         self.yearMonthPicker.onSelected = { date in
             self.refresh_byDate(date)
         }
-        self.yearMonthPicker.addTo(self)
     
         self.tblBudgetList = BudgetTableView(frame: .zero, style: .plain)
         self.tblBudgetList.tableFooterView = UIView(frame: .zero)
@@ -190,7 +191,6 @@ class MainViewController: BaseViewController {
         self.groupBudget.addSubview(self.tblBudgetList)
         
         self.tblHousehold = HouseholdTable(frame: .zero, style: .plain)
-        self.tblHousehold.tableFooterView = UIView(frame: .zero)
         self.tblHousehold.ownerViewController = self
         self.tblHousehold.onItemRemoved = {
             self.refresh_payTab()
@@ -201,6 +201,10 @@ class MainViewController: BaseViewController {
         }
         self.groupPay.addSubview(self.tblHousehold)
         
+        self.view.addSubview(self.blurView)
+        self.groupBottom.backgroundColor = .clear
+        self.groupBottom.bringToFront()
+
         BudgetCell.register(to: self.budgetList)
         self.budgetList.dataSource = self
         self.budgetList.delegate = self
@@ -218,29 +222,42 @@ class MainViewController: BaseViewController {
             self.groupPay,
             self.tblBudgetList,
             self.tblHousehold,
+            self.blurView,
         ].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
         [
             self.groupBudget.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.groupBudget.rightAnchor.constraint(equalTo: self.view.rightAnchor),
             self.groupBudget.topAnchor.constraint(equalTo: self.borderTop.bottomAnchor, constant: 20),
-            self.groupBudget.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: 0),
+            self.groupBudget.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0),
+            //self.groupBudget.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: 0),
             
             self.groupPay.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.groupPay.rightAnchor.constraint(equalTo: self.view.rightAnchor),
             self.groupPay.topAnchor.constraint(equalTo: self.borderTop.bottomAnchor, constant: 10),
-            self.groupPay.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: 0),
+            self.groupPay.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0),
+            //self.groupPay.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: 0),
 
             self.tblBudgetList.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.tblBudgetList.rightAnchor.constraint(equalTo: self.view.rightAnchor),
             self.tblBudgetList.topAnchor.constraint(equalTo: self.lblBudgetTitle.bottomAnchor, constant: 10),
-            self.tblBudgetList.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: -8),
+            self.tblBudgetList.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -8),
+            //self.tblBudgetList.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: -8),
 
             self.tblHousehold.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.tblHousehold.rightAnchor.constraint(equalTo: self.view.rightAnchor),
             self.tblHousehold.topAnchor.constraint(equalTo: self.budgetList.bottomAnchor, constant: 10),
             self.tblHousehold.bottomAnchor.constraint(equalTo: self.groupPay.bottomAnchor, constant: 0),
+            
+            self.blurView.leftAnchor.constraint(equalTo: self.groupBottom.leftAnchor),
+            self.blurView.rightAnchor.constraint(equalTo: self.groupBottom.rightAnchor),
+            self.blurView.topAnchor.constraint(equalTo: self.groupBottom.topAnchor),
+            self.blurView.bottomAnchor.constraint(equalTo: self.groupBottom.bottomAnchor),
         ].forEach { $0.isActive = true }
+        
+        if self.tblHousehold.tableFooterView == nil {
+            self.tblHousehold.tableFooterView = UIView(frame: CGRect(width: 0, height: self.groupBottom.frame.height))
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
