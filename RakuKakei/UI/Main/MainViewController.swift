@@ -213,29 +213,34 @@ class MainViewController: BaseViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
     
-        self.groupBudget.translatesAutoresizingMaskIntoConstraints = false
-        self.groupBudget.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.groupBudget.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.groupBudget.topAnchor.constraint(equalTo: self.borderTop.bottomAnchor, constant: 20).isActive = true
-        self.groupBudget.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: 0).isActive = true
+        [
+            self.groupBudget,
+            self.groupPay,
+            self.tblBudgetList,
+            self.tblHousehold,
+        ].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
-        self.groupPay.translatesAutoresizingMaskIntoConstraints = false
-        self.groupPay.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.groupPay.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.groupPay.topAnchor.constraint(equalTo: self.borderTop.bottomAnchor, constant: 10).isActive = true
-        self.groupPay.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: 0).isActive = true
-        
-        self.tblBudgetList.translatesAutoresizingMaskIntoConstraints = false
-        self.tblBudgetList.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.tblBudgetList.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.tblBudgetList.topAnchor.constraint(equalTo: self.lblBudgetTitle.bottomAnchor, constant: 10).isActive = true
-        self.tblBudgetList.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: -8).isActive = true
-        
-        self.tblHousehold.translatesAutoresizingMaskIntoConstraints = false
-        self.tblHousehold.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.tblHousehold.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.tblHousehold.topAnchor.constraint(equalTo: self.budgetList.bottomAnchor, constant: 10).isActive = true
-        self.tblHousehold.bottomAnchor.constraint(equalTo: self.groupPay.bottomAnchor, constant: 0).isActive = true
+        [
+            self.groupBudget.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.groupBudget.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            self.groupBudget.topAnchor.constraint(equalTo: self.borderTop.bottomAnchor, constant: 20),
+            self.groupBudget.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: 0),
+            
+            self.groupPay.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.groupPay.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            self.groupPay.topAnchor.constraint(equalTo: self.borderTop.bottomAnchor, constant: 10),
+            self.groupPay.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: 0),
+
+            self.tblBudgetList.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.tblBudgetList.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            self.tblBudgetList.topAnchor.constraint(equalTo: self.lblBudgetTitle.bottomAnchor, constant: 10),
+            self.tblBudgetList.bottomAnchor.constraint(equalTo: self.groupBottom.topAnchor, constant: -8),
+
+            self.tblHousehold.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.tblHousehold.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            self.tblHousehold.topAnchor.constraint(equalTo: self.budgetList.bottomAnchor, constant: 10),
+            self.tblHousehold.bottomAnchor.constraint(equalTo: self.groupPay.bottomAnchor, constant: 0),
+        ].forEach { $0.isActive = true }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -370,7 +375,7 @@ class MainViewController: BaseViewController {
         let selMonth = now.month - 1
         
         self.fadeView?.removeFromSuperview()
-        self.fadeView = fadeOut()
+        self.fadeView = fadeOut(alpha: 0.3)
         self.fadeView?.addGestureRecognizer(self.fadeViewTapReco)
         
         self.yearMonthPicker.selectedRows = [selYear, selMonth]
