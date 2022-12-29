@@ -6,7 +6,7 @@
       "location" : "https://github.com/Sizuha/SizUI-iOS",
       "state" : {
         "branch" : "dev",
-        "revision" : "475557c8e272e3de93702969b87e434dabebbc12"
+        "revision" : "a15e18bf2649fa81c253413bb0a663de22b5f71a"
       }
     },
     {
@@ -24,7 +24,7 @@
       "location" : "https://github.com/Sizuha/squery-swift",
       "state" : {
         "branch" : "master",
-        "revision" : "0d8e92ba00fd6fd5e5ffd91b13393ef2976ebe83"
+        "revision" : "dc0e54a86d27a552267d204c59df91c132dfdafa"
       }
     }
   ],

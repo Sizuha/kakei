@@ -106,7 +106,7 @@ class EditBudgetViewController: UIViewController {
     // MARK: - Functions
     
     private func setupEditTableView() {
-        let sec_base = TableSection(rows: [
+        let sec_base = SizPropertyTableSection(rows: [
             // 予算名
             EditTextCell(label: Strings.BUDGET_TITLE, attrs: [
                 .created { cell, _ in
@@ -152,7 +152,7 @@ class EditBudgetViewController: UIViewController {
             ]),
         ])
         
-        let sec_buttons = TableSection(rows: [
+        let sec_buttons = SizPropertyTableSection(rows: [
             ButtonCell(label: Strings.REMOVE, attrs: [
                 .tintColor(.systemRed),
                 .created { cell, _ in

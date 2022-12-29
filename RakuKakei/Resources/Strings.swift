@@ -29,6 +29,7 @@ struct Strings {
     static let ADD_PAY = "支出登録"
     static let WARNING = "警告"
     static let DONE = "完了"
+    static let NEXT = "次へ"
     static let HOW_TO_USE = "使い方"
     static let NONE = "無し"
     static let INFO = "情報"

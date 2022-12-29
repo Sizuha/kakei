@@ -43,33 +43,33 @@ class DataManager {
         guard let tbl = db_r.from(Budget.self) else { fatalError() }
         defer { tbl.close() }
         
-        let (budget, error) = tbl.setWhere("\(Budget.F.YEAR_MONTH)=?", date.toInt())
+        let result = tbl.where("\(Budget.F.YEAR_MONTH)=?", date.toInt())
             .andWhere("\(Budget.F.SEQ)=?", budgeSeq)
             .selectOne { Budget() }
         
-        if DEBUG_MODE, let error = error {
+        if DEBUG_MODE, let error = result.error {
             print(error.localizedDescription)
         }
-        return budget
+        return result.row
     }
     
     func loadBudgetList(yearMonth: YearMonth) -> [Budget] {
         guard let tbl = db_r.from(Budget.self) else { assert(false); return [] }
         defer { tbl.close() }
         
-        let (rows, error) = tbl
-            .setWhere("\(Budget.F.YEAR_MONTH)=?", yearMonth.toInt())
+        let result = tbl
+            .where("\(Budget.F.YEAR_MONTH)=?", yearMonth.toInt())
             .andWhere("\(Budget.F.SEQ) > 0")
             .orderBy(Budget.F.DISP_SEQ, desc: false)
             .orderBy(Budget.F.SEQ, desc: false)
             .select { Budget() }
         
-        if let error = error {
+        if let error = result.error {
             print(error.localizedDescription)
             assert(false)
             return []
         }
-        return rows
+        return result.rows
     }
     
     func countBudgetList(yearMonth: YearMonth) -> Int {
@@ -77,7 +77,7 @@ class DataManager {
         defer { tbl.close() }
         
         let count = tbl
-            .setWhere("\(Budget.F.YEAR_MONTH)=?", yearMonth.toInt())
+            .where("\(Budget.F.YEAR_MONTH)=?", yearMonth.toInt())
             .andWhere("\(Budget.F.SEQ) > 0")
             .count() ?? 0
         
@@ -88,32 +88,32 @@ class DataManager {
         guard let tbl = db_r.from(Budget.self) else { fatalError() }
         defer { tbl.close() }
 
-        let (row, error) = tbl.setWhere("\(Budget.F.YEAR_MONTH)=?", yearMonth.toInt())
+        let result = tbl.where("\(Budget.F.YEAR_MONTH)=?", yearMonth.toInt())
             .orderBy(Budget.F.SEQ, desc: true)
             .selectOne { Budget() }
         
-        if let error = error {
+        if let error = result.error {
             print(error.localizedDescription)
             assert(false)
             return 0
         }
-        return row?.seq ?? 0
+        return result.row?.seq ?? 0
     }
     
     func getLastBudgetDispSeq(yearMonth: YearMonth) -> Int {
         guard let tbl = db_r.from(Budget.self) else { fatalError() }
         defer { tbl.close() }
 
-        let (row, error) = tbl.setWhere("\(Budget.F.YEAR_MONTH)=?", yearMonth.toInt())
+        let result = tbl.where("\(Budget.F.YEAR_MONTH)=?", yearMonth.toInt())
             .orderBy(Budget.F.DISP_SEQ, desc: true)
             .selectOne { Budget() }
         
-        if let error = error {
+        if let error = result.error {
             print(error.localizedDescription)
             assert(false)
             return 0
         }
-        return row?.displaySeq ?? 0
+        return result.row?.displaySeq ?? 0
     }
     
     func writeBudget(_ budget: Budget) {
@@ -133,7 +133,7 @@ class DataManager {
 
         for budget in items {
             let result = tbl
-                .setWhere("\(Budget.F.YEAR_MONTH)=?", budget.date.toInt())
+                .where("\(Budget.F.YEAR_MONTH)=?", budget.date.toInt())
                 .andWhere("\(Budget.F.SEQ)=?", budget.seq)
                 .values([
                     Budget.F.DISP_SEQ: budget.displaySeq
@@ -153,12 +153,12 @@ class DataManager {
         // 支出記録から、予算情報を消す
         let date_begin = budget.date.toInt()*100
         let date_end = date_begin + 99
-        var r = tblHousehold.setWhere("\(Household.F.DATE) BETWEEN ? AND ?", date_begin, date_end)
+        var r = tblHousehold.where("\(Household.F.DATE) BETWEEN ? AND ?", date_begin, date_end)
             .andWhere("\(Household.F.BUDGET)=?", budget.seq)
             .values([Household.F.BUDGET : -1])
             .update()
 
-        r = tblBudget.setWhere("\(Budget.F.YEAR_MONTH)=?", budget.date.toInt())
+        r = tblBudget.where("\(Budget.F.YEAR_MONTH)=?", budget.date.toInt())
             .andWhere("\(Budget.F.SEQ)=?", budget.seq)
             .delete()
         
@@ -175,12 +175,12 @@ class DataManager {
         // 支出記録から、予算情報を消す
         let date_begin = yearMonth.toInt()*100
         let date_end = date_begin + 99
-        _ = tblHousehold.setWhere("\(Household.F.DATE) BETWEEN ? AND ?", date_begin, date_end)
+        _ = tblHousehold.where("\(Household.F.DATE) BETWEEN ? AND ?", date_begin, date_end)
             .values([Household.F.BUDGET : -1])
             .update()
 
         // 予算削除
-        _ = tblBudget.setWhere("\(Budget.F.YEAR_MONTH)=?", yearMonth.toInt())
+        _ = tblBudget.where("\(Budget.F.YEAR_MONTH)=?", yearMonth.toInt())
             .delete()
     }
     
@@ -188,21 +188,21 @@ class DataManager {
         guard let tbl = db_w.from(Budget.self) else { assert(false); return }
         defer { tbl.close() }
 
-        let (fromItems, error) = tbl
-            .setWhere("\(Budget.F.YEAR_MONTH)=?", from.toInt())
+        let result = tbl
+            .where("\(Budget.F.YEAR_MONTH)=?", from.toInt())
             .select { Budget() }
         
-        if DEBUG_MODE, let error = error {
+        if DEBUG_MODE, let error = result.error {
             print(error.localizedDescription)
             assert(false)
         }
 
         _ = tbl.reset()
-            .setWhere("\(Budget.F.YEAR_MONTH)=?", to.toInt())
+            .where("\(Budget.F.YEAR_MONTH)=?", to.toInt())
             .delete()
         
         _ = tbl.reset()
-        for item in fromItems {
+        for item in result.rows {
             item.date = to
             let result = tbl.insert(values: item)
             assert(result.isSuccess)
@@ -216,20 +216,20 @@ class DataManager {
         defer { tbl.close() }
         
         let date_val = yearMonth.toInt()*100
-        let (rows, error) = tbl
-            .setWhere("\(Household.F.DATE) BETWEEN ? AND ?", date_val, date_val + 99)
+        let result = tbl
+            .where("\(Household.F.DATE) BETWEEN ? AND ?", date_val, date_val + 99)
             .orderBy(Household.F.DATE, desc: true)
             .orderBy(Household.F.DISP_SEQ, desc: false)
             .orderBy(Household.F.SEQ, desc: false)
             .select { Household() }
         
-        guard error == nil else {
-            print(error.debugDescription)
+        guard result.isSuccess else {
+            print(result.error!.localizedDescription)
             assert(false)
             return []
         }
         
-        return rows
+        return result.rows
     }
     
     func loadHouseholdList(date: SizYearMonthDay) -> [Household] {
@@ -237,36 +237,36 @@ class DataManager {
         defer { tbl.close() }
         
         let date_val = date.toInt()
-        let (rows, error) = tbl
-            .setWhere("\(Household.F.DATE)=?", date_val)
+        let result = tbl
+            .where("\(Household.F.DATE)=?", date_val)
             .orderBy(Household.F.DISP_SEQ, desc: false)
             .orderBy(Household.F.SEQ, desc: false)
             .select { Household() }
         
-        guard error == nil else {
-            print(error.debugDescription)
+        guard result.isSuccess else {
+            print(result.error!.localizedDescription)
             assert(false)
             return []
         }
         
-        return rows
+        return result.rows
     }
     
     func getLastHouseholdSeq(date: SizYearMonthDay) -> Int {
         guard let tbl = db_r.from(Household.self) else { assert(false); return -1 }
         defer { tbl.close() }
 
-        let (row, error) = tbl.setWhere("\(Household.F.DATE)=?", date.toInt())
+        let result = tbl.where("\(Household.F.DATE)=?", date.toInt())
             .orderBy(Household.F.SEQ, desc: true)
             .selectOne { Household() }
 
-        guard error == nil else {
-            print(error.debugDescription)
+        guard result.isSuccess else {
+            print(result.error!.localizedDescription)
             assert(false)
             return -1
         }
 
-        return row?.seq ?? -1
+        return result.row?.seq ?? -1
     }
 
     func getTotalAmount(yearMonth: YearMonth, budget: Budget) -> Int {
@@ -275,18 +275,18 @@ class DataManager {
 
         let date_begin = yearMonth.toInt()*100 + 1
         let date_end = date_begin + 30
-        let (rows, error) = tbl.setWhere("\(Household.F.DATE) BETWEEN ? AND ?", date_begin, date_end)
+        let result = tbl.where("\(Household.F.DATE) BETWEEN ? AND ?", date_begin, date_end)
             .andWhere("\(Household.F.BUDGET) = ?", budget.seq)
             .select { Household() }
         
-        guard error == nil else {
-            print(error.debugDescription)
+        guard result.isSuccess else {
+            print(result.error!.localizedDescription)
             assert(false)
             return 0
         }
         
         var sum = 0
-        for row in rows {
+        for row in result.rows {
             sum += row.price
         }
         return sum
@@ -300,7 +300,7 @@ class DataManager {
         guard let tbl = db_w.from(Household.self) else { assert(false); return }
         defer { tbl.close() }
         
-        let r = tbl.setWhere("\(Household.F.DATE)=?", date.toInt())
+        let r = tbl.where("\(Household.F.DATE)=?", date.toInt())
             .andWhere("\(Household.F.SEQ)=?", seq)
             .delete()
         
@@ -316,7 +316,7 @@ class DataManager {
         
         let date_begin = date.toInt()*100
         let date_end = date_begin + 99
-        let r = tbl.setWhere("\(Household.F.DATE) BETWEEN ? AND ?", date_begin, date_end)
+        let r = tbl.where("\(Household.F.DATE) BETWEEN ? AND ?", date_begin, date_end)
             .delete()
         
         if DEBUG_MODE, let err = r.error {
@@ -342,7 +342,7 @@ class DataManager {
 
         for item in items {
             let result = tbl
-                .setWhere("\(Household.F.DATE)=?", item.date.toInt())
+                .where("\(Household.F.DATE)=?", item.date.toInt())
                 .andWhere("\(Household.F.SEQ)=?", item.seq)
                 .values([
                     Household.F.DISP_SEQ: item.displaySeq

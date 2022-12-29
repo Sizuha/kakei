@@ -130,20 +130,32 @@ class EditPayViewController: UIViewController {
     // MARK: - Functions
 
     private func setupEditTableView() {
-        let sec_base = TableSection(rows: [
+        let sec_base = SizPropertyTableSection(rows: [
             // 金額
             EditTextCell(label: Strings.LABEL_AMOUNT, attrs: [
                 .created { cell, _ in
                     let cell = EditTextCell.cellView(cell)
+                    guard let textField = cell.textField else { assert(false); return }
+                    
                     cell.maxLength = 4
                     cell.pattern = "^[0-9]*$"
                     cell.valueViewWidth = HALF_WIDTH
-                    cell.textField.keyboardType = .numberPad
-                    cell.textField.textAlignment = .right
-                    cell.textField.clearButtonMode = .always
-                    cell.textField.returnKeyType = .done
+                    
+                    textField.keyboardType = .numberPad
+                    textField.textAlignment = .right
+                    textField.clearButtonMode = .always
+                    textField.returnKeyType = self.mode == .edit ? .done : .next
+                    textField.inputAccessoryView = Toolbar(items: [
+                        .flexibleSpace,
+                        .button(
+                            title: textField.returnKeyType == .next ? Strings.NEXT : Strings.DONE,
+                            style: .done,
+                            target: self,
+                            action: #selector(self.didEndEditPrice)
+                        )
+                    ])
                     cell.delegate = self
-                    self.editPrice = cell.textField
+                    self.editPrice = textField
                 },
                 .value {
                     self.item.price <= 0 ? "" : "\(self.item.price)"
@@ -186,7 +198,7 @@ class EditPayViewController: UIViewController {
         ])
         
         let sec_memo_title: String? = self.mode == .edit ? Strings.MEMO : nil
-        let sec_memo = TableSection(title: sec_memo_title, rows: [
+        let sec_memo = SizPropertyTableSection(title: sec_memo_title, rows: [
             EditTextCell(attrs: [
                 .created { cell, _ in
                     let cell = EditTextCell.cellView(cell)
@@ -207,7 +219,7 @@ class EditPayViewController: UIViewController {
             ]),
         ])
         
-        let sec_buttons = TableSection(rows: [
+        let sec_buttons = SizPropertyTableSection(rows: [
             ButtonCell(label: Strings.REMOVE, attrs: [
                 .tintColor(.systemRed),
                 .created { cell, _ in
@@ -354,6 +366,10 @@ class EditPayViewController: UIViewController {
         }
     }
     
+    @objc func didEndEditPrice() {
+        _ = textFieldShouldReturn(self.editPrice)
+    }
+    
 }
 
 
@@ -361,13 +377,14 @@ class EditPayViewController: UIViewController {
 
 extension EditPayViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        
         switch textField {
         case self.editPrice:
-            self.editPrice.endEditing(true)
+            if textField.returnKeyType == .next {
+                showBudgets()
+            }
             
-        case self.editMemo:
-            self.editMemo.endEditing(true)
-
         default: break
         }
         return true
