@@ -541,7 +541,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kishe.sizuha.RakuKakei;
 				PRODUCT_NAME = "楽家計";
 				SWIFT_VERSION = 5.0;
@@ -563,7 +563,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kishe.sizuha.RakuKakei;
 				PRODUCT_NAME = "楽家計";
 				SWIFT_VERSION = 5.0;
